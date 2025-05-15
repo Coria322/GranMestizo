@@ -59,7 +59,7 @@ class Usuario extends Authenticatable
     }
 
     public function administrador(){
-        return $this->hasOne(Administrador::class, 'USUARIO_ID', 'USUARIO_ID');
+        return $this->hasOne(Admin::class, 'USUARIO_ID', 'USUARIO_ID');
     }
 
     public function empleado(){

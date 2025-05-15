@@ -15,10 +15,10 @@ class customSeeder extends Seeder
 
         // Ejecutar los seeders
         $data = $this->call([
-            UsuarioSeeder::class,
-          // AdminSeeder::class,
-            // ClienteSeeder::class,
-            // EmpleadoSeeder::class
+            // UsuarioSeeder::class,
+          AdminSeeder::class,
+            ClienteSeeder::class,
+            EmpleadoSeeder::class
         ]);
 
         $this->command->info('Todos los datos iniciales fueron sembrados correctamente.');

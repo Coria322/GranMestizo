@@ -25,7 +25,7 @@ class EmpleadoFactory extends Factory
             'EMPLEADO_TURNO' => $this->faker->randomElement(['M','V']),
             'EMPLEADO_STATUS' => $this->faker->randomElement(['LIBRE', 'OCUPADO']),
             'USUARIO_ID' => Usuario::factory()->state([
-                'USUARIO_ROL' => 'CLIENTE'
+                'USUARIO_ROL' => 'EMPLEADO'
             ])
         ];
     }

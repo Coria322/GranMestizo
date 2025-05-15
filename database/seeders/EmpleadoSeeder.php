@@ -9,9 +9,7 @@ class EmpleadoSeeder extends Seeder
 {
     public function run()
     {
-        $empleados = Empleado::factory()->count(5)->create([
-            'USUARIO_ROL' => 'EMPLEADO'
-        ]);
+        $empleados = Empleado::factory()->count(5)->create();
 
         $this->command->info("Se crearon {$empleados->count()} empleados:");
         foreach ($empleados as $empleado) {

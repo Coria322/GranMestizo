@@ -1,3 +1,4 @@
+
 <div>
     <h1 style="color:rebeccapurple;">EMPLEADO</h1>
     <h1>datos generales</h1>
@@ -10,14 +11,13 @@
     <h2>Tu id es {{ $usuario->USUARIO_ID }}</h2>
     ----------------------------------------------------------
     <h1>datos de {{ $usuario->USUARIO_ROL }}</h1>
-
-    @foreach ($usuario->empleado->getAttributes() as $key => $value)
-        <h2>{{ ucfirst(str_replace('_', ' ', $key)) }}: {{ $value }}</h2>
+    
+   @foreach ($usuario->empleado->getAttributes() as $key => $value)
+    <h2>{{ ucfirst(str_replace('_', ' ', $key)) }}: {{ $value }}</h2>
     @endforeach
-    <h2>usuario id fk {{ $usuario->cliente->USUARIO_ID }}</h2>
-    <h2> cliente rfc {{ $usuario->cliente->CLIENTE_RFC }}</h2>
     <form action="{{ route('logout') }}" method="post">
         @csrf
         <button type="submit">Cerrar sesión</button>
     </form>
 </div>
+
