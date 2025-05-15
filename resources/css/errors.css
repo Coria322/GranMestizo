@@ -1,0 +1,9 @@
+@import './global.css';
+@import './404.css';
+
+.msg{
+    font-size: 1.7rem;
+    font-family: var(--font-Roboto);
+    text-align: justify;
+    text-wrap: pretty; 
+}

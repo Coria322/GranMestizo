@@ -1,0 +1,43 @@
+html, body {
+    height: auto;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: var(--ligth-almond);
+    line-height: normal;
+}
+
+:root {
+    
+    /* Fonts */
+    --font-roboto: Roboto;
+    --font-josefin-sans: 'Josefin Sans';
+    --font-alegreya: Alegreya;
+    --font-open-sans: 'Open Sans';
+
+    /* font sizes */
+    --font-size-lg: 18px;
+    --font-size-xl: 20px;
+    --font-size-6xl: 25px;
+    --font-size-51xl: 70px;
+        
+    
+    /* Colors */
+    --color-black: #000;
+    --color-white: #fff;
+    --color-gainsboro: rgba(217, 217, 217, 0);
+    /* Border radiuses */
+    --br-3xs: 10px;
+    --br-5xl: 24px;
+    --br-6xl: 25px;
+    
+    /* Figma Variables */
+    
+    /* Color Variables */
+    --ligth-almond: #eee5da;
+    --terracota: #a24e3d;
+    --deep-charcoal: #262424;
+    --petrol-blue: #2a4d58;
+    --almond: #ddd0c0;
+}

@@ -1,0 +1,45 @@
+/* carousel-element.css */
+.platillo-card {
+    flex: 0 0 300px;
+    margin: 0 0.75rem;
+    border-radius: 8px;
+    background: #111;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  
+  .platillo-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .platillo-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .platillo-card:hover img {
+    filter: grayscale(1) brightness(0.6);
+  }
+  
+  .platillo-info {
+    padding: 1rem;
+    color: #fff;
+    text-align: center;
+  }
+  
+  .platillo-info h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+  }
+  
+  .platillo-info p {
+    font-size: 0.9rem;
+    color: #ccc;
+    line-height: 1.4;
+  }
+  

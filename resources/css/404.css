@@ -1,0 +1,317 @@
+.err-panel {
+    position: relative;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 36px;
+    background-color: var(--color-white);
+    width: 90%;
+    height: 90%;
+    max-width: 941px;
+    max-height: 681px;
+    padding: 80px 20px 20px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-mex-1 {
+    position: relative;
+    width: 176px;
+    height: 176px;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.num, .num1 {
+    font-size: 200px;
+    font-weight: 600;
+
+}
+
+.num-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.error {
+    color: var(--terracota);
+    text-align: center;
+    margin: 10px 0;
+    width: 469px;
+    height: 73px;
+    max-width: 100%;
+    max-height: 100%;
+    display: inline-block;
+    font-family: var(--font-josefin-sans);
+    margin: 2% 0 2% 0;
+    font-weight: 600;
+    font-size: 3.8rem; 
+}
+
+.volver-btn {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 80%;
+    max-width: 430px;
+    height: 69px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 18px;
+    color: var(--color-white);
+    font-family: var(--font-roboto);
+    font-size: 40px;
+    font-weight: 600;
+    background-color: var(--terracota);
+    border: none;
+    border-radius: var(--br-3xs);
+    cursor: pointer;
+    transition: background-color 0.8s ease;
+    text-decoration: none;
+    text-align: center;
+    margin: 20px 0;
+    padding: 11px 88px;
+}
+
+.volver-btn:hover {
+    background-color: var(--petrol-blue);
+}
+
+.volver-btn:active {
+    transform: scale(0.95); /* Efecto de pulsación al hacer clic */
+    transition: all 0.1s ease-in-out; /* Suavizar la transición */
+}
+
+.container {
+    width: 100%;
+    position: relative;
+    background-color: var(--ligth-almond);
+    height: 100vh;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: var(--font-size-51xl);
+    color: var(--color-black);
+    font-family: var(--font-josefin-sans);
+}
+
+.log-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* Teléfonos pequeños (≤ 480px) */
+@media (max-width: 480px) {
+    .err-panel {
+        padding: 40px 10px 10px;
+        border-radius: 24px;
+        max-width: 95%;
+        max-height: 95%;
+        gap: 15px;
+    }
+
+    .logo-mex-1 {
+        width: 90px;
+        height: 90px;
+    }
+
+    .num, .num1 {
+        font-size: 100px;
+    }
+
+    .error {
+        font-size: 2rem;
+        margin: 6vw 0;
+    }
+
+    .volver-btn {
+        width: 100%;
+        font-size: 1.5rem;
+        height: 55px;
+        padding: 10px 40px;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+}
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transform: translatey(-5%);
+        padding: 1rem 1rem 1rem;
+    }
+
+    .err-panel {
+        /* Aseguramos que nunca se salga de la pantalla */
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        max-height: 60%;
+        margin: 0 ;
+        padding: 15% 20px 20px;
+        border-radius: 36px;
+        gap: 20px;
+    }
+
+    .logo-mex-1 {
+        width: 120px;
+        height: 120px;
+    }
+
+    .num, .num1 {
+        font-size: 110px;
+    }
+
+    .error {
+        font-size: 2.5rem;
+        margin: 3vw 0;
+    }
+
+    .volver-btn {
+        width: 85%;
+        font-size: 2.2rem;
+        height: 65px;
+        padding: 11px 60px;
+    }
+}
+
+
+/* Teléfonos medianos a grandes (481px – 767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+    .err-panel {
+        padding: 60px 15px 15px;
+        border-radius: 28px;
+        max-width: 95%;
+        max-height: 90%;
+        gap: 18px;
+    }
+
+    .logo-mex-1 {
+        width: 120px;
+        height: 120px;
+    }
+
+    .num, .num1 {
+        font-size: 150px;
+    }
+
+    .error {
+        font-size: 2.8rem;
+        margin: 4vw 0;
+    }
+
+    .volver-btn {
+        width: 90%;
+        font-size: 1.8rem;
+        height: 60px;
+        padding: 10px 50px;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+}
+
+/* Tabletas pequeñas (768px – 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .err-panel {
+        padding: 80px 20px 20px;
+        border-radius: 36px;
+        max-width: 90%;
+        max-height: 90%;
+        gap: 20px;
+    }
+
+    .logo-mex-1 {
+        width: 150px;
+        height: 150px;
+    }
+
+    .num, .num1 {
+        font-size: 180px;
+    }
+
+    .error {
+        font-size: 3.5rem;
+        margin: 3vw 0;
+    }
+
+    .volver-btn {
+        width: 85%;
+        font-size: 2.2rem;
+        height: 65px;
+        padding: 11px 60px;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+}
+
+/* Tabletas grandes (1025px – 1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .container{
+        width: 95%;
+        height: 100%;
+        max-width: 100%;
+        box-sizing:content-box;
+        overflow: hidden;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        transform: translate(2%,-5%);
+        padding: 1rem 1rem 1rem;
+    }
+    
+    .err-panel {
+        padding: 80px 30px 30px;
+        border-radius: 36px;
+        max-width: 85%;
+        max-height: 90%;
+        gap: 22px;
+        margin-top: 30px;
+    }
+
+    .logo-mex-1 {
+        width: 180px;
+        height: 180px;
+    }
+
+    .num, .num1 {
+        font-size: 200px;
+    }
+
+    .error {
+        font-size: 4rem;
+        text-wrap: nowrap;
+        margin-top: 5%;
+    }
+
+    .volver-btn {
+        width: 80%;
+        font-size: 2.5rem;
+        height: 69px;
+        padding: 11px 88px;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+}

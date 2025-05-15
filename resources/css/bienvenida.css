@@ -1,0 +1,314 @@
+.title {
+    font-weight: 500;
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: #fff;
+    text-align: center;
+    padding: 0 1rem;
+    max-width: 90%
+}
+
+.contenedor-banner {
+    position: relative;
+    width: 100%;
+    min-height: 425px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    overflow: hidden;
+    z-index: 0
+}
+
+.contenedor-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('../imgs/comida-mexa 1.png');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(.68);
+    z-index: -1
+}
+
+.span-container {
+    position: relative;
+    font-size: var(--font-size-xl);
+    font-family: var(--font-open-sans);
+    display: flex;
+    align-items: center;
+    width: 868px;
+    height: 150px
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 20px
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-right: 2%
+}
+
+.btn-text {
+    position: relative;
+    font-weight: 600;
+    display: inline-block;
+    height: 47px;
+    flex-shrink: 0;
+    font-family: var(--font-roboto);
+    font-size: 35px;
+    z-index: 0
+}
+
+.generic-btn {
+    position: relative;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, .25);
+    width: 280px;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 88px;
+    box-sizing: border-box;
+    gap: 10px;
+    border-radius: 10px;
+    background-color: var(--terracota);
+    object-fit: contain
+}
+
+.generic-btn:hover {
+    background-color: var(--petrol-blue);
+    transition: all .3s ease-in-out
+}
+
+.generic-btn:active {
+    transform: scale(.95);
+    transition: all .1s ease-in-out
+}
+
+.panel-bienvenida {
+    position: relative;
+    width: 100%;
+    height: 425px;
+    margin-top: 80px
+}
+
+.cocinero-cont {
+    width: 90%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    background-color: var(--deep-charcoal);
+    border-radius: 30px;
+}
+
+.contenido-chef {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    max-width: 1200px;
+    align-items: start
+}
+
+.img-talento {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    object-fit: cover
+}
+
+.texto-chef {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem
+}
+
+.Nombre {
+    font-size: 3rem;
+    font-weight: 200;
+    margin-bottom: 16px
+}
+
+.historia-chef {
+    font-size: 1rem;
+    font-size: var(--font-size-lg);
+    font-family: var(--font-open-sans);
+    text-align: justify
+}
+
+.el-talento-mestizo {
+    position: relative;
+    font-weight: 500;
+    color: var(--deep-charcoal);
+    align-items: center;
+    justify-content: center;
+    width: 544px;
+    height: 96px;
+}
+
+.section-talento {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 40px;
+    padding: 40px 20px
+}
+
+.logo-mex-terracota {
+    position: relative;
+    width: 83px;
+    height: 83px;
+    object-fit: cover
+}
+
+.logo-text {
+    position: relative;
+    font-size: 2px;
+    font-family: var(--font-alegreya);
+    font-weight: 500;
+    font-size: 40px;
+    color: var(--color-white)
+}
+
+.bot-sf {
+    position: relative;
+    width: 170px;
+    height: 32.2px;
+    background-color: var(--color-gainsboro);
+    font-family: var(--font-roboto);
+    font-size: 20px;
+    font-weight: 500;
+    border: none;
+    outline: 0;
+    cursor: pointer;
+    padding: 0;
+    transition: transform .3s, border-bottom .4s
+}
+
+.bot-sf:hover {
+    transform: translateY(-3px);
+    border-bottom: 3px solid var(--petrol-blue)
+}
+
+.bot-sf:active {
+    transform: translateY(0);
+    border-bottom: 0 solid var(--petrol-blue)
+}
+
+.nav-bar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+    background-color: var(--deep-charcoal);
+    z-index: 1
+}
+
+.main-panel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--ligth-almond);
+    overflow-x: hidden;
+    text-align: center;
+    font-size: var(--font-size-51xl);
+    color: var(--color-white);
+    font-family: var(--font-alegreya)
+}
+
+::-webkit-scrollbar {
+    display: none
+}
+
+.section-historia {
+    width: 100%;
+    padding: 60px 20px;
+    background-color: var(--almond);
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    height: auto;
+    padding: 20px 0 20px 0;
+  }
+  
+  .historia-content {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+    max-width: 1200px;
+    width: 100%;
+    align-items: center;
+    padding: 40px 0 40px 0;
+  }
+  
+  .historia-img-wrapper {
+    width: 100%;
+  }
+  
+  .historia-img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    object-fit: cover;
+  }
+  
+  .historia-texto {
+    font-family: var(--font-open-sans);
+    font-size: var(--font-size-lg);
+    text-align: justify;
+    color: var(--deep-charcoal);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 30px 80px;
+
+  }
+  
+  .historia-titulo {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-family: var(--font-alegreya);
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 3.5rem;
+    color: var(--deep-charcoal);
+  }
+  
+
+  .section-platillos {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    padding: 2rem 0;
+    background-color: var(--ligth-almond);
+  }
+
+.title-platillos {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-family: var(--font-alegreya);
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 3.5rem;
+    color: var(--deep-charcoal);
+}
+
+.platillos-container {
+    margin-top: 5%;
+    scroll-behavior: smooth;
+}
