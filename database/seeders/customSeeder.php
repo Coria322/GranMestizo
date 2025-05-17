@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Mesa;
+use App\Models\Reserva_Mesa;
 use Illuminate\Database\Seeder;
 use App\Models\Usuario;
 
@@ -15,10 +17,11 @@ class customSeeder extends Seeder
 
         // Ejecutar los seeders
         $data = $this->call([
-            // UsuarioSeeder::class,
-          AdminSeeder::class,
+            AdminSeeder::class,
             ClienteSeeder::class,
-            EmpleadoSeeder::class
+            EmpleadoSeeder::class,
+            MesaSeeder::class,
+            ReservaMesaSeeder::class,
         ]);
 
         $this->command->info('Todos los datos iniciales fueron sembrados correctamente.');

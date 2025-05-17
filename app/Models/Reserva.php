@@ -1,10 +1,13 @@
 <?php
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Reserva extends Model
 {
+    use HasFactory;
+
     protected $table = 'reservas';
 
     protected $fillable = [
@@ -20,10 +23,12 @@ class Reserva extends Model
 
     protected $primaryKey = 'RESERVA_ID';
 
+    public $incrementing = false;
+
     // Relación con la tabla intermedia 'reserva_mesa'
     public function reservasMesas()
     {
-        return $this->hasMany(Reserva_Mesa::class, 'RESERVA_ID');
+        return $this->hasMany(ReservaMesa::class, 'RESERVA_ID');
     }
 
     // Método para obtener las mesas asociadas a esta reserva

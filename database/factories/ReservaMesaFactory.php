@@ -7,7 +7,7 @@ use App\Models\Mesa;
 use App\Models\Reserva;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Reserva_Mesa>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ReservaMesa>
  */
 class ReservaMesaFactory extends Factory
 {
