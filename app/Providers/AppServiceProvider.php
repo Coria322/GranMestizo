@@ -22,6 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        /*
+         *Este bloque de código en boot crea una variable global "usuario"
+         *Esto permite acceder facilmente al usuario autenticado y realizar
+         *operaciones relacionadas a la base de datos  
+         */
         View::composer('*', function (\Illuminate\View\View $view) {
             /** @var \App\Models\Usuario|null $usuario */
             $usuario = Auth::guard('Usuario')->user();

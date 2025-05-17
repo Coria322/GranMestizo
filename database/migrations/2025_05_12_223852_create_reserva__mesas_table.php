@@ -11,9 +11,27 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reserva__mesas', function (Blueprint $table) {
-            $table->id();
+        Schema::create('reserva_mesa', function (Blueprint $table) {
+            $table->increments('ID');
+            $table->char('RESERVA_ID', 10);
+            $table->char('MESA_ID', 10);
+            $table->enum('STATUS', ['ACTIVO', 'INACTIVO'])->default('ACTIVO'); // o como prefieras
             $table->timestamps();
+
+            $table->foreign('RESERVA_ID')
+            ->references('RESERVA_ID')
+            ->on('reservas')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
+            
+            $table->foreign('MESA_ID')
+            ->references('MESA_ID')
+            ->on('mesas')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
+
+            // Índice único para evitar duplicados de la misma reserva y mesa
+            $table->unique(['RESERVA_ID', 'MESA_ID']);
         });
     }
 
@@ -22,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reserva__mesas');
+        Schema::dropIfExists('reserva_mesa');
     }
 };

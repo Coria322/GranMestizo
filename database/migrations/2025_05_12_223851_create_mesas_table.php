@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('mesas', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->char('MESA_ID', 10)->primary();
+            $table->unsignedInteger('MESA_CAPACIDAD');
+            $table->enum('MESA_STATUS', ['LIBRE', 'OCUPADO'])->default('LIBRE');
+            $table->string('MESA_SECCION', 50)->nullable();
         });
     }
 
