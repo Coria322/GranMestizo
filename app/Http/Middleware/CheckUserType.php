@@ -14,12 +14,12 @@ class CheckUserType
 
     // dd(Auth::guard('Usuario')->user());
     if(!Auth::guard('Usuario')->check()){
-        return redirect()->route('forbidden')->with('error', 'No estás autenticado');
+        abort(403,'No estás autenticado');
     }
 
         // Si el usuario está autenticado pero su rol no coincide
     if (Auth::guard('Usuario')->user()->USUARIO_ROL != $rol) {
-        return redirect()->route('forbidden')->with('error', 'Acceso denegado. No tienes permiso para acceder a esta página.');
+        abort(403,'No tienes permiso para acceder a este recurso');
     }
     
 
