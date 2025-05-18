@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open Sans:wght@400&display=swap" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;600&display=swap" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin Sans:wght@600&display=swap" />
-        @vite(['resources/css/app.css', 'resources/js/app.js']);
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         <!-- <link rel="stylesheet" href="{{ asset('css/global.css') }}"> -->
         <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> -->
         <!-- Otros -->
