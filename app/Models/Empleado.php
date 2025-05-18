@@ -31,4 +31,8 @@ class Empleado extends Model
     {
         return $this->belongsTo(Usuario::class, 'USUARIO_ID', 'USUARIO_ID');
     }
+
+    public function reservas(){
+        return $this->hasMany(Reserva::class,'EMPLEADO_ID', 'USUARIO_ID');
+    }
 }

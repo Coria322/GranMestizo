@@ -10,7 +10,7 @@ class AdminSeeder extends Seeder
 {
     public function run()
     {
-        $admins = Administrador::factory()->count(5)->create();
+        $admins = Admin::factory()->count(5)->create();
 
         $this->command->info("Se crearon {$admins->count()} administradores:");
         foreach ($admins as $admin) {

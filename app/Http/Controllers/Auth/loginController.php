@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Models\Usuario;
 
 class loginController extends Controller
@@ -60,14 +59,13 @@ class loginController extends Controller
     }
 
     public function redirectToPanel($permision){
-        // dd('user', Auth::guard(name: 'Usuario')->user(), Auth::guard('Usuario')->check());
         switch ($permision->USUARIO_ROL) {
             case 'ADMINISTRADOR':
-                return redirect()->route('Admin.main');
+                return redirect()->route('Admin.main')->with('success','Bienvenido ADMINISTRADOR');
             case 'EMPLEADO':
-                return redirect()->route('Empleado.main');
+                return redirect()->route('Empleado.main')->with('success', 'Bienvenido EMPLEADO');
             case 'CLIENTE':
-                return redirect()->route('Usuario.main');
+                return redirect()->route('Usuario.main')->with('success', 'Bienvenido CLIENTE');
             default:
                 return redirect('/')->with('error', 'Rol no reconocido');
         }
