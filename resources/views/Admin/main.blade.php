@@ -11,7 +11,7 @@
     <hr>
 
     <h1>Datos del ADMIN</h1>
-    @foreach ($usuario->admin->getAttributes() as $key => $value)
+    @foreach ($usuario->administrador->getAttributes() as $key => $value)
         <h2>{{ ucfirst(str_replace('_', ' ', $key)) }}: {{ $value }}</h2>
     @endforeach
 
