@@ -34,12 +34,6 @@ class loginController extends Controller
         
         if (Auth::guard('Usuario')->attempt($credenciales)) {
             Auth::guard('Usuario')->login($usuario);
-            if(Auth::check()){
-                logger('Usuario autenticado' . Auth::id());
-            }
-            else{
-                logger('el uuario no fue autenticado');
-            }
             return $this->redirectToPanel(Auth::guard('Usuario')->user());
         }
         
