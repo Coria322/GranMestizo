@@ -28,14 +28,14 @@ class AppServiceProvider extends ServiceProvider
          *operaciones relacionadas a la base de datos  
          */
         View::composer('*', function (\Illuminate\View\View $view) {
-            /** @var \App\Models\Usuario|null $usuario */
-            $usuario = Auth::guard('Usuario')->user();
+            /** @var \App\Models\Usuario|null $usuarioGlobal */
+            $usuarioGlobal = Auth::guard('Usuario')->user();
 
-            if ($usuario) {
-                $usuario->perfil(); // Carga el perfil correspondiente
+            if ($usuarioGlobal) {
+                $usuarioGlobal->perfil(); // Carga el perfil correspondiente
             }
 
-            $view->with('usuario', $usuario);
+            $view->with('usuario', $usuarioGlobal);
         });
     }
 }
