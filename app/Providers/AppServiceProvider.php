@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
                 $usuarioGlobal->perfil(); // Carga el perfil correspondiente
             }
 
-            $view->with('usuario', $usuarioGlobal);
+            $view->with('usuarioGlobal', $usuarioGlobal);
         });
     }
 }
