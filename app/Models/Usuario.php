@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -49,38 +50,49 @@ class Usuario extends Authenticatable
         });
     }
 
+    //* Métodos para eloquent (relaciones, getters)
     public function getAuthPassword()
     {
         return $this->USUARIO_PWD;
     }
 
-    public function cliente() {
+    public function cliente()
+    {
         return $this->hasOne(Cliente::class, 'USUARIO_ID', 'USUARIO_ID');
     }
 
-    public function administrador(){
+    public function administrador()
+    {
         return $this->hasOne(Admin::class, 'USUARIO_ID', 'USUARIO_ID');
     }
 
-    public function empleado(){
+    public function empleado()
+    {
         return $this->hasOne(Empleado::class, 'USUARIO_ID', 'USUARIO_ID');
     }
 
-    public function perfil(){
-    switch ($this->USUARIO_ROL) {
-        case 'ADMINISTRADOR':
-            return $this->load('administrador');
-        case 'EMPLEADO':
-            return $this->load('empleado');
-        case 'CLIENTE':
-            return $this->load('cliente');
-        default:
-            return null;  // O un valor predeterminado si el rol no es reconocido
+    public function perfil()
+    {
+        switch ($this->USUARIO_ROL) {
+            case 'ADMINISTRADOR':
+                return $this->load('administrador');
+            case 'EMPLEADO':
+                return $this->load('empleado');
+            case 'CLIENTE':
+                return $this->load('cliente');
+            default:
+                return null;  // O un valor predeterminado si el rol no es reconocido
+        }
     }
-}
-public function getAuthIdentifier()
-{
-    return $this->USUARIO_ID;
-}
+    public function getAuthIdentifier()
+    {
+        return $this->USUARIO_ID;
+    }
 
+    //* Métodos Scope
+
+    public function scopeRol(Builder $query, $rol)
+    {
+        return $query->where('USUARIO_ROL', $rol);
+    }
 }

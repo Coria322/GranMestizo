@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
-
+use App\Http\Controllers\UsuarioController;
 //Rutas publicas
 
 // Rutas para el login
@@ -36,3 +36,18 @@ Route::get('/Admin', function () {
     return view('admin.main');
 })->name('Admin.main')->middleware('check:ADMINISTRADOR');
 
+
+
+//TODO eliminar estas rutas y aplicar correctamente agrupaciones y middleware para restringir el acceso a recursos
+//prueba de rutas
+Route::get('pruebas/crear-usuario', [UsuarioController::class, 'create'])->name('pruebas.create');
+Route::post('pruebas/crear-usuario', [UsuarioController::class, 'store'])->name('pruebas.store');
+
+Route::get('pruebas/editar/{id}', [UsuarioController::class, 'edit'])->name('pruebas.edit');
+Route::put('pruebas/editar/{id}', [UsuarioController::class, 'update'])->name('pruebas.update');
+
+Route::get('pruebas/usuario/{id}', [UsuarioController::class, 'show'])->name('pruebas.show');
+
+Route::post('pruebas/cambiar-rol/{id}', [UsuarioController::class, 'cambiarRol'])->name('pruebas.cambiarRol');
+
+Route::get('pruebas/usuarios', [UsuarioController::class, 'index'])->name('pruebas.index');

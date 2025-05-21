@@ -21,7 +21,7 @@ class Admin extends Model
     public $incrementing = false;
 
     protected $fillable = [
-
+        'USUARIO_ID'
     ];
 
     // La relación con el modelo 'Usuario'
