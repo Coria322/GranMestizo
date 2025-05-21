@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->char('USUARIO_ID', 10)->primary(); // Si solo hay un admin por usuario
+            
             $table->foreign('USUARIO_ID')
                   ->references('USUARIO_ID')
                   ->on('usuarios')
+                  ->onUpdate('cascade')
                   ->onDelete('cascade');
         });
         

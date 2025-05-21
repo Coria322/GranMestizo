@@ -16,9 +16,11 @@ return new class extends Migration
             $table->char('EMPLEADO_RFC', 13);
             $table->enum('EMPLEADO_TURNO', ['M', 'V'])->default('M'); 
             $table->enum('EMPLEADO_STATUS', ['LIBRE', 'OCUPADO'])->default('LIBRE');
+            
             $table->foreign('USUARIO_ID')
                   ->references('USUARIO_ID')
                   ->on('usuarios')
+                  ->onUpdate('cascade')
                   ->onDelete('cascade');
         });
         

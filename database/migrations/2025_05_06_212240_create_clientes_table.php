@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->char('USUARIO_ID', 10)->primary();
-            $table->char('CLIENTE_RFC', 13);
+            $table->char('CLIENTE_RFC', 13)->unique();
+            
             $table->foreign('USUARIO_ID')
                   ->references('USUARIO_ID')
                   ->on('usuarios')
+                  ->onUpdate('cascade')
                   ->onDelete('cascade');
         });
         
