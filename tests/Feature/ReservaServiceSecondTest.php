@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
-class ReservaServiceTest2 extends TestCase
+class ReservaServiceSecondTest extends TestCase
 {
     use RefreshDatabase;
 
