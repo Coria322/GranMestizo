@@ -19,6 +19,7 @@ namespace App\Services;
 use App\Models\Reserva;
 use App\Models\Mesa;
 use App\Models\Empleado;
+use App\Models\ReservaMesa;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -118,5 +119,73 @@ class ReservaService
         return $empleadoId;
     }
 
-    
+        public function listarReservas(array $filtros = [])
+    {
+        $query = Reserva::with(['mesas', 'cliente', 'empleado']);
+
+        if (!empty($filtros['cliente_id'])) {
+            $query->where('CLIENTE_ID', $filtros['cliente_id']);
+        }
+
+        if (!empty($filtros['fecha'])) {
+            $query->where('RESERVA_FECHA', $filtros['fecha']);
+        }
+
+        return $query->orderBy('RESERVA_FECHA', 'desc')
+                     ->orderBy('RESERVA_HORA', 'desc')
+                     ->get();
+    }
+
+        public function obtenerReserva($id)
+    {
+        $reserva = Reserva::with(['mesas', 'cliente', 'empleado'])
+            ->where('RESERVA_ID', $id)
+            ->first();
+
+        if (!$reserva) {
+            throw new Exception("Reserva no encontrada.");
+        }
+
+        return $reserva;
+    }
+
+        public function actualizarReserva($id, $nuevaFecha, $nuevaHora, $nuevosComensales)
+    {
+        return DB::transaction(function () use ($id, $nuevaFecha, $nuevaHora, $nuevosComensales) {
+            $reserva = Reserva::where('RESERVA_ID', $id)->first();
+
+            if (!$reserva) {
+                throw new Exception("Reserva no encontrada.");
+            }
+
+            // Cancelamos la reserva actual para liberar mesas y mesero
+            $this->cancelarReserva($id);
+
+            // Creamos una nueva reserva con los datos actualizados
+            return $this->crearReserva(
+                $reserva->CLIENTE_ID,
+                $nuevaFecha,
+                $nuevaHora,
+                $nuevosComensales
+            );
+        });
+    }
+
+public function cancelarReserva($id)
+{
+    return DB::transaction(function () use ($id) {
+        $reserva = Reserva::find($id);
+
+        if (!$reserva) {
+            throw new Exception("Reserva no encontrada.");
+        }
+
+        // Inactivar todos los registros en reserva_mesa para esta reserva
+        ReservaMesa::where('RESERVA_ID', $id)->update(['STATUS' => 'INACTIVO']);
+
+        return true;
+    });
+}
+
+
 }
