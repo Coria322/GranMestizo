@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ReservaController;
 //Rutas publicas
 
 // Rutas para el login
@@ -51,3 +52,12 @@ Route::get('pruebas/usuario/{id}', [UsuarioController::class, 'show'])->name('pr
 Route::post('pruebas/cambiar-rol/{id}', [UsuarioController::class, 'cambiarRol'])->name('pruebas.cambiarRol');
 
 Route::get('pruebas/usuarios', [UsuarioController::class, 'index'])->name('pruebas.index');
+
+// Mostrar formulario para crear reserva
+Route::get('/reservas/crear', [ReservaController::class, 'create'])->name('reservas.create');
+
+// Guardar reserva (POST)
+Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
+
+// Endpoint para obtener horas reservadas en una fecha específica (para el calendario)
+Route::get('/reservas/disponibilidad', [ReservaController::class, 'disponibilidad'])->name('reservas.disponibilidad');

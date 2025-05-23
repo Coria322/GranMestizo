@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\ReservaService;
-use Illuminate\Validation\ValidationException;
+use App\Models\Reserva;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 
 class ReservaController extends Controller
@@ -13,9 +14,13 @@ class ReservaController extends Controller
 
     public function __construct(ReservaService $reservaService)
     {
+        $this->middleware('auth:Usuario');
         $this->reservaService = $reservaService;
     }
 
+    public function create(){
+        return view('reservas.crear');
+    }
     /**
      * Crear una nueva reserva
      */
@@ -104,4 +109,28 @@ class ReservaController extends Controller
             return response()->json(['error' => 'No se pudo cancelar la reserva.'], 400);
         }
     }
+
+public function obtenerHorasOcupadas(Request $request)
+{
+    $request->validate([
+        'fecha' => 'required|date',
+    ]);
+
+    $fecha = $request->input('fecha');
+
+    // Obtenemos todas las reservas con mesas activas para la fecha dada
+    $reservas = Reserva::where('RESERVA_FECHA', $fecha)
+        ->whereHas('mesas', function ($query) {
+            $query->where('reserva_mesa.STATUS', 'ACTIVO');
+        })
+        ->get();
+
+    // Extraemos las horas ocupadas para devolverlas
+    $horasOcupadas = $reservas->pluck('RESERVA_HORA')->map(function($hora) {
+        return substr($hora, 0, 5); // Formato 'HH:MM'
+    })->unique()->values()->all();
+
+    return response()->json(['horasReservadas' => $horasOcupadas]);
+}
+
 }
