@@ -3,7 +3,6 @@
  * Este servicio funciona correctamente para el caso general
  * pero carece de especificidad al momento de:
  * !asignar mesas de la misma sección
- * !asignar mesas con la capacidad más cercana posible al numero  de comensales
  * TODO corregir esta lógica para cumplir con lo anterior
  */
 
@@ -27,6 +26,10 @@ use Exception;
 
 class ReservaService
 {
+    protected $apertura = '12:00';
+    protected $cierre = '22:00' ;
+    private $duracionReservaHoras = 2;
+
     public function crearReserva($clienteId, $fecha, $hora, $comensales)
     {
         return DB::transaction(function () use ($clienteId, $fecha, $hora, $comensales) {
@@ -68,7 +71,7 @@ class ReservaService
         });
     }
 
-    private function obtenerMesasDisponibles($fecha, $hora)
+    public function obtenerMesasDisponibles($fecha, $hora)
     {
         $inicio = Carbon::parse("$fecha $hora");
         $fin = (clone $inicio)->addHours(2);
@@ -187,5 +190,47 @@ public function cancelarReserva($id)
     });
 }
 
+//Las reservas pueden ser con 15 dias de antelación
+//todo, esto y los horarios pueden ser alterables mediante una tabla en bd
+//?esto se deja a consideración de las reglas del negocio
+    public function obtenerFechasBloqueadas($diasAdelante = 15){
+        $fechasBloqueadas = [];
+        $hApertura = Carbon::parse($this->apertura);
+        $hCierre = Carbon::parse($this->cierre);
+        $duracion = $this->duracionReservaHoras;
 
+        for ($i=0; $i <= $diasAdelante ; $i++) { 
+            $fecha = Carbon::today()->addDays($i)->toDateString();
+            $hora = $hApertura->copy();
+            $lleno = true;
+
+            while($hora->lessThan($hCierre)){
+                $mesas = $this->obtenerMesasDisponibles($fecha, $hora->format('H:i'));
+
+                if (count($mesas) > 0) {
+                    //hay mesas disponibles en este horario, no es necesario bloquear
+                    $lleno = false;
+                    break;
+                }
+                $hora -> addHours($duracion);
+            }
+
+            if ($lleno) {
+                $fechasBloqueadas[] = $fecha; 
+            }
+        }
+        return $fechasBloqueadas;
+    }
+
+    public function getApertura(){
+        return $this->apertura;
+    }
+
+    public function getCierre(){
+        return $this->cierre;
+    }
+
+    public function getDuracion(){
+        return $this->duracionReservaHoras;
+    }
 }

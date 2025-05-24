@@ -61,3 +61,12 @@ Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.st
 
 // Endpoint para obtener horas reservadas en una fecha específica (para el calendario)
 Route::get('/reservas/disponibilidad', [ReservaController::class, 'disponibilidad'])->name('reservas.disponibilidad');
+
+
+Route::get('/reservas/calendario', function () {
+    return view('pruebas.calendario'); 
+});
+
+Route::get('/reservas/fechas-bloqueadas', [ReservaController::class, 'obtenerFechasBloqueadas'])->name('reservas.fechas-bloqueadas');
+Route::get('/reservas/horas-disponibles', [ReservaController::class, 'obtenerHorasDisponibles'])->name('reservas.horas-disponibles');
+Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
