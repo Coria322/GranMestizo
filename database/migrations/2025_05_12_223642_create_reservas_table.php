@@ -19,7 +19,7 @@ return new class extends Migration
                 ->references('USUARIO_ID')
                 ->on('clientes')
                 ->onUpdate('cascade')  // Actualizar en cascada si cambia ID
-                ->onDelete('restrict'); // No permitir borrar si hay reservas
+                ->onDelete('cascade'); // Eliminar en cascada si se elimina el cliente
 
             $table->unsignedInteger('RESERVA_COMENSALES')->default(1);
 

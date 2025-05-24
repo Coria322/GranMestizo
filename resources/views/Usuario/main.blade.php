@@ -1,28 +1,28 @@
 <div>
     <h1 style="color:rebeccapurple;">CLIENTE</h1>
     <h1>Datos generales</h1>
-    <h2>Bienvenido {{ $usuario->USUARIO_NOMBRE }}</h2>
-    <h2>Tu apellido es {{ $usuario->USUARIO_APELLIDO }}</h2>
-    <h2>Tu correo es {{ $usuario->USUARIO_CORREO }}</h2>
-    <h2>Tu contraseña es {{ $usuario->USUARIO_PWD }}</h2>
-    <h2>Tu rol es {{ $usuario->USUARIO_ROL }}</h2>
-    <h2>Tu ID es {{ $usuario->USUARIO_ID }}</h2>
+    <h2>Bienvenido {{ $usuarioGlobal->USUARIO_NOMBRE }}</h2>
+    <h2>Tu apellido es {{ $usuarioGlobal->USUARIO_APELLIDO }}</h2>
+    <h2>Tu correo es {{ $usuarioGlobal->USUARIO_CORREO }}</h2>
+    <h2>Tu contraseña es {{ $usuarioGlobal->USUARIO_PWD }}</h2>
+    <h2>Tu rol es {{ $usuarioGlobal->USUARIO_ROL }}</h2>
+    <h2>Tu ID es {{ $usuarioGlobal->USUARIO_ID }}</h2>
 
     <hr>
 
-    <h1>Datos del {{ $usuario->USUARIO_ROL }}</h1>
-    <h2>Usuario ID (FK): {{ $usuario->cliente->USUARIO_ID }}</h2>
-    <h2>RFC del cliente: {{ $usuario->cliente->CLIENTE_RFC }}</h2>
+    <h1>Datos del {{ $usuarioGlobal->USUARIO_ROL }}</h1>
+    <h2>Usuario ID (FK): {{ $usuarioGlobal->cliente->USUARIO_ID }}</h2>
+    <h2>RFC del cliente: {{ $usuarioGlobal->cliente->CLIENTE_RFC }}</h2>
 
     <hr>
 
     <h1>Reservas</h1>
-    @forelse ($usuario->cliente->reservas as $reserva)
+    @forelse ($usuarioGlobal->cliente->reservas as $reserva)
         <div style="margin-bottom: 1rem;">
             <h3>Reserva ID: {{ $reserva->RESERVA_ID }}</h3>
             <h4>Fecha: {{ $reserva->RESERVA_FECHA }} | Hora: {{ $reserva->RESERVA_HORA }}</h4>
             <h4>Comensales: {{ $reserva->RESERVA_COMENSALES }}</h4>
-            <h4>Empleado asignado: {{ $reserva->empleado->usuario->USUARIO_NOMBRE ?? 'Sin asignar' }}</h4>
+            <h4>Empleado asignado: {{ $reserva->empleado->usuarioGlobal->USUARIO_NOMBRE ?? 'Sin asignar' }}</h4>
             <h4>Mesas reservadas:</h4>
             <ul>
                 @foreach ($reserva->mesas as $mesa)

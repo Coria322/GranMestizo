@@ -25,6 +25,7 @@ class Reserva extends Model
 
     public $incrementing = false;
 
+    protected $keyType = 'string';
     // Relación con la tabla intermedia 'reserva_mesa'
     public function reservasMesas()
     {
