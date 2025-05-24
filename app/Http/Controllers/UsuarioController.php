@@ -57,10 +57,6 @@ class UsuarioController extends Controller
     //TODO terminar los action de crud
     public function create()
     {
-        if (Auth::guard('Usuario')->user()->USUARIO_ROL != 'ADMINISTRADOR') {
-            abort(403, 'Solo los administradores pueden crear usuarios.');
-        }
-
         //TODO hacer vista
         return view('pruebas.create');
     }
