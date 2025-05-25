@@ -20,6 +20,13 @@ Route::get('/forbidden', function () {
 Route::get('/', function () {
     return view('bienvenida');
 })->name('bienvenida');
+
+
+//TODO proteger o definir si se puede reservar sin cuenta
+//rutas de reserva
+Route::get('/Reservas/reservar', [ReservaController::class, 'create']);
+Route::post('/Reservas/reservar', [ReservaController::class,'store'])->name('crear-reserva');
+
 // Middleware para proteger rutas
 // Rutas protegidas
 

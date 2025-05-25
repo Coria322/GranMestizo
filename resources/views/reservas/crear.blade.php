@@ -1,101 +1,60 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Reservar Mesa</title>
-</head>
-<body>
+@extends('layouts.app')
+@section('head')
+@vite('resources/js/components/calendar.js')
+@endsection
+@section('content')
+<div class="contenedor-formulario">
 
-<h2>Crear Reserva</h2>
+  <div class="fondo-logo">
+    <!-- La imagen se usa como fondo, no necesitas un <img> -->
+    <div class="formulario-reserva">
+      <h2>REGISTRA TU RESERVACIÓN AQUÍ</h2>
+      <form method="POST" action="{{ route('reservas.store') }}">
+        @csrf
+        <h3>ID DE CLIENTE</h3>
+        <input
+          type="text"
+          title='Este es tu ID de Cliente'
+          name="cliente_id"
+          placeholder="Nombre del cliente"
+          readonly value="{{ $usuarioGlobal->USUARIO_ID }}">
 
-<form id="reservaForm">
-  <label for="fecha">Fecha:</label>
-  <input type="date" id="fecha" name="fecha" required />
+        <h3>FECHA</h3>
 
-  <br><br>
+        <input
+          type="date"
+          name="fecha"
+          id="fecha"
+          required
+          min="{{ now()->addDay()->format('Y-m-d') }}"
+          max="{{ now()->addDays(16)->format('Y-m-d') }}"
+          aria-describedby="fechaHelp errorFecha">
 
-  <label for="hora">Hora:</label>
-  <select id="hora" name="hora" required>
-    <!-- Horas disponibles se llenan con JS -->
-  </select>
+        <p id="errorFecha" class="hidden" role="alert">Fecha no disponible para reservar.</p>
 
-  <br><br>
 
-  <label for="comensales">Número de comensales:</label>
-  <input type="number" id="comensales" name="comensales" min="1" max="20" required />
 
-  <br><br>
+        <h3>HORA</h3>
+        <select
+          name="hora"
+          id="hora"
+          required
+          disabled
+          aria-describedby="errorHora">
+          <option value="">Seleccione primero su fecha</option>
+        </select>
+        <div id="estado"></div>
+        <p id="errorHora" class="hidden" role="alert">No hay horas disponibles para esta fecha.</p>
+        <p id="loadingHora" class="hidden">Cargando horas disponibles...</p>
 
-  <button type="submit">Reservar</button>
-</form>
-
-<script>
-  // Horas disponibles para selección (puedes ajustar)
-  const horasPosibles = [
-    "07:00", "08:00", "09:00", "10:00", "11:00",
-    "12:00", "13:00", "14:00", "15:00", "16:00",
-    "17:00", "18:00", "19:00", "20:00", "21:00"
-  ];
-
-  const fechaInput = document.getElementById('fecha');
-  const horaSelect = document.getElementById('hora');
-  const reservaForm = document.getElementById('reservaForm');
-
-  // Función para llenar selector de horas, deshabilitando las ocupadas
-  function llenarHoras(horasOcupadas = []) {
-    horaSelect.innerHTML = '';
-
-    horasPosibles.forEach(hora => {
-      const option = document.createElement('option');
-      option.value = hora;
-      option.textContent = hora;
-
-      if (horasOcupadas.includes(hora)) {
-        option.disabled = true;
-        option.textContent += " (No disponible)";
-      }
-
-      horaSelect.appendChild(option);
-    });
-  }
-
-  // Al cambiar fecha, consultamos disponibilidad
-  fechaInput.addEventListener('change', () => {
-    const fecha = fechaInput.value;
-    if (!fecha) return;
-
-    fetch(`/reservas/disponibilidad?fecha=${fecha}`)
-      .then(response => response.json())
-      .then(data => {
-        llenarHoras(data.horasReservadas || []);
-      })
-      .catch(() => {
-        // En caso de error, mostramos todas las horas disponibles
-        llenarHoras([]);
-      });
-  });
-
-  // Inicializamos con todas las horas habilitadas
-  llenarHoras();
-
-  // Envío del formulario (solo demo)
-  reservaForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const data = {
-      fecha: fechaInput.value,
-      hora: horaSelect.value,
-      comensales: document.getElementById('comensales').value,
-      cliente_id: '3ad21d46-b' // Aquí pondrías el cliente real autenticado
-    };
-
-    console.log("Datos para reservar:", data);
-
-    // Aquí podrías hacer fetch POST a /reservas para crear reserva
-    alert("Simulación de envío de reserva. Implementa el POST según backend.");
-  });
-</script>
-
-</body>
-</html>
+        <h3>CANTIDAD DE COMENSALES</h3>
+        <!-- El numero podría ser algo sacado de constantes de negocio en bd a futuro -->
+        <input type="number" name="comensales" placeholder="Cantidad de comensales" required min="1" max="15" step="1">
+        
+        <button type="submit" id="btnReservar">Continuar</button>
+        <a href="/login" class="link-volver">Volver</a>
+      </form>
+    </div>
+  </div>
+</div>
+@endsection

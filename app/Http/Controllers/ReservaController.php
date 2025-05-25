@@ -19,7 +19,7 @@ class ReservaController extends Controller
 
     public function __construct(ReservaService $reservaService)
     {
-        // $this->middleware('auth:Usuario');
+        $this->middleware('auth:Usuario');
         $this->reservaService = $reservaService;
 
         //Tomamos constantes del servicio. En una necesidad real podrían ser constantes almacenadas en config o bd
@@ -51,9 +51,20 @@ class ReservaController extends Controller
                 $request->hora,
                 $request->comensales
             );
-            return response()->json(['message' => 'Reserva creada con éxito.', 'reserva' => $reserva], 201);
+
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Reserva creada con éxito.', 'reserva' => $reserva], 201);
+            }
+
+            return redirect()
+                //todo redirigir al perfil aunque login regresa al perfil loggeado
+                ->route('login') // <- Asegúrate de tener esta ruta definida
+                ->with('success', 'Reserva creada con éxito');
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            if ($request->expectsJson()) {
+                return response()->json(['error' => $e->getMessage()], 409);
+            }
+            abort(409, $e->getMessage());
         }
     }
 
@@ -160,21 +171,22 @@ class ReservaController extends Controller
 
         while ($hora->lessThan($horaCierre)) {
             $mesas = $this->reservaService->obtenerMesasDisponibles($fecha, $hora->format('H:i'));
+            $mesero = $this->reservaService->buscarEmpleadoDisponible($fecha, $hora->format('H:i'));
 
-            if (count($mesas) > 0) {
+            if (count($mesas) > 0 && $mesero) {
                 $horasDisponibles[] = $hora->format('H:i');
             }
 
             $hora->addHours($duracion);
         }
-        return response()->json(['horasDisponibles' => $horasDisponibles],200);
+        return response()->json(['horasDisponibles' => $horasDisponibles], 200);
     }
 
     public function obtenerFechasBloqueadas()
     {
         try {
             $fechas = $this->reservaService->obtenerFechasBloqueadas();
-            
+
             return response()->json(['fechasBloqueadas' => $fechas], 200);
         } catch (Exception $e) {
             return response()->json(['error' => 'Error al obtener fechas bloqueadas', 500]);

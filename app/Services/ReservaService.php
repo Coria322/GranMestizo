@@ -54,7 +54,7 @@ class ReservaService
 
             // 4. Crear la reserva
             $reserva = Reserva::create([
-                'RESERVA_ID' => 'RESE_' . Str::random(5),
+                'RESERVA_ID' => 'RESE_' . strtoupper(Str::random(5)),
                 'CLIENTE_ID' => $clienteId,
                 'EMPLEADO_ID' => $empleadoId,
                 'RESERVA_COMENSALES' => $comensales,
@@ -106,7 +106,7 @@ class ReservaService
         return $total >= $comensales ? $seleccionadas : [];
     }
 
-    private function buscarEmpleadoDisponible($fecha, $hora)
+    public function buscarEmpleadoDisponible($fecha, $hora)
     {
         $inicio = Carbon::parse("$fecha $hora");
         $fin = (clone $inicio)->addHours(2);

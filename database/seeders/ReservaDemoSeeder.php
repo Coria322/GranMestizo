@@ -22,8 +22,8 @@ class ReservaDemoSeeder extends Seeder
         $empleado = Empleado::factory()->create();
 
         // Definir fechas de prueba
-        $fechaCompleta = '2025-06-01';
-        $fechaParcial = '2025-06-02';
+        $fechaCompleta = '2025-05-25';
+        $fechaParcial = '2025-05-26';
 
         // Horarios permitidos de 12:00 a 20:00 en bloques de 2 horas
         $horarios = ['12:00:00', '14:00:00', '16:00:00', '18:00:00', '20:00:00'];

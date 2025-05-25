@@ -2,6 +2,7 @@
 @import './bienvenida.css';
 @import './login.css';
 @import './404.css';
+@import './reserva.css';
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
