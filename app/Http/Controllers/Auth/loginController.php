@@ -55,7 +55,7 @@ class loginController extends Controller
     public function redirectToPanel($permision){
         switch ($permision->USUARIO_ROL) {
             case 'ADMINISTRADOR':
-                return redirect()->route('Admin.main')->with('success','Bienvenido ADMINISTRADOR');
+                return redirect()->route('admin.main')->with('success','Bienvenido ADMINISTRADOR');
             case 'EMPLEADO':
                 return redirect()->route('Empleado.main')->with('success', 'Bienvenido EMPLEADO');
             case 'CLIENTE':

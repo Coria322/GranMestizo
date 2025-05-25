@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\adminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UsuarioController;
@@ -40,9 +41,13 @@ Route::get('/Empleado', function () {
 })->name('Empleado.main')->middleware('check:EMPLEADO');
 
 //Rutas de admin
-Route::get('/Admin', function () {
-    return view('admin.main');
-})->name('Admin.main')->middleware('check:ADMINISTRADOR');
+Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
+    Route::get('/', [adminController::class, 'home'])->name('admin.main');
+});
+
+// Route::get('/Admin', function () {
+//     return view('admin.main');
+// })->name('Admin.main')->middleware('check:ADMINISTRADOR');
 
 
 

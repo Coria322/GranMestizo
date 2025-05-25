@@ -1,0 +1,184 @@
+/* Contenedor principal */
+.contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+    padding: 10%;
+    padding-top: 2%;
+    background-color: var(--ligth-almond);
+}
+
+.bod {
+    overflow: hidden;
+    overflow-y: hidden;
+}
+
+/* Estilos para el rectángulo de bienvenida */
+.bienvenida-admin {
+    width: 80%;
+    height: 60px;
+    background-color: var(--deep-charcoal);
+    color: var(--color-white);
+    font-family: var(--font-roboto), sans-serif;
+    font-size: var(--font-size-6xl);
+    font-weight: bold;
+    text-align: center;
+    border-radius: var(--br-3xs);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor de botones */
+.botones-admin {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+/* Contenedor de acciones alineado a la izquierda */
+.acciones-admin {
+    display: flex;
+    gap: 20px;
+    width: 80%;
+    justify-content: flex-end;
+    /* Alinea los botones a la izquierda */
+    margin-bottom: 20px;
+    /* Espaciado con la tabla */
+}
+
+/* Estilos de los botones */
+.boton-admin {
+    background-color: var(--deep-charcoal);
+    color: var(--color-white);
+    font-family: var(--font-roboto), sans-serif;
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--br-5xl);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton-admin:hover {
+    background-color: var(--petrol-blue);
+    transform: scale(1.05);
+}
+
+.boton-admin:active {
+    transform: scale(0.95);
+}
+
+/* Contenedor de la tabla */
+.tabla-usuarios {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+}
+
+/* Estilos de la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: var(--br-3xs);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-white);
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: var(--deep-charcoal);
+    color: var(--color-white);
+}
+
+td {
+    background-color: var(--color-white);
+    color: var(--deep-charcoal);
+    border-bottom: 1px solid var(--color-gainsboro);
+}
+
+tr:hover td {
+    background-color: var(--almond);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+
+
+.boton-admin.activo {
+    background-color: var(--petrol-blue);
+    transform: scale(1.05);
+    color: white;
+}
+
+.botones-admin {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.botones-admin a {
+    text-decoration: none;
+}
+
+.section {
+    margin-top: 20px;
+}
+
+.paginacion {
+    margin-top: 10px;
+}
+
+
+.tabla-admin {
+    width: 100%;
+    table-layout: fixed;
+    /* Fuerza el ancho fijo */
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tabla-admin th,
+.tabla-admin td {
+    padding: 8px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tabla-admin th {
+    background-color: var(--deep-charcoal);
+    color: var(--color-white);
+}
+
+.tabla-admin td {
+    background-color: #f9f9f9;
+}
+
+.acciones-adm{
+    margin-top: 2%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.const{
+    gap: 0;
+    margin-top: 2%;
+    justify-content: end;
+    align-items: flex-end;
+}
