@@ -9,8 +9,8 @@ export default defineConfig({
                     'resources/css/components/index.css', 
                     'resources/js/components/components.js',
                     'resources/js/app.js',
-                    'resources/css/errors.css'
-
+                    'resources/css/errors.css',
+                    'resources/js/components/calendar.js',
                 ],
             refresh: true,
         }),
