@@ -71,29 +71,55 @@ class ReservaController extends Controller
     /**
      * Listar reservas (opcionalmente filtradas por cliente, fecha o estado)
      */
-    public function index(Request $request)
-    {
-        $filtros = $request->only(['cliente_id', 'fecha', 'estado']);
-        try {
-            $reservas = $this->reservaService->listarReservas($filtros);
+public function index(Request $request, $id_us = null)
+{
+    $filtros = $request->only(['fecha', 'estado']);
+
+    if ($id_us) {
+        $filtros['usuario_id'] = $id_us;
+    }
+
+    try {
+        $reservas = $this->reservaService->listarReservas($filtros);
+
+        if ($request->expectsJson()) {
             return response()->json(['reservas' => $reservas], 200);
-        } catch (Exception $e) {
+        }
+
+        return view('reservas.ver', compact('reservas'));
+    } catch (Exception $e) {
+        if ($request->expectsJson()) {
             return response()->json(['error' => 'Error al listar reservas.'], 500);
         }
+
+        return back()->with('error', 'Error al listar reservas.');
     }
+}
+
+
 
     /**
      * Mostrar detalles de una reserva específica
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         try {
             $reserva = $this->reservaService->obtenerReserva($id);
-            return response()->json(['reserva' => $reserva], 200);
+
+            if ($request->expectsJson()) {
+                return response()->json(['reserva' => $reserva], 200);
+            }
+
+            return view('reservas.detalle', compact('reserva'));
         } catch (Exception $e) {
-            return response()->json(['error' => 'Reserva no encontrada.'], 404);
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Reserva no encontrada.'], 404);
+            }
+
+            abort(404, 'Reserva no encontrada.');
         }
     }
+
 
     /**
      * Actualizar una reserva (cambiar fecha, hora o cantidad de comensales)
@@ -113,24 +139,44 @@ class ReservaController extends Controller
                 $request->hora,
                 $request->comensales
             );
-            return response()->json(['message' => 'Reserva actualizada con éxito.', 'reserva' => $reserva], 200);
+
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Reserva actualizada con éxito.', 'reserva' => $reserva], 200);
+            }
+
+            return redirect()->back()->with('success', 'Reserva actualizada con éxito');
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            if ($request->expectsJson()) {
+                return response()->json(['error' => $e->getMessage()], 400);
+            }
+
+            return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
 
     /**
      * Cancelar una reserva (cambia status a inactivo, libera mesas y mesero)
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $this->reservaService->cancelarReserva($id);
-            return response()->json(['message' => 'Reserva cancelada con éxito.'], 200);
+
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Reserva cancelada con éxito.'], 200);
+            }
+
+            return redirect()->back()->with('success', 'Reserva cancelada con éxito');
         } catch (Exception $e) {
-            return response()->json(['error' => 'No se pudo cancelar la reserva.'], 400);
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'No se pudo cancelar la reserva.'], 400);
+            }
+
+            return back()->withErrors(['error' => 'No se pudo cancelar la reserva.']);
         }
     }
+
 
     public function obtenerHorasOcupadas(Request $request)
     {

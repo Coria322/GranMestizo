@@ -122,22 +122,28 @@ class ReservaService
         return $empleadoId;
     }
 
-        public function listarReservas(array $filtros = [])
-    {
-        $query = Reserva::with(['mesas', 'cliente', 'empleado']);
+public function listarReservas(array $filtros = [])
+{
+    $query = Reserva::with(['mesas', 'cliente', 'empleado']);
 
-        if (!empty($filtros['cliente_id'])) {
-            $query->where('CLIENTE_ID', $filtros['cliente_id']);
-        }
+    if (!empty($filtros['usuario_id'])) {
+        $usuarioId = $filtros['usuario_id'];
 
-        if (!empty($filtros['fecha'])) {
-            $query->where('RESERVA_FECHA', $filtros['fecha']);
-        }
-
-        return $query->orderBy('RESERVA_FECHA', 'desc')
-                     ->orderBy('RESERVA_HORA', 'desc')
-                     ->get();
+        $query->where(function ($q) use ($usuarioId) {
+            $q->where('CLIENTE_ID', $usuarioId)
+              ->orWhere('EMPLEADO_ID', $usuarioId);
+        });
     }
+
+    if (!empty($filtros['fecha'])) {
+        $query->where('RESERVA_FECHA', $filtros['fecha']);
+    }
+
+    return $query->orderBy('RESERVA_FECHA', 'desc')
+                 ->orderBy('RESERVA_HORA', 'desc')
+                 ->get();
+}
+
 
         public function obtenerReserva($id)
     {
