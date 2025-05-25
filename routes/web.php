@@ -77,3 +77,7 @@ Route::get('/reservas/calendario', function () {
 Route::get('/reservas/fechas-bloqueadas', [ReservaController::class, 'obtenerFechasBloqueadas'])->name('reservas.fechas-bloqueadas');
 Route::get('/reservas/horas-disponibles', [ReservaController::class, 'obtenerHorasDisponibles'])->name('reservas.horas-disponibles');
 Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
+
+
+// Route::get('/reservas/ver', [ReservaController::class, 'index'])->name('reservas.index');
+Route::get('/reservas/ver/{id_us?}', [ReservaController::class, 'index'])->name('reservas.index');

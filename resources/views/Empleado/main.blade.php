@@ -23,7 +23,7 @@
             <h3>Reserva ID: {{ $reserva->RESERVA_ID }}</h3>
             <h4>Fecha: {{ $reserva->RESERVA_FECHA }} | Hora: {{ $reserva->RESERVA_HORA }}</h4>
             <h4>Comensales: {{ $reserva->RESERVA_COMENSALES }}</h4>
-            <h4>Cliente: {{ $reserva->cliente->usuarioGlobal->USUARIO_NOMBRE ?? 'Sin cliente' }}</h4>
+            <h4>Cliente: {{ $reserva->cliente->usuario->USUARIO_NOMBRE ?? 'Sin cliente' }}</h4>
             <h4>Mesas asignadas:</h4>
             <ul>
                 @foreach ($reserva->mesas as $mesa)
