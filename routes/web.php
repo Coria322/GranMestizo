@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\adminController;
+use App\Http\Controllers\clienteController;
 use App\Http\Controllers\empleadoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
@@ -32,9 +33,10 @@ Route::post('/Reservas/reservar', [ReservaController::class,'store'])->name('cre
 // Middleware para proteger rutas
 // Rutas protegidas
 
-Route::get('/Cliente', function () {
-    return view('Usuario.main');
-})->name('Usuario.main')->middleware('check:CLIENTE');
+//RUTA DE CLIENTE
+Route::prefix('Cliente')->middleware('check:CLIENTE')->group(function () {
+    Route::get('/Usuario-panel', [clienteController::class,'panel' ])->name('Usuario.panelU');
+});
 
 //Rutas de empleado
 Route::prefix('Empleado')->middleware('check:EMPLEADO')->group(function () {

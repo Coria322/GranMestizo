@@ -1,0 +1,676 @@
+/* Panel Cliente CSS - Versión Refactorizada */
+
+/* Variables CSS */
+:root {
+    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+        "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
+        "Source Han Sans CN", sans-serif;
+    
+    /* Colores principales - Tema Cliente */
+    --primary-bg: #eee5da;
+    --dark-bg: #262424;
+    --accent-bg: #2a4d58;
+    --secondary-bg: #2a4d58;
+    --white-bg: #ffffff;
+    --text-light: #eee5da;
+    --text-white: #ffffff;
+    --text-dark: #333333;
+    --carbon-black: #1a1a1a;
+    --active-bg: #1a1a1a; /* Cambiado a negro carbón */
+    
+    /* Estados */
+    --success-bg: #28a745;
+    --warning-bg: #ffc107;
+    --danger-bg: #dc3545;
+    --info-bg: #17a2b8;
+    
+    /* Sombras */
+    --shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    --shadow-hover: 0 6px 8px 0 rgba(0, 0, 0, 0.3);
+    --shadow-strong: 0 6px 12px 0 rgba(0, 0, 0, 0.4);
+    
+    /* Espaciado */
+    --border-radius: 20px;
+    --gap-small: 10px;
+    --gap-medium: 20px;
+    --gap-large: 30px;
+}
+
+/* Reset y configuración base */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, var(--default-font-family);
+    background: var(--primary-bg);
+}
+
+input,
+select,
+textarea,
+button {
+    outline: 0;
+    border: none;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL
+   ==========================================*/
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--gap-large);
+    position: relative;
+    width: 100%;
+    max-width: 1370px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 20px;
+    background: var(--primary-bg);
+}
+
+/* ==========================================
+   HEADER - BIENVENIDA
+   ==========================================*/
+.rectangle {
+    position: relative;
+    width: 100%;
+    max-width: 1350px;
+    height: 100px;
+    background: var(--accent-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-user {
+    color: var(--text-light);
+    font-family: Roboto, var(--default-font-family);
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: var(--shadow);
+}
+
+/* ==========================================
+   NAVEGACIÓN PRINCIPAL
+   ==========================================*/
+.navegacion-principal {
+    display: flex;
+    justify-content: center;
+    gap: var(--gap-medium);
+    width: 100%;
+    max-width: 1200px;
+    flex-wrap: wrap;
+}
+
+.rectangle-1,
+.rectangle-2,
+.rectangle-3 {
+    position: relative;
+    width: 354px;
+    height: 47px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.rectangle-1 {
+    background: var(--dark-bg);
+}
+
+.rectangle-2,
+.rectangle-3 {
+    background: var(--accent-bg);
+}
+
+/* Estados activos */
+.rectangle-1.activo,
+.rectangle-2.activo,
+.rectangle-3.activo {
+    background: var(--carbon-black) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-strong);
+    border: 2px solid #333;
+}
+
+/* Textos activos más brillantes */
+.rectangle-1.activo .home,
+.rectangle-2.activo .perfil,
+.rectangle-3.activo .reservaciones {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Estados hover */
+.rectangle-1:hover,
+.rectangle-2:hover,
+.rectangle-3:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.rectangle-1:hover {
+    background: #1a1a1a;
+}
+
+.rectangle-2:hover,
+.rectangle-3:hover {
+    background: #1e3a44;
+}
+
+/* Textos de navegación */
+.home,
+.perfil,
+.reservaciones {
+    color: var(--text-light);
+    font-family: Roboto, var(--default-font-family);
+    font-size: 20px;
+    font-weight: 800;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: var(--shadow);
+}
+
+/* ==========================================
+   SECCIÓN INICIO
+   ==========================================*/
+.seccion-inicio {
+    width: 100%;
+    max-width: 1350px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-large);
+    align-items: center;
+}
+
+.rectangle-4 {
+    position: relative;
+    width: 100%;
+    height: 399px;
+    background: var(--accent-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.experiencia-gastronomica {
+    color: var(--text-light);
+    font-family: Roboto, var(--default-font-family);
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    max-width: 1052px;
+}
+
+/* Acciones rápidas */
+.acciones-rapidas {
+    display: flex;
+    gap: var(--gap-medium);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.rectangle-5,
+.rectangle-6 {
+    position: relative;
+    width: 245px;
+    height: 50px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.rectangle-5 {
+    background: var(--accent-bg);
+}
+
+.rectangle-6 {
+    background: var(--dark-bg);
+}
+
+.rectangle-5:hover,
+.rectangle-6:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.rectangle-5:hover {
+    background: #1e3a44;
+}
+
+.rectangle-6:hover {
+    background: #1a1a1a;
+}
+
+.nueva-reservacion,
+.soporte {
+    color: var(--text-light);
+    font-family: Roboto, var(--default-font-family);
+    font-size: 18px;
+    font-weight: 800;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: var(--shadow);
+}
+
+/* ==========================================
+   SECCIÓN PERFIL
+   ==========================================*/
+.seccion-perfil {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+}
+
+.tarjeta-perfil {
+    width: 100%;
+    background: var(--white-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.header-perfil {
+    background: var(--accent-bg);
+    color: var(--text-white);
+    padding: 20px;
+    text-align: center;
+}
+
+.header-perfil h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.contenido-perfil {
+    padding: 30px;
+}
+
+.info-usuario {
+    margin-bottom: 30px;
+}
+
+.campo-perfil {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.campo-perfil:last-child {
+    border-bottom: none;
+}
+
+.campo-perfil label {
+    font-weight: 600;
+    color: var(--text-dark);
+    min-width: 150px;
+}
+
+.campo-perfil span {
+    color: #666;
+    text-align: right;
+}
+
+.acciones-perfil {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-editar-usuario,
+.btn-cambiar-pass {
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    font-weight: 700;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.btn-editar-usuario {
+    background: var(--accent-bg);
+    color: var(--text-white);
+}
+
+.btn-cambiar-pass {
+    background: var(--dark-bg);
+    color: var(--text-white);
+}
+
+.btn-editar-usuario:hover,
+.btn-cambiar-pass:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ==========================================
+   SECCIÓN RESERVACIONES
+   ==========================================*/
+.seccion-reservaciones-cliente {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: center;
+}
+
+.tarjeta-reservaciones {
+    width: 100%;
+    background: var(--white-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.header-reservaciones {
+    background: var(--accent-bg);
+    color: var(--text-white);
+    padding: 20px;
+    text-align: center;
+}
+
+.header-reservaciones h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.lista-reservaciones {
+    padding: 20px;
+}
+
+.item-reservacion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.item-reservacion:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-1px);
+}
+
+.item-reservacion:last-child {
+    margin-bottom: 0;
+}
+
+.info-reservacion {
+    flex: 1;
+}
+
+.fecha-reserva {
+    font-size: 20px;
+    color: var(--accent-bg);
+    margin-bottom: 5px;
+}
+
+.hora-reserva {
+    font-size: 18px;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.detalles-reserva {
+    display: flex;
+    gap: 20px;
+    color: #666;
+    font-size: 14px;
+}
+
+.estado-reserva {
+    flex-shrink: 0;
+}
+
+.badge-estado {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.badge-estado.confirmada {
+    background: var(--success-bg);
+    color: white;
+}
+
+.badge-estado.pendiente {
+    background: var(--warning-bg);
+    color: var(--text-dark);
+}
+
+.badge-estado.cancelada {
+    background: var(--danger-bg);
+    color: white;
+}
+
+.sin-reservaciones {
+    padding: 60px 20px;
+    text-align: center;
+    color: #666;
+}
+
+.sin-reservaciones p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.btn-nueva-reserva {
+    display: inline-block;
+    padding: 15px 30px;
+    background: var(--accent-bg);
+    color: var(--text-white);
+    border-radius: var(--border-radius);
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-nueva-reserva:hover {
+    background: var(--active-bg);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Paginación cliente */
+.paginacion-cliente {
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #eee;
+}
+
+/* ==========================================
+   LOGOUT
+   ==========================================*/
+.logout-container {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.rectangle-7 {
+    position: relative;
+    width: 231px;
+    height: 50px;
+    background: var(--dark-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.rectangle-7:hover {
+    background: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.cerrar-sesion {
+    color: var(--text-light);
+    font-family: Roboto, var(--default-font-family);
+    font-size: 20px;
+    font-weight: 800;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: var(--shadow);
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ==========================================*/
+@media (max-width: 1024px) {
+    .main-container {
+        padding: 15px;
+        gap: 20px;
+    }
+    
+    .welcome-user {
+        font-size: 32px;
+    }
+    
+    .navegacion-principal {
+        gap: 15px;
+    }
+    
+    .rectangle-1,
+    .rectangle-2,
+    .rectangle-3 {
+        width: 300px;
+    }
+    
+    .experiencia-gastronomica {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        padding: 10px;
+        gap: 15px;
+    }
+    
+    .welcome-user {
+        font-size: 28px;
+        padding: 0 20px;
+    }
+    
+    .navegacion-principal {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .rectangle-1,
+    .rectangle-2,
+    .rectangle-3 {
+        width: 100%;
+        max-width: 350px;
+    }
+    
+    .rectangle-4 {
+        height: auto;
+        min-height: 300px;
+        padding: 20px;
+    }
+    
+    .experiencia-gastronomica {
+        font-size: 24px;
+    }
+    
+    .acciones-rapidas {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .rectangle-5,
+    .rectangle-6 {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .item-reservacion {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .detalles-reserva {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .acciones-perfil {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-editar-usuario,
+    .btn-cambiar-pass {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-user {
+        font-size: 22px;
+    }
+    
+    .experiencia-gastronomica {
+        font-size: 20px;
+    }
+    
+    .contenido-perfil {
+        padding: 20px;
+    }
+    
+    .campo-perfil {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .campo-perfil span {
+        text-align: left;
+    }
+}

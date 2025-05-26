@@ -123,10 +123,6 @@
                         <div class="rectangle-perfil"></div>
                         <span class="texto-btn-perfil">EDITAR PERFIL</span>
                     </button>
-                    <button class="btn-cambiar-pass" onclick="cambiarPassword()">
-                        <div class="rectangle-perfil"></div>
-                        <span class="texto-btn-perfil">CAMBIAR CONTRASEÑA</span>
-                    </button>
                 </div>
             </div>
             @endif
