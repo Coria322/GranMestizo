@@ -94,7 +94,7 @@ class UsuarioController extends Controller
 
             //El rfc para el cliente o null.
             //TODO esto cambiará a para definir un rfc generico o null
-            'CLIENTE_RFC' => $request->CLIENTE_RFC ,
+            'CLIENTE_RFC' => $request->CLIENTE_RFC,
         ]);
 
         //TODO Los clientes con null deben mostrar un rfc generico
@@ -154,7 +154,7 @@ class UsuarioController extends Controller
             'USUARIO_CORREO' => 'required|email|unique:usuarios,USUARIO_CORREO,' . $usuario->USUARIO_ID . ',USUARIO_ID',
             'USUARIO_ROL' => 'nullable|string|in:ADMINISTRADOR,EMPLEADO,CLIENTE', // Solo válida si viene de un admin
             'CLIENTE_RFC' => 'nullable|string|size:13',
-            'EMPLEADO_RFC'=> 'nullable|string|size:13',
+            'EMPLEADO_RFC' => 'nullable|string|size:13',
         ]);
 
         // Solo el admin puede cambiar el rol
@@ -179,7 +179,7 @@ class UsuarioController extends Controller
             $usuario->empleado()->update([
                 'EMPLEADO_RFC' => $request->EMPLEADO_RFC ?? null,
             ]);
-        } 
+        }
 
         return redirect()->route('pruebas.show', $usuario->USUARIO_ID)->with('success', 'Usuario actualizado correctamente.');
     }
@@ -197,7 +197,7 @@ class UsuarioController extends Controller
         $request->validate([
             'nuevo_rol' => 'required|in:CLIENTE,EMPLEADO,ADMINISTRADOR',
             'CLIENTE_RFC' => 'nullable|string|size:13',
-            'EMPLEADO_RFC'=> 'nullable|string|size:13',
+            'EMPLEADO_RFC' => 'nullable|string|size:13',
         ]);
 
         // Eliminar relaciones anteriores
@@ -221,14 +221,35 @@ class UsuarioController extends Controller
 
             'EMPLEADO' => $usuario->empleado()->create([
                 'EMPLEADO_RFC' => $request->EMPLEADO_RFC ?? null,
-                'EMPLEADO_TURNO'=> $request->EMPLEADO_TURNO ?? 'M',
-                'EMPLEADO_STATUS'=> $request->EMPLEADO_STATUS ?? 'LIBRE',
+                'EMPLEADO_TURNO' => $request->EMPLEADO_TURNO ?? 'M',
+                'EMPLEADO_STATUS' => $request->EMPLEADO_STATUS ?? 'LIBRE',
             ]),
             'ADMINISTRADOR' => $usuario->administrador()->create([
                 'USUARIO_ID' => $usuario->USUARIO_ID,
-            ]), 
+            ]),
         };
 
         return redirect()->route('pruebas.show', $usuario->USUARIO_ID)->with('success', 'Rol cambiado correctamente');
+    }
+
+    public function destroy($id)
+    {
+        $user = Auth::guard('Usuario')->user();
+
+        if ($user->USUARIO_ROL != 'ADMINISTRADOR') {
+            abort(403, 'Acceso no autorizado');
+        }
+
+        $usuario = Usuario::findOrFail($id);
+
+        if ($usuario->USUARIO_ID === $user->USUARIO_ID) {
+            abort(409, 'No puedes eliminarte a ti mismo');
+        }
+
+        $usuario->delete();
+
+        return redirect()
+        ->route('admin.main', ['seccion' => 'usuarios'])
+        ->with('success', 'Usuario eliminado correctamente.');
     }
 }
