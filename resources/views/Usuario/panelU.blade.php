@@ -51,7 +51,7 @@
                 </div>
             </a>
             
-            <a href="mailto:soporte@granmestizo.com">
+            <a href="mailto:fco_javi_mtz@outlook.com">
                 <div class="rectangle-6">
                     <span class="soporte">SOPORTE</span>
                 </div>
