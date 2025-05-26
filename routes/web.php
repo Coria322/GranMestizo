@@ -43,13 +43,8 @@ Route::get('/Empleado', function () {
 //Rutas de admin
 Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
     Route::get('/', [adminController::class, 'home'])->name('admin.main');
+    
 });
-
-// Route::get('/Admin', function () {
-//     return view('admin.main');
-// })->name('Admin.main')->middleware('check:ADMINISTRADOR');
-
-
 
 //TODO eliminar estas rutas y aplicar correctamente agrupaciones y middleware para restringir el acceso a recursos
 //prueba de rutas

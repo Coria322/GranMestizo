@@ -26,6 +26,10 @@
         <a href="{{ route('admin.main', ['seccion' => 'reservas'])}}">
             <button class="boton-admin" {{ $seccionActiva === 'reservas' ? 'activo' : '' }}>Reservas</button>
         </a>
+
+        <a href="{{ route('admin.main', ['seccion' => 'perfil'])}}">
+            <button class="boton-admin" {{ $seccionActiva === 'perfil' ? 'activo' : '' }}>Perfil</button>
+        </a>
     </div>
 
     {{-- Sección Usuarios --}}
@@ -33,7 +37,13 @@
     <div id="section-usuarios" class="section">
         <table class="tabla-admin">
             <thead>
-                <tr><th>ID</th><th>Nombre</th><th>Apellido</th><th>Correo</th><th>Rol</th></tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
+                    <th>Rol</th>
+                </tr>
             </thead>
             <tbody>
                 @forelse ($usuarios as $usuario)
@@ -68,7 +78,11 @@
     <div id="section-mesas" class="section">
         <table class="tabla-admin">
             <thead>
-                <tr><th>ID</th><th>Capacidad</th><th>Estado</th></tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Capacidad</th>
+                    <th>Estado</th>
+                </tr>
             </thead>
             <tbody>
                 @forelse ($mesas as $mesa)
@@ -87,6 +101,11 @@
         <div class="paginacion">
             {{ $mesas->appends(['seccion' => 'mesas'])->links() }}
         </div>
+        <div class="acciones-adm">
+            <a href=""><button class="boton-admin bon">Crear mesa</button></a>
+            <a href=""><button class="boton-admin bon">Eliminar mesa</button></a>
+            <a href=""><button class="boton-admin bon">Modificar mesa</button></a>
+        </div>
     </div>
     @endif
 
@@ -95,7 +114,12 @@
     <div id="section-empleados" class="section">
         <table class="tabla-admin">
             <thead>
-                <tr><th>ID</th><th>Nombre</th><th>Apellido</th><th>Correo</th></tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
+                </tr>
             </thead>
             <tbody>
                 @forelse ($empleados as $empleado)
@@ -114,6 +138,11 @@
         </table>
         <div class="paginacion">
             {{ $empleados->appends(['seccion' => 'empleados'])->links() }}
+        </div>
+        <div class="acciones-adm">
+            <a href=""><button class="boton-admin bon">Ver Empleado</button></a>
+            <a href=""><button class="boton-admin bon">Eliminar Empleado</button></a>
+            <a href=""><button class="boton-admin bon">Modificar Empleado</button></a>
         </div>
     </div>
     @endif
@@ -134,7 +163,7 @@
             </thead>
             <tbody>
                 @forelse ($reservas as $reserva)
-                <tr>    
+                <tr>
                     <td>{{$reserva->RESERVA_ID}}</td>
                     <td>{{$reserva->CLIENTE_ID}}</td>
                     <td>{{$reserva->EMPLEADO_ID}}</td>
@@ -153,14 +182,43 @@
         <div class="paginacion">
             {{ $reservas->links() }}
         </div>
+        <div class="acciones-adm">
+            <a href=""><button class="boton-admin bon">Ver Reserva</button></a>
+            <a href=""><button class="boton-admin bon">Eliminar Reserva</button></a>
+            <a href=""><button class="boton-admin bon">Modificar Reserva</button></a>
+        </div>
     </div>
     @endif
 
+    @if ($seccionActiva === 'perfil')
+    <div class="section-perfil">
+        <table class="tabla-perfil">
+            @foreach ($usuarioGlobal->getAttributes() as $key => $value )
+            @if (!in_array($key, ['USUARIO_PWD']))
+            @php
+            $partes = explode('_', $key);
+            $label = isset($partes[1])
+            ? ucfirst(strtolower($partes[1]))
+            : ucfirst(strtolower($partes[0]));
+            @endphp
+            <tr>
+                <th>{{ $label }}</th>
+                <td>{{ $value }}</td>
+            </tr>
+            @endif
+            @endforeach
+        </table>
+    </div>
+    @endif
     <!-- boton constante de logout -->
-     <div class="const">
-        <button class="boton-admin bon">
-            Cerrar sesión
-        </button>
-     </div>
+    <div class="cont-const">
+
+        <form action="{{ route('logout') }}" method="post" style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+            @csrf
+            <button class="boton-admin" id="logout">
+                Cerrar sesión
+            </button>
+        </form>
+    </div>
 </div>
 @endsection
