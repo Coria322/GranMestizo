@@ -15,7 +15,7 @@ class UsuarioController extends Controller
     //*Middleware adicional para validar que se encuentra autenticado
     public function __construct()
     {
-        $this->middleware('auth:Usuario');
+        $this->middleware('auth:Usuario')->except(['store']);
     }
 
     //* Métodos de validación para saber su tipo
@@ -58,7 +58,7 @@ class UsuarioController extends Controller
     public function create()
     {
         //TODO hacer vista
-        return view('pruebas.create');
+        return view('registroP');
     }
 
     // CREAR USUARIO (solo admins)
@@ -79,7 +79,7 @@ class UsuarioController extends Controller
                     ->numbers()
                     ->symbols()
             ],
-            'CLIENTE_RFC' => 'nullable|string|size:13',
+            'CLIENTE_RFC' => 'nullable|string|size:13|regex:/^[A-Z]{4}[0-9]{6}[A-Z0-9]{3}$/',
         ]);
 
         //*Crear al usuario
@@ -88,9 +88,9 @@ class UsuarioController extends Controller
             'USUARIO_NOMBRE' => $request->USUARIO_NOMBRE,
             'USUARIO_APELLIDO' => $request->USUARIO_APELLIDO,
             'USUARIO_CORREO' => $request->USUARIO_CORREO,
-            'USUARIO_PWD' => $request->USUARIO_PWD, // Se hashea automáticamente en el modelo
-            //El rol por defecto es CLIENTE
-            'USUARIO_ROL' => $request->USUARIO_ROL ?? 'CLIENTE',
+            'USUARIO_FECHANAC' => $request->USUARIO_FECHANAC,
+            'USUARIO_PWD' => $request->USUARIO_PWD,
+            'USUARIO_ROL' => 'CLIENTE',
 
             //El rfc para el cliente o null.
             //TODO esto cambiará a para definir un rfc generico o null

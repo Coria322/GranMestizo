@@ -14,6 +14,14 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+//RUTA DE REGISTRO DE NUEVO USUARIO
+Route::get('/registro', function () {
+    return view('Registro.registroP');
+})->name('registro.create');
+
+Route::post('/registro', [UsuarioController::class, 'store'])->name('registro.store');
+
+
 //Rutas de error
 Route::get('/forbidden', function () {
     return view('errors.403');
@@ -48,9 +56,7 @@ Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
     Route::get('/', [adminController::class, 'home'])->name('admin.main');
 });
 
-// Route::get('/Admin', function () {
-//     return view('admin.main');
-// })->name('Admin.main')->middleware('check:ADMINISTRADOR');
+
 
 
 
