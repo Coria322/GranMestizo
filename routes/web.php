@@ -26,7 +26,7 @@ Route::get('/', function () {
 //TODO proteger o definir si se puede reservar sin cuenta
 //rutas de reserva
 Route::get('/Reservas/reservar', [ReservaController::class, 'create']);
-Route::post('/Reservas/reservar', [ReservaController::class,'store'])->name('crear-reserva');
+Route::post('/Reservas/reservar', [ReservaController::class, 'store'])->name('crear-reserva');
 
 // Middleware para proteger rutas
 // Rutas protegidas
@@ -43,7 +43,7 @@ Route::get('/Empleado', function () {
 //Rutas de admin
 Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
     Route::get('/', [adminController::class, 'home'])->name('admin.main');
-    
+    Route::delete('/usuarios/eliminar/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
 });
 
 //TODO eliminar estas rutas y aplicar correctamente agrupaciones y middleware para restringir el acceso a recursos
@@ -71,7 +71,7 @@ Route::get('/reservas/disponibilidad', [ReservaController::class, 'disponibilida
 
 
 Route::get('/reservas/calendario', function () {
-    return view('pruebas.calendario'); 
+    return view('pruebas.calendario');
 });
 
 Route::get('/reservas/fechas-bloqueadas', [ReservaController::class, 'obtenerFechasBloqueadas'])->name('reservas.fechas-bloqueadas');
