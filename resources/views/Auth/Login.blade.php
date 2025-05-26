@@ -18,6 +18,7 @@
 
         <button type="submit" class="iniciar-btn">Iniciar Sesión</button>
         <a href="#" class="olvidaste">¿Olvidaste la contraseña?</a>
+        </a>
     </div>
 </form>
 @endsection

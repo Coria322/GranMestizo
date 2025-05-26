@@ -150,7 +150,7 @@
     </div>
     @endif
 
-    <!-- BOTÓN CERRAR SESIÓN CONSTANTE -->
+    <!-- BOTÓN CERRAR SESIÓN CONSTANTE PARA QUE SE VEA DENTRO DE TODAS LAS SESIONES ACTIVAS -->
     <div class="logout-container">
         <form action="{{ route('logout') }}" method="POST">
             @csrf

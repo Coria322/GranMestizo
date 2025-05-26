@@ -21,7 +21,7 @@ class UsuarioController extends Controller
     //* Métodos de validación para saber su tipo
     public function esUsuario()
     {
-        return view('Cliente.main');
+        return view('Usuario.panelU');
     }
     public function esAdmin()
     {
@@ -29,7 +29,7 @@ class UsuarioController extends Controller
     }
     public function esEmpleado()
     {
-        return view('Empleado.main');
+        return view('Empleado.panelP');
     }
 
     //* Métodos CRUD
