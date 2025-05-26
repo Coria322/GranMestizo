@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\adminController;
+use App\Http\Controllers\empleadoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UsuarioController;
@@ -36,9 +37,9 @@ Route::get('/Cliente', function () {
 })->name('Usuario.main')->middleware('check:CLIENTE');
 
 //Rutas de empleado
-Route::get('/Empleado', function () {
-    return view('empleado.main');
-})->name('Empleado.main')->middleware('check:EMPLEADO');
+Route::prefix('Empleado')->middleware('check:EMPLEADO')->group(function () {
+    Route::get('/Empleado-reservaciones', [empleadoController::class, 'panelP'])->name('Empleado.panelP');
+});
 
 //Rutas de admin
 Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {

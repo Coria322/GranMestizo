@@ -57,7 +57,7 @@ class loginController extends Controller
             case 'ADMINISTRADOR':
                 return redirect()->route('admin.main')->with('success','Bienvenido ADMINISTRADOR');
             case 'EMPLEADO':
-                return redirect()->route('Empleado.main')->with('success', 'Bienvenido EMPLEADO');
+                return redirect()->route('Empleado.panelP')->with('success', 'Bienvenido EMPLEADO');
             case 'CLIENTE':
                 return redirect()->route('Usuario.main')->with('success', 'Bienvenido CLIENTE');
             default:
