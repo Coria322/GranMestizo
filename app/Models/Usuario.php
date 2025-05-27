@@ -95,4 +95,8 @@ class Usuario extends Authenticatable
     {
         return $query->where('USUARIO_ROL', $rol);
     }
+
+    public function scopeUsuario(Builder $query, $usuario){
+        return $query->where('USUARIO_ID', $usuario->USUARIO_ID);
+    }
 }

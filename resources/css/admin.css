@@ -169,16 +169,57 @@ tr:last-child td {
     background-color: #f9f9f9;
 }
 
-.acciones-adm{
+.acciones-adm {
     margin-top: 2%;
     display: flex;
     justify-content: flex-end;
     gap: 15px;
 }
 
-.const{
-    gap: 0;
-    margin-top: 2%;
-    justify-content: end;
-    align-items: flex-end;
+.cont-const {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+
+
+.tabla-perfil {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+.tabla-perfil th,
+.tabla-perfil td {
+    padding: 10px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tabla-perfil th {
+    width: 30%;
+    font-weight: bold;
+    text-align: center;
+    color: var(--deep-charcoal);
+    color: var(--color-white);
+}
+
+.tabla-perfil td {
+    width: 70%;
+}
+
+.fila-usuario.seleccionado {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.fila-usuario.selected td{
+    background-color: var(--almond);
 }
