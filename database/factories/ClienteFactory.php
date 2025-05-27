@@ -24,7 +24,7 @@ class ClienteFactory extends Factory
             'USUARIO_ID' => Usuario::factory()->state([
                 'USUARIO_ROL' => 'CLIENTE'
             ]),
-            'CLIENTE_RFC' => $this->faker->bothify('???###???###'),
+            'CLIENTE_RFC' => $this->faker->bothify('???###???####'),
         ];
     }
 }

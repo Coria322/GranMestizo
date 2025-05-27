@@ -134,7 +134,7 @@ class UsuarioController extends Controller
         $usuario = Usuario::findOrFail($id);
 
         //TODO hacer vista
-        return view('pruebas.edit', compact('usuario'));
+        return view('usuario.edit', compact('usuario'));
     }
 
 
@@ -183,7 +183,7 @@ class UsuarioController extends Controller
             ]);
         }
 
-        return redirect()->route('pruebas.show', $usuario->USUARIO_ID)->with('success', 'Usuario actualizado correctamente.');
+        return redirect()->back()->with('success', 'Usuario actualizado correctamente.');
     }
 
     // Cambiar el rol de un usuario (solo admin)
@@ -230,7 +230,8 @@ class UsuarioController extends Controller
             ]),
         };
 
-        return redirect()->route('pruebas.show', $usuario->USUARIO_ID)->with('success', 'Rol cambiado correctamente');
+        //login lo mandará a su panel
+        return redirect()->route('login')->with('success', 'Rol cambiado correctamente');
     }
 
     public function destroy($id)
