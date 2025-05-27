@@ -273,7 +273,7 @@ a {
 .logo-mex {
     width: 514px;
     height: 514px;
-    background: url('resources/imgs/LogoMexcopy.png') no-repeat center;
+    background: url('../../imgs/Logo Mex.png') no-repeat center;
     background-size: cover;
     border-radius: 20px;
     box-shadow: var(--shadow);
