@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\adminController;
+use App\Http\Controllers\clienteController;
+use App\Http\Controllers\empleadoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UsuarioController;
@@ -11,6 +13,14 @@ use App\Http\Controllers\ReservaController;
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+//RUTA DE REGISTRO DE NUEVO USUARIO
+Route::get('/registro', function () {
+    return view('Registro.registroP');
+})->name('registro.create');
+
+Route::post('/registro', [UsuarioController::class, 'store'])->name('registro.store');
+
 
 //Rutas de error
 Route::get('/forbidden', function () {
@@ -31,21 +41,22 @@ Route::post('/Reservas/reservar', [ReservaController::class, 'store'])->name('cr
 // Middleware para proteger rutas
 // Rutas protegidas
 
-Route::get('/Cliente', function () {
-    return view('Usuario.main');
-})->name('Usuario.main')->middleware('check:CLIENTE');
+//RUTA DE CLIENTE
+Route::prefix('Cliente')->middleware('check:CLIENTE')->group(function () {
+    Route::get('/Usuario-panel', [clienteController::class,'panel' ])->name('Usuario.panelU');
+});
 
 //Rutas de empleado
-Route::get('/Empleado', function () {
-    return view('empleado.main');
-})->name('Empleado.main')->middleware('check:EMPLEADO');
+Route::prefix('Empleado')->middleware('check:EMPLEADO')->group(function () {
+    Route::get('/Empleado-reservaciones', [empleadoController::class, 'panelP'])->name('Empleado.panelP');
+});
 
+//Rutas de admin
 //Rutas de admin
 Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
     Route::get('/', [adminController::class, 'home'])->name('admin.main');
     Route::get('/usuarios/{id}', [UsuarioController::class,'show'])->name('usuarios.detalle');
     Route::delete('/usuarios/eliminar/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
-
 });
 
 //TODO eliminar estas rutas y aplicar correctamente agrupaciones y middleware para restringir el acceso a recursos
