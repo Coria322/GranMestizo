@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\mesaController;
+
 //Rutas publicas
 
 // Rutas para el login
@@ -52,15 +54,22 @@ Route::prefix('Empleado')->middleware('check:EMPLEADO')->group(function () {
 });
 
 //Rutas de admin
-//Rutas de admin
-Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
+Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {    
     Route::get('/', [adminController::class, 'home'])->name('admin.main');
+   // Rutas de gestión de usuarios
     Route::get('/usuarios/{id}', [UsuarioController::class,'show'])->name('usuarios.detalle');
     Route::get('/usuarios/{id}/edit', [UsuarioController::class,'edit'])->name('usuario.edit');
-    Route::post('/usuarios/cambiar-rol/{id]', [UsuarioController::class,'cambiarRol'])->name('admin.cambiarRol');
+    Route::post('/usuarios/cambiar-rol/{id}', [UsuarioController::class,'cambiarRol'])->name('admin.cambiarRol');
     Route::patch('/usuarios/{id}/patch', [UsuarioController::class,'update'])->name('usuario.update');
     Route::put('/usuarios/{id}/rol', [UsuarioController::class, 'cambiarRol'])->name('admin.cambiarRol');    
     Route::delete('/usuarios/eliminar/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
+    //Rutas de gestión de mesas
+    Route::get('/mesas/crear', [MesaController::class,'create'])->name('mesas.create');
+    Route::get('/mesas/{id}', [MesaController::class,'show'])->name('mesas.show');
+    Route::post('/mesas/store', [MesaController::class,'store'])->name('mesas.store');
+    Route::get('/mesas/{id}/edit', [MesaController::class, 'edit'])->name('mesas.edit');
+    Route::put('/mesas/{id}/edit', [MesaController::class, 'update'])->name('mesas.update');
+    Route::delete('/mesas/eliminar/{id}', [MesaController::class, 'destroy'])->name('mesas.destroy');
 });
 
 //TODO eliminar estas rutas y aplicar correctamente agrupaciones y middleware para restringir el acceso a recursos

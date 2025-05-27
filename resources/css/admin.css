@@ -215,12 +215,12 @@ tr:last-child td {
     width: 70%;
 }
 
-.fila-usuario.seleccionado {
+.seleccionado {
     font-weight: bold;
     cursor: pointer;
 }
 
-.fila-usuario.selected td{
+.selected td{
     background-color: var(--almond);
 }
 

@@ -22,6 +22,7 @@
         alert("{{ session('error') }}")
     </script>
     @endif
+
     <div class="bienvenida-admin">
         <p class="bienvenida-texto">Bienvenido administrador</p>
     </div>
@@ -46,16 +47,6 @@
             <button class="boton-admin {{ $seccionActiva === 'perfil' ? 'activo' : '' }}">Perfil</button>
         </a>
     </div>
-
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
     
     {{-- Sección Usuarios --}}
     @if ($seccionActiva === 'usuarios')
@@ -95,14 +86,6 @@
             {{ $usuarios->appends(['seccion' => 'usuarios'])->links() }}
         </div>
 
-        {{-- Panel de información del usuario seleccionado --}}
-        <div id="usuario-seleccionado" class="usuario-info" style="display: none;">
-            <h4>Usuario Seleccionado</h4>
-            <p><strong>ID:</strong> <span id="info-id"></span></p>
-            <p><strong>Nombre:</strong> <span id="info-nombre"></span> <span id="info-apellido"></span></p>
-            <p><strong>Correo:</strong> <span id="info-correo"></span></p>
-            <p><strong>Rol:</strong> <span id="info-rol"></span></p>
-        </div>
 
         <div class="acciones-adm">
             <button type="button" class="boton-admin bon" id="btn-ver-usuario" disabled>
@@ -136,14 +119,20 @@
                     <th>ID</th>
                     <th>Capacidad</th>
                     <th>Estado</th>
+                    <th>Seccion</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($mesas as $mesa)
-                <tr>
+                <tr class="fila-mesa selectable-row"
+                data-id="{{ $mesa->MESA_ID }}"
+                data-capacidad="{{ $mesa->MESA_CAPACIDAD }}"
+                data-status="{{ $mesa->MESA_STATUS }}"
+                data-seccion="{{ $mesa->MESA_SECCION }}">
                     <td>{{ $mesa->MESA_ID }}</td>
                     <td>{{ $mesa->MESA_CAPACIDAD }}</td>
                     <td>{{ $mesa->MESA_STATUS }}</td>
+                    <td>{{ $mesa->MESA_SECCION }}</td>
                 </tr>
                 @empty
                 <tr>
@@ -152,14 +141,22 @@
                 @endforelse
             </tbody>
         </table>
+        
         <div class="paginacion">
             {{ $mesas->appends(['seccion' => 'mesas'])->links() }}
         </div>
         <div class="acciones-adm">
-            <a href=""><button class="boton-admin bon">Crear mesa</button></a>
-            <a href=""><button class="boton-admin bon">Eliminar mesa</button></a>
-            <a href=""><button class="boton-admin bon">Modificar mesa</button></a>
+            <button class="boton-admin bon" id="btn-crearMesa">Crear mesa</button>
+            <button class="boton-admin bon" id="btn-verMesa" disabled>Ver mesa</button>
+            <button class="boton-admin bon" id="btn-eliminarMesa" disabled>Eliminar mesa</button>
+            <button class="boton-admin bon" id="btn-modificarMesa" disabled>Modificar mesa</button>
+            <button class="boton-admin bon" id="btn-limpiarM">Limpiar Selección</button>
         </div>
+                {{-- Formulario oculto para eliminar --}}
+        <form id="form-eliminar-mesa" method="POST" style="display: none;">
+            @csrf
+            @method('DELETE')
+        </form>
     </div>
     @endif
 
