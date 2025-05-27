@@ -46,7 +46,6 @@ class UsuarioController extends Controller
 
         //* Recuperar todos los usuarios con sus relaciones por rol
         $usuarios = Usuario::all();
-        //TODO agregar paginación con paginate y estilos personalizados
 
         return request()->wantsJson()
             ? response()->json($usuarios)
@@ -54,7 +53,6 @@ class UsuarioController extends Controller
     }
 
     // FORMULARIO DE CREACIÓN (solo admins)
-    //TODO terminar los action de crud
     public function create()
     {
         //TODO hacer vista
@@ -108,17 +106,22 @@ class UsuarioController extends Controller
 
     public function show($id)
     {
-        $usuario = Usuario::findOrFail($id);
+        $usuario = Usuario::with([
+            'cliente.reservas',
+            'empleado.reservas',
+            'administrador'
+        ])->findOrFail($id);
+
         $authUser = Auth::guard('Usuario')->user();
 
+        $usuario->perfil();
         // Verificar si el usuario autenticado es un administrador
         // O si el usuario autenticado es el mismo que el usuario que se está mostrando
         if ($authUser->USUARIO_ROL != 'ADMINISTRADOR' && $authUser->USUARIO_ID != $usuario->USUARIO_ID) {
             abort(403, 'Acceso no autorizado');
         }
 
-        //TODO hacer vista
-        return view('pruebas.show', compact('usuario'));
+        return view('detalleUsuario', compact('usuario'));
     }
 
     // EDITAR USUARIO (solo admins) o el mismo usuario
@@ -146,7 +149,6 @@ class UsuarioController extends Controller
             abort(403, 'No puedes editar este usuario.');
         }
 
-        //TODO estas validaciones pueden ser más limpias, es importante revisarlas
         // Validaciones
         $request->validate([
             'USUARIO_NOMBRE' => 'required|string|max:50',
@@ -212,7 +214,6 @@ class UsuarioController extends Controller
         $usuario->save();
 
 
-        //TODO agregar los campos del nuevo rol
         // Crear la nueva relación
         match ($request->nuevo_rol) {
             'CLIENTE' => $usuario->cliente()->create([
@@ -249,7 +250,7 @@ class UsuarioController extends Controller
         $usuario->delete();
 
         return redirect()
-        ->route('admin.main', ['seccion' => 'usuarios'])
-        ->with('success', 'Usuario eliminado correctamente.');
+            ->route('admin.main', ['seccion' => 'usuarios'])
+            ->with('success', 'Usuario eliminado correctamente.');
     }
 }

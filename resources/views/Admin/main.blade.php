@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('head')
 <meta name="csrf-token" content="{{ csrf_token() }}">
+@vite(['resources/js/accounts/admin.js'])
 @endsection
 @section('htclass','bod')
 @section('bodyclass', 'bod')
@@ -9,7 +10,18 @@
 @include('partials.nav')
 @endsection
 <div class="contenedor">
-
+    {{-- Mostrar mensajes de éxito o error --}}
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="bienvenida-admin">
         <p class="bienvenida-texto">Bienvenido administrador</p>
     </div>
@@ -27,23 +39,24 @@
         </a>
 
         <a href="{{ route('admin.main', ['seccion' => 'reservas'])}}">
-            <button class="boton-admin" {{ $seccionActiva === 'reservas' ? 'activo' : '' }}>Reservas</button>
+            <button class="boton-admin {{ $seccionActiva === 'reservas' ? 'activo' : '' }}">Reservas</button>
         </a>
 
         <a href="{{ route('admin.main', ['seccion' => 'perfil'])}}">
-            <button class="boton-admin" {{ $seccionActiva === 'perfil' ? 'activo' : '' }}>Perfil</button>
+            <button class="boton-admin {{ $seccionActiva === 'perfil' ? 'activo' : '' }}">Perfil</button>
         </a>
     </div>
 
     @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>    
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
     @endif
+    
     {{-- Sección Usuarios --}}
     @if ($seccionActiva === 'usuarios')
     <div id="section-usuarios" class="section">
@@ -59,7 +72,12 @@
             </thead>
             <tbody>
                 @forelse ($usuarios as $usuario)
-                <tr class="fila-usuario" data-id="{{ $usuario->USUARIO_ID }}">
+                <tr class="fila-usuario selectable-row" 
+                    data-id="{{ $usuario->USUARIO_ID }}"
+                    data-nombre="{{ $usuario->USUARIO_NOMBRE }}"
+                    data-apellido="{{ $usuario->USUARIO_APELLIDO }}"
+                    data-correo="{{ $usuario->USUARIO_CORREO }}"
+                    data-rol="{{ $usuario->USUARIO_ROL }}">
                     <td>{{ $usuario->USUARIO_ID }}</td>
                     <td>{{ $usuario->USUARIO_NOMBRE }}</td>
                     <td>{{ $usuario->USUARIO_APELLIDO }}</td>
@@ -68,7 +86,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="2">No hay Usuarios registrados</td>
+                    <td colspan="5">No hay Usuarios registrados</td>
                 </tr>
                 @endforelse
             </tbody>
@@ -77,11 +95,35 @@
             {{ $usuarios->appends(['seccion' => 'usuarios'])->links() }}
         </div>
 
-        <div class="acciones-adm">
-            <a href=""><button class="boton-admin bon">Ver usuario</button></a>
-            <a href=""><button class="boton-admin bon" onclick="eliminarUsuario()">Eliminar Usuario</button></a>
-            <a href=""><button class="boton-admin bon">Modificar usuario</button></a>
+        {{-- Panel de información del usuario seleccionado --}}
+        <div id="usuario-seleccionado" class="usuario-info" style="display: none;">
+            <h4>Usuario Seleccionado</h4>
+            <p><strong>ID:</strong> <span id="info-id"></span></p>
+            <p><strong>Nombre:</strong> <span id="info-nombre"></span> <span id="info-apellido"></span></p>
+            <p><strong>Correo:</strong> <span id="info-correo"></span></p>
+            <p><strong>Rol:</strong> <span id="info-rol"></span></p>
         </div>
+
+        <div class="acciones-adm">
+            <button type="button" class="boton-admin bon" id="btn-ver-usuario" disabled>
+                Ver usuario
+            </button>
+            <button type="button" class="boton-admin bon" id="btn-eliminar-usuario" disabled>
+                Eliminar Usuario
+            </button>
+            <button type="button" class="boton-admin bon" id="btn-modificar-usuario" disabled>
+                Modificar usuario
+            </button>
+            <button type="button" class="boton-admin bon" id="btn-limpiar">
+                Limpiar Selección
+            </button>
+        </div>
+
+        {{-- Formulario oculto para eliminar --}}
+        <form id="form-eliminar-usuario" method="POST" style="display: none;">
+            @csrf
+            @method('DELETE')
+        </form>
     </div>
     @endif
 
@@ -105,7 +147,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="2">No hay reservas registradas</td>
+                    <td colspan="3">No hay mesas registradas</td>
                 </tr>
                 @endforelse
             </tbody>
@@ -130,7 +172,7 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
-                    <th>Correo</th>
+                    <th>RFC</th>
                 </tr>
             </thead>
             <tbody>
@@ -143,7 +185,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="2">No hay empleados registrados</td>
+                    <td colspan="4">No hay empleados registrados</td>
                 </tr>
                 @endforelse
             </tbody>
@@ -186,7 +228,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="2">No hay reservas registradas</td>
+                    <td colspan="7">No hay reservas registradas</td>
                 </tr>
                 @endforelse
             </tbody>
@@ -222,9 +264,9 @@
         </table>
     </div>
     @endif
+    
     <!-- boton constante de logout -->
     <div class="cont-const">
-
         <form action="{{ route('logout') }}" method="post" style="display: flex; justify-content: flex-end; margin-top: 1rem;">
             @csrf
             <button class="boton-admin" id="logout">
@@ -234,45 +276,38 @@
     </div>
 </div>
 
-<script>
-    let usuarioSeleccionado = null;
+<style>
+/* Estilos para la selección de filas */
+.selectable-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
 
-    // Selección visual y almacenamiento del ID
-    document.querySelectorAll('.fila-usuario').forEach(fila => {
-        fila.addEventListener('click', () => {
-            document.querySelectorAll('.fila-usuario').forEach(f => f.classList.remove('seleccionado'));
-            fila.classList.add('seleccionado');
-            usuarioSeleccionado = fila.dataset.id;
-            console.log(usuarioSeleccionado)
-        });
-    });
+.selectable-row:hover {
+    background-color: #f8f9fa;
+}
 
-    // URL base para eliminar usuarios
-    const baseUrlEliminar = "{{ url('admin/usuarios/eliminar') }}";
+.selectable-row.selected {
+    background-color: #e3f2fd;
+    border-left: 4px solid #2196f3;
+}
 
-    function eliminarUsuario() {
-        if (!usuarioSeleccionado) {
-            alert('Selecciona un usuario primero.');
-            return;
-        }
+.usuario-info {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+    border: 1px solid #dee2e6;
+}
 
-        if (!confirm('¿Deseas eliminar al usuario con ID ' + usuarioSeleccionado + '?')) return;
+.usuario-info h4 {
+    margin-bottom: 10px;
+    color: #495057;
+}
 
-        const form = document.createElement('form');
-        form.method = 'POST';
-        // Aquí concatenamos el ID para la ruta
-        form.action = baseUrlEliminar + '/' + usuarioSeleccionado;
-
-        const csrf = document.querySelector('meta[name="csrf-token"]').content;
-
-        form.innerHTML = `
-            <input type="hidden" name="_token" value="${csrf}">
-            <input type="hidden" name="_method" value="DELETE">
-        `;
-
-        document.body.appendChild(form);
-        form.submit();
-    }
-</script>
-
+.acciones-adm button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+</style>
 @endsection

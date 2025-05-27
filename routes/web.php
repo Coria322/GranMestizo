@@ -43,7 +43,9 @@ Route::get('/Empleado', function () {
 //Rutas de admin
 Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
     Route::get('/', [adminController::class, 'home'])->name('admin.main');
+    Route::get('/usuarios/{id}', [UsuarioController::class,'show'])->name('usuarios.detalle');
     Route::delete('/usuarios/eliminar/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
+
 });
 
 //TODO eliminar estas rutas y aplicar correctamente agrupaciones y middleware para restringir el acceso a recursos
