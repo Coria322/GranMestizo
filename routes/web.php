@@ -56,41 +56,45 @@ Route::prefix('Empleado')->middleware('check:EMPLEADO')->group(function () {
 Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
     Route::get('/', [adminController::class, 'home'])->name('admin.main');
     Route::get('/usuarios/{id}', [UsuarioController::class,'show'])->name('usuarios.detalle');
+    Route::get('/usuarios/{id}/edit', [UsuarioController::class,'edit'])->name('usuario.edit');
+    Route::post('/usuarios/cambiar-rol/{id]', [UsuarioController::class,'cambiarRol'])->name('admin.cambiarRol');
+    Route::patch('/usuarios/{id}/patch', [UsuarioController::class,'update'])->name('usuario.update');
+    Route::put('/usuarios/{id}/rol', [UsuarioController::class, 'cambiarRol'])->name('admin.cambiarRol');    
     Route::delete('/usuarios/eliminar/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
 });
 
 //TODO eliminar estas rutas y aplicar correctamente agrupaciones y middleware para restringir el acceso a recursos
-//prueba de rutas
-Route::get('pruebas/crear-usuario', [UsuarioController::class, 'create'])->name('pruebas.create');
-Route::post('pruebas/crear-usuario', [UsuarioController::class, 'store'])->name('pruebas.store');
+// //prueba de rutas
+// Route::get('pruebas/crear-usuario', [UsuarioController::class, 'create'])->name('pruebas.create');
+// Route::post('pruebas/crear-usuario', [UsuarioController::class, 'store'])->name('pruebas.store');
 
-Route::get('pruebas/editar/{id}', [UsuarioController::class, 'edit'])->name('pruebas.edit');
-Route::put('pruebas/editar/{id}', [UsuarioController::class, 'update'])->name('pruebas.update');
+// Route::get('pruebas/editar/{id}', [UsuarioController::class, 'edit'])->name('pruebas.edit');
+// Route::put('pruebas/editar/{id}', [UsuarioController::class, 'update'])->name('pruebas.update');
 
-Route::get('pruebas/usuario/{id}', [UsuarioController::class, 'show'])->name('pruebas.show');
+// Route::get('pruebas/usuario/{id}', [UsuarioController::class, 'show'])->name('pruebas.show');
 
-Route::post('pruebas/cambiar-rol/{id}', [UsuarioController::class, 'cambiarRol'])->name('pruebas.cambiarRol');
+// Route::post('pruebas/cambiar-rol/{id}', [UsuarioController::class, 'cambiarRol'])->name('pruebas.cambiarRol');
 
-Route::get('pruebas/usuarios', [UsuarioController::class, 'index'])->name('pruebas.index');
+// Route::get('pruebas/usuarios', [UsuarioController::class, 'index'])->name('pruebas.index');
 
-// Mostrar formulario para crear reserva
-Route::get('/reservas/crear', [ReservaController::class, 'create'])->name('reservas.create');
+// // Mostrar formulario para crear reserva
+// Route::get('/reservas/crear', [ReservaController::class, 'create'])->name('reservas.create');
 
-// Guardar reserva (POST)
-Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
+// // Guardar reserva (POST)
+// Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
 
-// Endpoint para obtener horas reservadas en una fecha específica (para el calendario)
-Route::get('/reservas/disponibilidad', [ReservaController::class, 'disponibilidad'])->name('reservas.disponibilidad');
-
-
-Route::get('/reservas/calendario', function () {
-    return view('pruebas.calendario');
-});
-
-Route::get('/reservas/fechas-bloqueadas', [ReservaController::class, 'obtenerFechasBloqueadas'])->name('reservas.fechas-bloqueadas');
-Route::get('/reservas/horas-disponibles', [ReservaController::class, 'obtenerHorasDisponibles'])->name('reservas.horas-disponibles');
-Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
+// // Endpoint para obtener horas reservadas en una fecha específica (para el calendario)
+// Route::get('/reservas/disponibilidad', [ReservaController::class, 'disponibilidad'])->name('reservas.disponibilidad');
 
 
-// Route::get('/reservas/ver', [ReservaController::class, 'index'])->name('reservas.index');
-Route::get('/reservas/ver/{id_us?}', [ReservaController::class, 'index'])->name('reservas.index');
+// Route::get('/reservas/calendario', function () {
+//     return view('pruebas.calendario');
+// });
+
+// Route::get('/reservas/fechas-bloqueadas', [ReservaController::class, 'obtenerFechasBloqueadas'])->name('reservas.fechas-bloqueadas');
+// Route::get('/reservas/horas-disponibles', [ReservaController::class, 'obtenerHorasDisponibles'])->name('reservas.horas-disponibles');
+// Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
+
+
+// // Route::get('/reservas/ver', [ReservaController::class, 'index'])->name('reservas.index');
+// Route::get('/reservas/ver/{id_us?}', [ReservaController::class, 'index'])->name('reservas.index');

@@ -12,15 +12,15 @@
 <div class="contenedor">
     {{-- Mostrar mensajes de éxito o error --}}
     @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+    <script>
+        alert("{{ session('success') }}");
+    </script>
     @endif
     
     @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
+    <script>
+        alert("{{ session('error') }}")
+    </script>
     @endif
     <div class="bienvenida-admin">
         <p class="bienvenida-texto">Bienvenido administrador</p>
@@ -275,39 +275,4 @@
         </form>
     </div>
 </div>
-
-<style>
-/* Estilos para la selección de filas */
-.selectable-row {
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.selectable-row:hover {
-    background-color: #f8f9fa;
-}
-
-.selectable-row.selected {
-    background-color: #e3f2fd;
-    border-left: 4px solid #2196f3;
-}
-
-.usuario-info {
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 5px;
-    margin: 10px 0;
-    border: 1px solid #dee2e6;
-}
-
-.usuario-info h4 {
-    margin-bottom: 10px;
-    color: #495057;
-}
-
-.acciones-adm button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-</style>
 @endsection
