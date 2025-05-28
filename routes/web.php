@@ -37,8 +37,8 @@ Route::get('/', function () {
 
 //TODO proteger o definir si se puede reservar sin cuenta
 //rutas de reserva
-Route::get('/Reservas/reservar', [ReservaController::class, 'create']);
-Route::post('/Reservas/reservar', [ReservaController::class, 'store'])->name('crear-reserva');
+Route::get('/Reservas/reservar', [ReservaController::class, 'create'])->name('reservas.create');
+Route::post('/Reservas/reservar', [ReservaController::class, 'store'])->name('reservas.store');
 
 // Middleware para proteger rutas
 // Rutas protegidas
@@ -70,4 +70,14 @@ Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
     Route::get('/mesas/{id}/edit', [MesaController::class, 'edit'])->name('mesas.edit');
     Route::put('/mesas/{id}/edit', [MesaController::class, 'update'])->name('mesas.update');
     Route::delete('/mesas/eliminar/{id}', [MesaController::class, 'destroy'])->name('mesas.destroy');
+
+    //Rutas de gestión de reservas
+    Route::delete('/reservas/eliminar/{id}', [ReservaController::class, 'destroy'])->name('reservas.destroy');
+});
+
+
+//Rutas para obtener fechas bloqueadas y horas disponibles
+Route::prefix('reservas')->group(function () {
+    Route::get('/fechas-bloqueadas', [ReservaController::class, 'obtenerFechasBloqueadas'])->name('reservas.fechasBloqueadas');
+    Route::get('/horas-disponibles', [ReservaController::class, 'obtenerHorasDisponibles'])->name('reservas.horasDisponibles');
 });
