@@ -72,6 +72,7 @@ Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
     Route::delete('/mesas/eliminar/{id}', [MesaController::class, 'destroy'])->name('mesas.destroy');
 
     //Rutas de gestión de reservas
+    Route::get('/reservas/{id}', [ReservaController::class, 'show'])->name('reservas.show');
     Route::delete('/reservas/eliminar/{id}', [ReservaController::class, 'destroy'])->name('reservas.destroy');
 });
 

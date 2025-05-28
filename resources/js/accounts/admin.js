@@ -2,13 +2,13 @@ let usuarioSeleccionado = null;
 let mesaSeleccionada = null;
 let empleadoSeleccionado = null;
 let tipoSeleccionActual = null; // 'usuario', 'mesa', 'empleado'
-
+let reservaSeleccionada = null; 
 document.addEventListener('DOMContentLoaded', function () {
     // Selección de filas
     activarSeleccion('.fila-usuario.selectable-row', seleccionarUsuario);
     activarSeleccion('.fila-mesa.selectable-row', seleccionarMesa);
     activarSeleccion('.fila-empleado.selectable-row', seleccionarEmpleado);
-
+    activarSeleccion('.fila-reservas.selectable-row', seleccionarReserva)
     // Botones
     conectarBoton('btn-ver-usuario', verUsuario);
     conectarBoton('btn-eliminar-usuario', eliminarUsuario);
@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', function () {
     conectarBoton('btn-modificarMesa', modificarMesa);
     conectarBoton('btn-limpiarM', limpiarSeleccionM);
     conectarBoton('btn-limpiar-empleado', limpiarSeleccionE);
+    conectarBoton('btn-ver-reserva', verReserva);
+    conectarBoton('btn-eliminar-reserva', eliminarReserva);
+    conectarBoton('btn-limpiarR', limpiarSeleccionR);
 });
 
 function activarSeleccion(selector, handler) {
@@ -61,6 +64,14 @@ function actualizarBotones(tipo) {
             if (btn) btn.disabled = false;
         });
     }
+
+    if (tipo === 'reserva') {
+    ['btn-ver-reserva', 'btn-eliminar-reserva', 'btn-limpiarR'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = false;
+    });
+}
+
 }
 
 // ================= SELECCIONADORES ===================
@@ -117,6 +128,27 @@ function seleccionarMesa(fila) {
     actualizarBotones('mesa');
 }
 
+function seleccionarReserva(fila) {
+    limpiarTodoMenos('reserva');
+    tipoSeleccionActual = 'reserva';
+
+    fila.classList.add('selected');
+
+    reservaSeleccionada = {
+        id: fila.getAttribute('data-id'),
+        fecha: fila.getAttribute('data-fecha'),
+        hora: fila.getAttribute('data-hora'),
+        nombreCliente: fila.getAttribute('data-cliente'),
+        empleadoId: fila.getAttribute('data-empleado'),
+        comensales: fila.getAttribute('data-comensales'),
+        status: fila.getAttribute('data-status'),
+        mesaId: fila.getAttribute('data-mesa-id')
+    };
+
+    document.getElementById('form-eliminar-reserva').action = `/admin/reservas/eliminar/${reservaSeleccionada.id}`;
+    actualizarBotones('reserva');
+}
+
 // ================= BOTONES ACCIONES ===================
 function crearMesa() {
     window.location.href = '/admin/mesas/crear';
@@ -128,6 +160,7 @@ function verUsuario() {
     else if (tipoSeleccionActual === 'empleado' && empleadoSeleccionado)
         window.location.href = `/admin/usuarios/${empleadoSeleccionado.id}`;
 }
+
 
 function modificarUsuario() {
     if (tipoSeleccionActual === 'usuario' && usuarioSeleccionado)
@@ -163,6 +196,36 @@ function eliminarMesa() {
             document.getElementById('form-eliminar-mesa').submit();
         }
     }
+}
+
+function verReserva() {
+    if (reservaSeleccionada)
+        window.location.href = `/admin/reservas/${reservaSeleccionada.id}`;
+}
+
+function eliminarReserva() {
+    if (reservaSeleccionada) {
+        const confirmacion = confirm(`¿Estás seguro de eliminar la reserva del cliente ${reservaSeleccionada.nombreCliente} para la fecha ${reservaSeleccionada.fecha} a las ${reservaSeleccionada.hora}?`);
+        if (confirmacion) {
+            document.getElementById('form-eliminar-reserva').submit();
+        }
+    }
+}
+
+function limpiarSeleccionR() {
+    limpiarTodoMenos(null);
+    reservaSeleccionada = null;
+    tipoSeleccionActual = null;
+
+    // Desactivar botones relacionados con reservas
+    ['btn-ver-reserva', 'btn-eliminar-reserva'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = true;
+    });
+
+    // Mantener el botón de limpiar activo
+    const btnLimpiarR = document.getElementById('btn-limpiarR');
+    if (btnLimpiarR) btnLimpiarR.disabled = false;
 }
 
 // ================= LIMPIAR ===================

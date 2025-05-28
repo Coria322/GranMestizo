@@ -16,3 +16,6 @@
         @endforeach
     </table>
 </div>
+    <div class="acciones-adm">
+        <a href="admin/usuarios/{{ $usuarioGlobal->USUARIO_ID }}/edit" class="boton-admin bon" id="btn-editar-admin">Editar mi información</a>
+    </div>

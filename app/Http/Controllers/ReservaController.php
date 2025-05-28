@@ -71,30 +71,30 @@ class ReservaController extends Controller
     /**
      * Listar reservas (opcionalmente filtradas por cliente, fecha o estado)
      */
-public function index(Request $request, $id_us = null)
-{
-    $filtros = $request->only(['fecha', 'estado']);
+    public function index(Request $request, $id_us = null)
+    {
+        $filtros = $request->only(['fecha', 'estado']);
 
-    if ($id_us) {
-        $filtros['usuario_id'] = $id_us;
-    }
-
-    try {
-        $reservas = $this->reservaService->listarReservas($filtros);
-
-        if ($request->expectsJson()) {
-            return response()->json(['reservas' => $reservas], 200);
+        if ($id_us) {
+            $filtros['usuario_id'] = $id_us;
         }
 
-        return view('reservas.ver', compact('reservas'));
-    } catch (Exception $e) {
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Error al listar reservas.'], 500);
-        }
+        try {
+            $reservas = $this->reservaService->listarReservas($filtros);
 
-        return back()->with('error', 'Error al listar reservas.');
+            if ($request->expectsJson()) {
+                return response()->json(['reservas' => $reservas], 200);
+            }
+
+            return view('reservas.ver', compact('reservas'));
+        } catch (Exception $e) {
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Error al listar reservas.'], 500);
+            }
+
+            return back()->with('error', 'Error al listar reservas.');
+        }
     }
-}
 
 
 
