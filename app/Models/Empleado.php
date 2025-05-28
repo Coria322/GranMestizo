@@ -22,7 +22,7 @@ class Empleado extends Model
 
     protected $fillable = [
         'EMPLEADO_RFC',
-        'EMPLEADO_TURNO', 
+        'EMPLEADO_TURNO',
         'EMPLEADO_STATUS',
     ];
 
@@ -32,7 +32,16 @@ class Empleado extends Model
         return $this->belongsTo(Usuario::class, 'USUARIO_ID', 'USUARIO_ID');
     }
 
-    public function reservas(){
-        return $this->hasMany(Reserva::class,'EMPLEADO_ID', 'USUARIO_ID');
+    public function reservas()
+    {
+        return $this->hasMany(Reserva::class, 'EMPLEADO_ID', 'USUARIO_ID');
+    }
+
+    // Dentro del modelo Empleado
+    public function tieneReservasActivasEnMesas()
+    {
+        return $this->reservas()->whereHas('reservasMesas', function ($query) {
+            $query->where('STATUS', 'ACTIVO');
+        })->exists();
     }
 }

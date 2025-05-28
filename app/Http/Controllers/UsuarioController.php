@@ -180,10 +180,12 @@ class UsuarioController extends Controller
         } elseif ($usuario->USUARIO_ROL == 'EMPLEADO') {
             $usuario->empleado()->update([
                 'EMPLEADO_RFC' => $request->EMPLEADO_RFC ?? null,
+                'EMPLEADO_TURNO' => $request->EMPLEADO_TURNO ?? 'M',
+                'EMPLEADO_STATUS' => $request->EMPLEADO_STATUS ?? 'ACTIVO',
             ]);
         }
 
-        return redirect()->back()->with('success', 'Usuario actualizado correctamente.');
+        return redirect()->route('login')->with('success', 'Usuario actualizado correctamente.');
     }
 
     // Cambiar el rol de un usuario (solo admin)
@@ -244,9 +246,13 @@ class UsuarioController extends Controller
 
         $usuario = Usuario::findOrFail($id);
 
-        if ($usuario->USUARIO_ID === $user->USUARIO_ID) {
-            abort(409, 'No puedes eliminarte a ti mismo');
+        // Validación de reservas activas en mesas para EMPLEADO
+        if ($usuario->USUARIO_ROL == 'EMPLEADO' && $usuario->empleado && $usuario->empleado->tieneReservasActivasEnMesas()) {
+            return redirect()
+                ->route('admin.main', ['seccion' => 'usuarios'])
+                ->with('error', 'No se puede eliminar el usuario porque tiene reservas activas asociadas a mesas.');
         }
+
 
         $usuario->delete();
 

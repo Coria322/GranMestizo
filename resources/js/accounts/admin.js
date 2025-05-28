@@ -1,179 +1,218 @@
 let usuarioSeleccionado = null;
 let mesaSeleccionada = null;
+let empleadoSeleccionado = null;
+let tipoSeleccionActual = null; // 'usuario', 'mesa', 'empleado'
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Activar selección de filas de usuario
-    const filasUsuarios = document.querySelectorAll('.fila-usuario.selectable-row');
-    filasUsuarios.forEach(fila => {
-        fila.addEventListener('click', function () {
-            seleccionarUsuario(this);
-        });
-    });
+    // Selección de filas
+    activarSeleccion('.fila-usuario.selectable-row', seleccionarUsuario);
+    activarSeleccion('.fila-mesa.selectable-row', seleccionarMesa);
+    activarSeleccion('.fila-empleado.selectable-row', seleccionarEmpleado);
 
-    //Activar la selección de filas de mesa
-    const filasMesas = document.querySelectorAll('.fila-mesa.selectable-row');
-    filasMesas.forEach(fila => {
-        fila.addEventListener('click', function () {
-            seleccionarMesa(this);
-        });
-    });
-
-    // Conectar botones
-    const btnVer = document.getElementById('btn-ver-usuario');
-    const btnEliminar = document.getElementById('btn-eliminar-usuario');
-    const btnModificar = document.getElementById('btn-modificar-usuario');
-    const btnLimpiar = document.getElementById('btn-limpiar');
-    const btnCrearM = document.getElementById('btn-crearMesa');
-    const btnEliminarM = document.getElementById('btn-eliminarMesa');
-    const btnModM = document.getElementById('btn-modificarMesa');
-    const btnLimpiarM = document.getElementById('btn-limpiarM');7
-    const btnVerM = document.getElementById('btn-verMesa');
-
-    if (btnVer) {
-        btnVer.addEventListener('click', verUsuario);
-    }
-
-    if (btnEliminar) {
-        btnEliminar.addEventListener('click', eliminarUsuario);
-    }
-
-    if (btnModificar) {
-        btnModificar.addEventListener('click', modificarUsuario);
-    }
-
-    if (btnLimpiar) {
-        btnLimpiar.addEventListener('click', limpiarSeleccion)
-    }
-
-    if (btnCrearM){
-        btnCrearM.addEventListener('click', crearMesa);
-    }
-
-    if (btnVerM){
-        btnVerM.addEventListener('click', verMesa);
-    }
-
-    if (btnEliminarM) {
-        btnEliminarM.addEventListener('click', eliminarMesa);
-    }
-
-    if (btnModM) {
-        btnModM.addEventListener('click', modificarMesa);
-    }
-
-    if (btnLimpiarM) {
-        btnLimpiarM.addEventListener('click', limpiarSeleccionM);
-    }
-
+    // Botones
+    conectarBoton('btn-ver-usuario', verUsuario);
+    conectarBoton('btn-eliminar-usuario', eliminarUsuario);
+    conectarBoton('btn-modificar-usuario', modificarUsuario);
+    conectarBoton('btn-limpiar', limpiarSeleccion);
+    conectarBoton('btn-crearMesa', crearMesa);
+    conectarBoton('btn-verMesa', verMesa);
+    conectarBoton('btn-eliminarMesa', eliminarMesa);
+    conectarBoton('btn-modificarMesa', modificarMesa);
+    conectarBoton('btn-limpiarM', limpiarSeleccionM);
+    conectarBoton('btn-limpiar-empleado', limpiarSeleccionE);
 });
 
-//Seleccionar 
+function activarSeleccion(selector, handler) {
+    document.querySelectorAll(selector).forEach(fila => {
+        fila.addEventListener('click', function () {
+            handler(this);
+        });
+    });
+}
+
+function conectarBoton(id, handler) {
+    const btn = document.getElementById(id);
+    if (btn) {
+        btn.addEventListener('click', handler);
+    }
+}
+
+function actualizarBotones(tipo) {
+    // Desactivar todo
+    document.querySelectorAll('.boton-admin.bon').forEach(btn => btn.disabled = true);
+
+    if (tipo === 'usuario') {
+        ['btn-ver-usuario', 'btn-eliminar-usuario', 'btn-modificar-usuario', 'btn-limpiar'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) btn.disabled = false;
+        });
+    }
+
+    if (tipo === 'empleado') {
+        ['btn-ver-usuario', 'btn-eliminar-usuario', 'btn-modificar-usuario', 'btn-limpiar-empleado'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) btn.disabled = false;
+        });
+    }
+
+    if (tipo === 'mesa') {
+        ['btn-verMesa', 'btn-eliminarMesa', 'btn-modificarMesa', 'btn-limpiarM'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) btn.disabled = false;
+        });
+    }
+}
+
+// ================= SELECCIONADORES ===================
 function seleccionarUsuario(fila) {
-    document.querySelectorAll('.fila-usuario.selectable-row').forEach(f => f.classList.remove('selected'));
+    limpiarTodoMenos('usuario');
+    tipoSeleccionActual = 'usuario';
 
     fila.classList.add('selected');
 
-    const id = fila.getAttribute('data-id');
-    const nombre = fila.getAttribute('data-nombre');
-    const apellido = fila.getAttribute('data-apellido');
-    const correo = fila.getAttribute('data-correo');
-    const rol = fila.getAttribute('data-rol');
+    usuarioSeleccionado = {
+        id: fila.getAttribute('data-id'),
+        nombre: fila.getAttribute('data-nombre'),
+        apellido: fila.getAttribute('data-apellido'),
+        correo: fila.getAttribute('data-correo'),
+        rol: fila.getAttribute('data-rol')
+    };
 
-    usuarioSeleccionado = { id, nombre, apellido, correo, rol };
+    document.getElementById('form-eliminar-usuario').action = `/admin/usuarios/eliminar/${usuarioSeleccionado.id}`;
+    actualizarBotones('usuario');
+}
 
+function seleccionarEmpleado(fila) {
+    limpiarTodoMenos('empleado');
+    tipoSeleccionActual = 'empleado';
 
-    document.getElementById('btn-ver-usuario').disabled = false;
-    document.getElementById('btn-eliminar-usuario').disabled = false;
-    document.getElementById('btn-modificar-usuario').disabled = false;
+    fila.classList.add('selected');
 
-    document.getElementById('form-eliminar-usuario').action = `/admin/usuarios/eliminar/${id}`;
+    empleadoSeleccionado = {
+        id: fila.getAttribute('data-id'),
+        nombre: fila.getAttribute('data-nombre'),
+        apellido: fila.getAttribute('data-apellido'),
+        rfc: fila.getAttribute('data-rfc'),
+        status: fila.getAttribute('data-status')
+    };
+
+    document.getElementById('form-eliminar-usuario').action = `/admin/usuarios/eliminar/${empleadoSeleccionado.id}`;
+    actualizarBotones('empleado');
 }
 
 function seleccionarMesa(fila) {
-    document.querySelectorAll('.fila-mesa.selectable-row').forEach(f => f.classList.remove('selected'));
+    limpiarTodoMenos('mesa');
+    tipoSeleccionActual = 'mesa';
 
     fila.classList.add('selected');
 
-    const id = fila.getAttribute('data-id');
-    const capacidad = fila.getAttribute('data-capacidad');
-    const status = fila.getAttribute('data-status');
-    const seccion = fila.getAttribute('data-seccion');
+    mesaSeleccionada = {
+        id: fila.getAttribute('data-id'),
+        capacidad: fila.getAttribute('data-capacidad'),
+        status: fila.getAttribute('data-status'),
+        seccion: fila.getAttribute('data-seccion')
+    };
 
-    mesaSeleccionada = { id, capacidad, status, seccion };
-
-    document.getElementById('btn-eliminarMesa').disabled = false;
-    document.getElementById('btn-modificarMesa').disabled = false;
-    document.getElementById('btn-verMesa').disabled = false;
-
-    document.getElementById('form-eliminar-mesa').action = `/admin/mesas/eliminar/${id}`;
+    document.getElementById('form-eliminar-mesa').action = `/admin/mesas/eliminar/${mesaSeleccionada.id}`;
+    actualizarBotones('mesa');
 }
 
-//crear
+// ================= BOTONES ACCIONES ===================
 function crearMesa() {
     window.location.href = '/admin/mesas/crear';
 }
-//ver
+
 function verUsuario() {
-    if (usuarioSeleccionado) {
+    if (tipoSeleccionActual === 'usuario' && usuarioSeleccionado)
         window.location.href = `/admin/usuarios/${usuarioSeleccionado.id}`;
-    }
+    else if (tipoSeleccionActual === 'empleado' && empleadoSeleccionado)
+        window.location.href = `/admin/usuarios/${empleadoSeleccionado.id}`;
 }
 
-function verMesa() {
-    if (mesaSeleccionada) {
-        window.location.href = `/admin/mesas/${mesaSeleccionada.id}`;
-    }
+function modificarUsuario() {
+    if (tipoSeleccionActual === 'usuario' && usuarioSeleccionado)
+        window.location.href = `/admin/usuarios/${usuarioSeleccionado.id}/edit`;
+    else if (tipoSeleccionActual === 'empleado' && empleadoSeleccionado)
+        window.location.href = `/admin/usuarios/${empleadoSeleccionado.id}/edit`;
 }
 
-//eliminar
 function eliminarUsuario() {
-    if (usuarioSeleccionado) {
-        const confirmacion = confirm(`¿Estás seguro de eliminar al usuario ${usuarioSeleccionado.nombre} ${usuarioSeleccionado.apellido}?`);
+    const seleccionado = tipoSeleccionActual === 'usuario' ? usuarioSeleccionado : empleadoSeleccionado;
+    if (seleccionado) {
+        const confirmacion = confirm(`¿Estás seguro de eliminar a ${seleccionado.nombre} ${seleccionado.apellido}?`);
         if (confirmacion) {
             document.getElementById('form-eliminar-usuario').submit();
         }
     }
 }
 
+function verMesa() {
+    if (mesaSeleccionada)
+        window.location.href = `/admin/mesas/${mesaSeleccionada.id}`;
+}
+
+function modificarMesa() {
+    if (mesaSeleccionada)
+        window.location.href = `/admin/mesas/${mesaSeleccionada.id}/edit`;
+}
+
 function eliminarMesa() {
     if (mesaSeleccionada) {
-        const confirmacion = confirm(`¿Estás seguro de eliminar la mesa con ID ${mesaSeleccionada.id}?`);
+        const confirmacion = confirm(`¿Estás seguro de eliminar la mesa ${mesaSeleccionada.id}?`);
         if (confirmacion) {
             document.getElementById('form-eliminar-mesa').submit();
         }
     }
 }
 
-//modificar
-function modificarUsuario() {
-    if (usuarioSeleccionado) {
-        window.location.href = `/admin/usuarios/${usuarioSeleccionado.id}/edit`;
-    }
-}
-
-function modificarMesa() {
-    if (mesaSeleccionada) {
-        window.location.href = `/admin/mesas/${mesaSeleccionada.id}/edit`;
-    }
-}
-
-//deseleccionar
-function limpiarSeleccion() {
+// ================= LIMPIAR ===================
+function limpiarTodoMenos(excepto) {
     document.querySelectorAll('.selectable-row').forEach(f => f.classList.remove('selected'));
-
-    document.getElementById('btn-ver-usuario').disabled = true;
-    document.getElementById('btn-eliminar-usuario').disabled = true;
-    document.getElementById('btn-modificar-usuario').disabled = true;
-
+    if (excepto !== 'usuario') usuarioSeleccionado = null;
+    if (excepto !== 'empleado') empleadoSeleccionado = null;
+    if (excepto !== 'mesa') mesaSeleccionada = null;
+    tipoSeleccionActual = excepto;
+}
+function limpiarSeleccion() {
+    limpiarTodoMenos(null);
     usuarioSeleccionado = null;
+    tipoSeleccionActual = null;
+
+    // Desactivar botones relacionados con usuarios
+    ['btn-ver-usuario', 'btn-eliminar-usuario', 'btn-modificar-usuario'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = true;
+    });
+
+    // Mantener el botón de limpiar activo
+    const btnLimpiar = document.getElementById('btn-limpiar');
+    if (btnLimpiar) btnLimpiar.disabled = false;
 }
 
 function limpiarSeleccionM() {
-    document.querySelectorAll('.selectable-row').forEach(f => f.classList.remove('selected'));
-
-    document.getElementById('btn-eliminarMesa').disabled = true;
-    document.getElementById('btn-modificarMesa').disabled = true;
-    document.getElementById('btn-verMesa').disabled = true;
-
+    limpiarTodoMenos(null);
     mesaSeleccionada = null;
+    tipoSeleccionActual = null;
+
+    ['btn-verMesa', 'btn-eliminarMesa', 'btn-modificarMesa'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = true;
+    });
+
+    const btnLimpiarM = document.getElementById('btn-limpiarM');
+    if (btnLimpiarM) btnLimpiarM.disabled = false;
+}
+
+function limpiarSeleccionE() {
+    limpiarTodoMenos(null);
+    empleadoSeleccionado = null;
+    tipoSeleccionActual = null;
+
+    ['btn-ver-usuario', 'btn-eliminar-usuario', 'btn-modificar-usuario'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = true;
+    });
+
+    const btnLimpiarE = document.getElementById('btn-limpiar-empleado');
+    if (btnLimpiarE) btnLimpiarE.disabled = false;
 }

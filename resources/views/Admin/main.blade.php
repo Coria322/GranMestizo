@@ -16,7 +16,7 @@
         alert("{{ session('success') }}");
     </script>
     @endif
-    
+
     @if(session('error'))
     <script>
         alert("{{ session('error') }}")
@@ -47,221 +47,23 @@
             <button class="boton-admin {{ $seccionActiva === 'perfil' ? 'activo' : '' }}">Perfil</button>
         </a>
     </div>
-    
+
     {{-- Sección Usuarios --}}
-    @if ($seccionActiva === 'usuarios')
-    <div id="section-usuarios" class="section">
-        <table class="tabla-admin">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Correo</th>
-                    <th>Rol</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($usuarios as $usuario)
-                <tr class="fila-usuario selectable-row" 
-                    data-id="{{ $usuario->USUARIO_ID }}"
-                    data-nombre="{{ $usuario->USUARIO_NOMBRE }}"
-                    data-apellido="{{ $usuario->USUARIO_APELLIDO }}"
-                    data-correo="{{ $usuario->USUARIO_CORREO }}"
-                    data-rol="{{ $usuario->USUARIO_ROL }}">
-                    <td>{{ $usuario->USUARIO_ID }}</td>
-                    <td>{{ $usuario->USUARIO_NOMBRE }}</td>
-                    <td>{{ $usuario->USUARIO_APELLIDO }}</td>
-                    <td>{{ $usuario->USUARIO_CORREO }}</td>
-                    <td>{{ $usuario->USUARIO_ROL }}</td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="5">No hay Usuarios registrados</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-        <div class="paginacion">
-            {{ $usuarios->appends(['seccion' => 'usuarios'])->links() }}
-        </div>
-
-
-        <div class="acciones-adm">
-            <button type="button" class="boton-admin bon" id="btn-ver-usuario" disabled>
-                Ver usuario
-            </button>
-            <button type="button" class="boton-admin bon" id="btn-eliminar-usuario" disabled>
-                Eliminar Usuario
-            </button>
-            <button type="button" class="boton-admin bon" id="btn-modificar-usuario" disabled>
-                Modificar usuario
-            </button>
-            <button type="button" class="boton-admin bon" id="btn-limpiar">
-                Limpiar Selección
-            </button>
-        </div>
-
-        {{-- Formulario oculto para eliminar --}}
-        <form id="form-eliminar-usuario" method="POST" style="display: none;">
-            @csrf
-            @method('DELETE')
-        </form>
-    </div>
-    @endif
+    @includeWhen($seccionActiva === 'usuarios', 'partials.secciones.usuario')
 
     {{-- Sección Mesas --}}
-    @if ($seccionActiva === 'mesas')
-    <div id="section-mesas" class="section">
-        <table class="tabla-admin">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Capacidad</th>
-                    <th>Estado</th>
-                    <th>Seccion</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($mesas as $mesa)
-                <tr class="fila-mesa selectable-row"
-                data-id="{{ $mesa->MESA_ID }}"
-                data-capacidad="{{ $mesa->MESA_CAPACIDAD }}"
-                data-status="{{ $mesa->MESA_STATUS }}"
-                data-seccion="{{ $mesa->MESA_SECCION }}">
-                    <td>{{ $mesa->MESA_ID }}</td>
-                    <td>{{ $mesa->MESA_CAPACIDAD }}</td>
-                    <td>{{ $mesa->MESA_STATUS }}</td>
-                    <td>{{ $mesa->MESA_SECCION }}</td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="3">No hay mesas registradas</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-        
-        <div class="paginacion">
-            {{ $mesas->appends(['seccion' => 'mesas'])->links() }}
-        </div>
-        <div class="acciones-adm">
-            <button class="boton-admin bon" id="btn-crearMesa">Crear mesa</button>
-            <button class="boton-admin bon" id="btn-verMesa" disabled>Ver mesa</button>
-            <button class="boton-admin bon" id="btn-eliminarMesa" disabled>Eliminar mesa</button>
-            <button class="boton-admin bon" id="btn-modificarMesa" disabled>Modificar mesa</button>
-            <button class="boton-admin bon" id="btn-limpiarM">Limpiar Selección</button>
-        </div>
-                {{-- Formulario oculto para eliminar --}}
-        <form id="form-eliminar-mesa" method="POST" style="display: none;">
-            @csrf
-            @method('DELETE')
-        </form>
-    </div>
-    @endif
-
-    {{-- Sección Empleados --}}
-    @if ($seccionActiva === 'empleados')
-    <div id="section-empleados" class="section">
-        <table class="tabla-admin">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>RFC</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($empleados as $empleado)
-                <tr>
-                    <td>{{ $empleado->USUARIO_ID }}</td>
-                    <td>{{ $empleado->usuario->USUARIO_NOMBRE }}</td>
-                    <td>{{ $empleado->usuario->USUARIO_APELLIDO }}</td>
-                    <td>{{ $empleado->EMPLEADO_RFC }}</td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4">No hay empleados registrados</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-        <div class="paginacion">
-            {{ $empleados->appends(['seccion' => 'empleados'])->links() }}
-        </div>
-        <div class="acciones-adm">
-            <button type="button" class="boton-admin bon">Ver Empleado</button>
-            <button type="button" class="boton-admin bon">Eliminar Empleado</button>
-            <button type="button" class="boton-admin bon">Modificar Empleado</button>
-        </div>
-    </div>
-    @endif
-
-    @if ($seccionActiva === 'reservas')
-    <div id='section-reservas' class="section">
-        <table class="tabla-admin">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Cliente</th>
-                    <th>Empleado</th>
-                    <th>Comensales</th>
-                    <th>Fecha</th>
-                    <th>Hora</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($reservas as $reserva)
-                <tr>
-                    <td>{{$reserva->RESERVA_ID}}</td>
-                    <td>{{$reserva->CLIENTE_ID}}</td>
-                    <td>{{$reserva->EMPLEADO_ID}}</td>
-                    <td>{{$reserva->RESERVA_COMENSALES}}</td>
-                    <td>{{$reserva->RESERVA_FECHA}}</td>
-                    <td>{{$reserva->RESERVA_HORA}}</td>
-                    <td>{{$reserva->reservasMesas->first()?->STATUS}}</td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="7">No hay reservas registradas</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-        <div class="paginacion">
-            {{ $reservas->links() }}
-        </div>
-        <div class="acciones-adm">
-            <a href=""><button class="boton-admin bon">Ver Reserva</button></a>
-            <a href=""><button class="boton-admin bon">Eliminar Reserva</button></a>
-            <a href=""><button class="boton-admin bon">Modificar Reserva</button></a>
-        </div>
-    </div>
-    @endif
-
-    @if ($seccionActiva === 'perfil')
-    <div class="section-perfil">
-        <table class="tabla-perfil">
-            @foreach ($usuarioGlobal->getAttributes() as $key => $value )
-            @if (!in_array($key, ['USUARIO_PWD']))
-            @php
-            $partes = explode('_', $key);
-            $label = isset($partes[1])
-            ? ucfirst(strtolower($partes[1]))
-            : ucfirst(strtolower($partes[0]));
-            @endphp
-            <tr>
-                <th>{{ $label }}</th>
-                <td>{{ $value }}</td>
-            </tr>
-            @endif
-            @endforeach
-        </table>
-    </div>
-    @endif
+    @includeWhen($seccionActiva === 'mesas', 'partials.secciones.mesas', ['mesas' => $mesas])
     
+    {{-- Sección Empleados --}}
+    @includeWhen($seccionActiva === 'empleados', 'partials.secciones.empleados', ['empleados' => $empleados])
+
+    {{-- Sección Reservas --}}
+    @includeWhen($seccionActiva === 'reservas', 'partials.secciones.reservas')
+
+    {{-- Sección Perfil --}}
+    @includeWhen($seccionActiva === 'perfil', 'partials.secciones.perfil', ['usuarioGlobal' => $usuarioGlobal])
+    
+
     <!-- boton constante de logout -->
     <div class="cont-const">
         <form action="{{ route('logout') }}" method="post" style="display: flex; justify-content: flex-end; margin-top: 1rem;">

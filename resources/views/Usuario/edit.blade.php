@@ -56,8 +56,8 @@
         <div>
             <label>Status:</label>
             <select name="EMPLEADO_STATUS">
-                <option value="ACTIVO" {{ old('EMPLEADO_STATUS', $usuario->empleado->EMPLEADO_STATUS ?? '') == 'ACTIVO' ? 'selected' : '' }}>Activo</option>
-                <option value="INACTIVO" {{ old('EMPLEADO_STATUS', $usuario->empleado->EMPLEADO_STATUS ?? '') == 'INACTIVO' ? 'selected' : '' }}>Inactivo</option>
+                <option value="LIBRE" {{ old('EMPLEADO_STATUS', $usuario->empleado->EMPLEADO_STATUS ?? '') == 'ACTIVO' ? 'selected' : '' }}>Activo</option>
+                <option value="OCUPADO" {{ old('EMPLEADO_STATUS', $usuario->empleado->EMPLEADO_STATUS ?? '') == 'INACTIVO' ? 'selected' : '' }}>Inactivo</option>
             </select>
         </div>
         @elseif($usuario->USUARIO_ROL === 'ADMINISTRADOR')
@@ -101,8 +101,8 @@
 
         <label>Status:</label>
         <select name="EMPLEADO_STATUS">
-            <option value="ACTIVO" {{ old('EMPLEADO_STATUS', $usuario->empleado->EMPLEADO_STATUS ?? '') == 'ACTIVO' ? 'selected' : '' }}>Activo</option>
-            <option value="INACTIVO" {{ old('EMPLEADO_STATUS', $usuario->empleado->EMPLEADO_STATUS ?? '') == 'INACTIVO' ? 'selected' : '' }}>Inactivo</option>
+            <option value="LIBRE" {{ old('EMPLEADO_STATUS', $usuario->empleado->EMPLEADO_STATUS ?? '') == 'ACTIVO' ? 'selected' : '' }}>Activo</option>
+            <option value="OCUPADO" {{ old('EMPLEADO_STATUS', $usuario->empleado->EMPLEADO_STATUS ?? '') == 'INACTIVO' ? 'selected' : '' }}>Inactivo</option>
         </select>
     </div>
 
