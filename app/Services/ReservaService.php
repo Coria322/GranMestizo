@@ -1,18 +1,11 @@
 <?php
-/**
- * Este servicio funciona correctamente para el caso general
- * pero carece de especificidad al momento de:
- * !asignar mesas de la misma sección
- * TODO corregir esta lógica para cumplir con lo anterior
- */
 
 /**
- * TODO2
- * ?validar que la fecha no sea menor que hoy y ahora (esto se puede hacer en el controller)
- * ?Evitar reservas fuera del horario de atencion (se debe definir)
- * ?Validar que el cliente no tiene una reserva identica a la que intenta hacer (puede hacerse en el controller)
- * ?agregar cancelaciones de reservas cambiando el status de MesaReserva a inactivo
+ * Este servicio maneja la lógica de negocio relacionada con las reservas de mesas.
+ * Permite crear, listar, actualizar y cancelar reservas, así como verificar la disponibilidad de mesas y empleados.
+ * También incluye funcionalidades para obtener fechas bloqueadas y validar horarios de atención. 
  */
+
 namespace App\Services;
 
 use App\Models\Reserva;
@@ -27,9 +20,21 @@ use Exception;
 class ReservaService
 {
     protected $apertura = '12:00';
-    protected $cierre = '22:00' ;
+    protected $cierre = '22:00';
     private $duracionReservaHoras = 2;
 
+    /**
+     * Crea una nueva reserva de mesa.
+     * @param $clienteId ID del cliente que realiza la reserva.
+     * @param $fecha Fecha de la reserva en formato 'Y-m-d'.
+     * @param $hora Hora de la reserva en formato 'H:i'.
+     * @param $comensales Número de comensales para la reserva.
+     * Validaciones:
+     * - Verifica que haya mesas disponibles para el número de comensales.
+     * - Verifica que haya un mesero disponible para el horario solicitado.
+     * - La reserva debe realizarse dentro del horario de atención del restaurante.
+     * - La reserva debe tener una duración de 2 horas.
+     */
     public function crearReserva($clienteId, $fecha, $hora, $comensales)
     {
         return DB::transaction(function () use ($clienteId, $fecha, $hora, $comensales) {
@@ -71,6 +76,15 @@ class ReservaService
         });
     }
 
+    /**
+     * Obtiene las mesas disponibles para una fecha y hora específicas.
+     * @param $fecha Fecha de la reserva en formato 'Y-m-d'.
+     * @param $hora Hora de la reserva en formato 'H:i'.
+     * Validaciones:
+     * - Las mesas deben estar libres.
+     * - No deben tener reservas activas que se solapen con el horario de la nueva reserva.
+     * - Las reservas deben tener una duración de 2 horas.
+     */
     public function obtenerMesasDisponibles($fecha, $hora)
     {
         $inicio = Carbon::parse("$fecha $hora");
@@ -92,6 +106,15 @@ class ReservaService
     }
 
 
+    /**
+     * Selecciona las mesas necesarias para cubrir el número de comensales.
+     * @param $mesasDisponibles Colección de mesas disponibles.
+     * @param $comensales Número de comensales para la reserva.
+     * @return array Lista de mesas seleccionadas o un array vacío si no se pueden cubrir los comensales.
+     * Validaciones:
+     * - Suma la capacidad de las mesas seleccionadas hasta alcanzar o superar el número de comensales.
+     * - Si no se pueden cubrir los comensales, retorna un array vacío.
+     */
     private function seleccionarMesas($mesasDisponibles, $comensales)
     {
         $seleccionadas = [];
@@ -106,6 +129,13 @@ class ReservaService
         return $total >= $comensales ? $seleccionadas : [];
     }
 
+    /**
+     * Busca un empleado disponible para una fecha y hora específicas.
+     * @param $fecha Fecha de la reserva en formato 'Y-m-d'.
+     * @param $hora Hora de la reserva en formato 'H:i'.
+     * Validaciones:
+     * - El empleado no debe tener reservas activas que se solapen con el horario de la nueva reserva.
+     */
     public function buscarEmpleadoDisponible($fecha, $hora)
     {
         $inicio = Carbon::parse("$fecha $hora");
@@ -122,30 +152,45 @@ class ReservaService
         return $empleadoId;
     }
 
-public function listarReservas(array $filtros = [])
-{
-    $query = Reserva::with(['mesas', 'cliente', 'empleado']);
+    /**
+     * Lista las reservas según los filtros proporcionados.
+     * @param $filtros Filtros opcionales para la búsqueda de reservas.
+     * Validaciones:
+     * - Si se proporciona un usuario_id, busca reservas donde el cliente o el empleado coincidan.
+     * - Si se proporciona una fecha, filtra las reservas por esa fecha.
+     * - Ordena las reservas por fecha y hora en orden descendente.
+     */
+    public function listarReservas(array $filtros = [])
+    {
+        $query = Reserva::with(['mesas', 'cliente', 'empleado']);
 
-    if (!empty($filtros['usuario_id'])) {
-        $usuarioId = $filtros['usuario_id'];
+        if (!empty($filtros['usuario_id'])) {
+            $usuarioId = $filtros['usuario_id'];
 
-        $query->where(function ($q) use ($usuarioId) {
-            $q->where('CLIENTE_ID', $usuarioId)
-              ->orWhere('EMPLEADO_ID', $usuarioId);
-        });
+            $query->where(function ($q) use ($usuarioId) {
+                $q->where('CLIENTE_ID', $usuarioId)
+                    ->orWhere('EMPLEADO_ID', $usuarioId);
+            });
+        }
+
+        if (!empty($filtros['fecha'])) {
+            $query->where('RESERVA_FECHA', $filtros['fecha']);
+        }
+
+        return $query->orderBy('RESERVA_FECHA', 'desc')
+            ->orderBy('RESERVA_HORA', 'desc')
+            ->get();
     }
 
-    if (!empty($filtros['fecha'])) {
-        $query->where('RESERVA_FECHA', $filtros['fecha']);
-    }
 
-    return $query->orderBy('RESERVA_FECHA', 'desc')
-                 ->orderBy('RESERVA_HORA', 'desc')
-                 ->get();
-}
-
-
-        public function obtenerReserva($id)
+    /**
+     * Obtiene una reserva específica por su ID.
+     * @param $id ID de la reserva a buscar.
+     * Validaciones:
+     * - Si no se encuentra la reserva, lanza una excepción.
+     * - Carga las relaciones de mesas, cliente y empleado.
+     */
+    public function obtenerReserva($id)
     {
         $reserva = Reserva::with(['mesas', 'cliente', 'empleado'])
             ->where('RESERVA_ID', $id)
@@ -158,7 +203,16 @@ public function listarReservas(array $filtros = [])
         return $reserva;
     }
 
-        public function actualizarReserva($id, $nuevaFecha, $nuevaHora, $nuevosComensales)
+    /**
+     * Actualiza una reserva existente.
+     * @param $id ID de la reserva a actualizar.
+     * @param $nuevaFecha Nueva fecha de la reserva en formato 'Y-m-d'.
+     * @param $nuevaHora Nueva hora de la reserva en formato 'H:i'.
+     * @param $nuevosComensales Nuevo número de comensales para la reserva.
+     * Validaciones:
+     * - Crea una nueva reserva con los datos actualizados.
+     */
+    public function actualizarReserva($id, $nuevaFecha, $nuevaHora, $nuevosComensales)
     {
         return DB::transaction(function () use ($id, $nuevaFecha, $nuevaHora, $nuevosComensales) {
             $reserva = Reserva::where('RESERVA_ID', $id)->first();
@@ -180,37 +234,49 @@ public function listarReservas(array $filtros = [])
         });
     }
 
-public function cancelarReserva($id)
-{
-    return DB::transaction(function () use ($id) {
-        $reserva = Reserva::find($id);
+    /**
+     * Cancela una reserva existente.
+     * @param $id ID de la reserva a cancelar.
+     * - Inactiva todos los registros en la tabla pivote reserva_mesa para esta reserva.
+     * - Si no se encuentra la reserva, lanza una excepción.
+     */
+    public function cancelarReserva($id)
+    {
+        return DB::transaction(function () use ($id) {
+            $reserva = Reserva::find($id);
 
-        if (!$reserva) {
-            throw new Exception("Reserva no encontrada.");
-        }
+            if (!$reserva) {
+                throw new Exception("Reserva no encontrada.");
+            }
 
-        // Inactivar todos los registros en reserva_mesa para esta reserva
-        ReservaMesa::where('RESERVA_ID', $id)->update(['STATUS' => 'INACTIVO']);
+            // Inactivar todos los registros en reserva_mesa para esta reserva
+            ReservaMesa::where('RESERVA_ID', $id)->update(['STATUS' => 'INACTIVO']);
 
-        return true;
-    });
-}
+            return true;
+        });
+    }
 
-//Las reservas pueden ser con 15 dias de antelación
-//todo, esto y los horarios pueden ser alterables mediante una tabla en bd
-//?esto se deja a consideración de las reglas del negocio
-    public function obtenerFechasBloqueadas($diasAdelante = 15){
+    //Las reservas pueden ser con 15 dias de antelación
+    /**
+     * Obtiene las fechas bloqueadas para reservas.
+     * @param $diasAdelante Número de días hacia adelante para verificar fechas bloqueadas.
+     * Validaciones:
+     * - Revisa cada día hasta $diasAdelante y verifica si hay mesas disponibles en el horario de apertura y cierre.
+     * - Si no hay mesas disponibles en todo el horario, se considera la fecha como bloqueada.
+     */
+    public function obtenerFechasBloqueadas($diasAdelante = 15)
+    {
         $fechasBloqueadas = [];
         $hApertura = Carbon::parse($this->apertura);
         $hCierre = Carbon::parse($this->cierre);
         $duracion = $this->duracionReservaHoras;
 
-        for ($i=0; $i <= $diasAdelante ; $i++) { 
+        for ($i = 0; $i <= $diasAdelante; $i++) {
             $fecha = Carbon::today()->addDays($i)->toDateString();
             $hora = $hApertura->copy();
             $lleno = true;
 
-            while($hora->lessThan($hCierre)){
+            while ($hora->lessThan($hCierre)) {
                 $mesas = $this->obtenerMesasDisponibles($fecha, $hora->format('H:i'));
 
                 if (count($mesas) > 0) {
@@ -218,25 +284,28 @@ public function cancelarReserva($id)
                     $lleno = false;
                     break;
                 }
-                $hora -> addHours($duracion);
+                $hora->addHours($duracion);
             }
 
             if ($lleno) {
-                $fechasBloqueadas[] = $fecha; 
+                $fechasBloqueadas[] = $fecha;
             }
         }
         return $fechasBloqueadas;
     }
 
-    public function getApertura(){
+    public function getApertura()
+    {
         return $this->apertura;
     }
 
-    public function getCierre(){
+    public function getCierre()
+    {
         return $this->cierre;
     }
 
-    public function getDuracion(){
+    public function getDuracion()
+    {
         return $this->duracionReservaHoras;
     }
 }

@@ -14,10 +14,8 @@ class EmpleadoFactory extends Factory
     protected $model = Empleado::class;
 
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+     * Define un Empleado con un usuario que tenga el rol de 'EMPLEADO'.
+    */
     public function definition()
     {
         return [

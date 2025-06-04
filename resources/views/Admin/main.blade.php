@@ -7,7 +7,6 @@
 @section('bodyclass', 'bod')
 @section('content')
 @section('header')
-@include('partials.nav')
 @endsection
 <div class="contenedor">
     {{-- Mostrar mensajes de éxito o error --}}

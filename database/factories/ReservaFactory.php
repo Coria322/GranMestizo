@@ -10,10 +10,9 @@ use App\Models\Empleado;
  */
 class ReservaFactory extends Factory
 {
+
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
+     * Define el modelo asociado de reserva, asociando los id con los modelos correspondientes.
      */
     public function definition(): array
     {

@@ -11,9 +11,7 @@ use App\Models\Usuario;
 class ClienteFactory extends Factory
 {
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
+     * Define a un Cliente con un usuario que tenga el rol de 'CLIENTE'.
      */
 
      protected $model = Cliente::class;
