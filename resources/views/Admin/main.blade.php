@@ -45,6 +45,10 @@
         <a href="{{ route('admin.main', ['seccion' => 'perfil'])}}">
             <button class="boton-admin {{ $seccionActiva === 'perfil' ? 'activo' : '' }}">Perfil</button>
         </a>
+        
+        <a href="{{ route('admin.main', ['seccion' => 'menu'])}}">
+            <button class="boton-admin {{ $seccionActiva === 'menu' ? 'activo' : '' }}">Menu</button>
+        </a>
     </div>
 
     {{-- Sección Usuarios --}}
@@ -62,6 +66,8 @@
     {{-- Sección Perfil --}}
     @includeWhen($seccionActiva === 'perfil', 'partials.secciones.perfil', ['usuarioGlobal' => $usuarioGlobal])
     
+    {{-- Sección Menu --}}
+    @includeWhen($seccionActiva === 'menu', 'partials.secciones.menu')
 
     <!-- boton constante de logout -->
     <div class="cont-const">
