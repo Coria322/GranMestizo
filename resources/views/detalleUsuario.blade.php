@@ -121,4 +121,3 @@
     <a href="{{ route('admin.main') }}" class="boton-admin" style="margin-top: 2px;">Volver</a>
 </div>
 @endsection
-{{-- //TODO cambiar o mejorar estos estilos culeros --}}

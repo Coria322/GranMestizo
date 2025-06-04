@@ -35,13 +35,12 @@ Route::get('/', function () {
 })->name('bienvenida');
 
 
-//TODO proteger o definir si se puede reservar sin cuenta
 //rutas de reserva
-Route::get('/Reservas/reservar', [ReservaController::class, 'create'])->name('reservas.create');
-Route::post('/Reservas/reservar', [ReservaController::class, 'store'])->name('reservas.store');
+Route::middleware('check:CLIENTE')->group(function (){
+    Route::get('/Reservas/reservar', [ReservaController::class, 'create'])->name('reservas.create');
+    Route::post('/Reservas/reservar', [ReservaController::class, 'store'])->name('reservas.store');
+});
 
-// Middleware para proteger rutas
-// Rutas protegidas
 
 //RUTA DE CLIENTE
 Route::prefix('Cliente')->middleware('check:CLIENTE')->group(function () {
