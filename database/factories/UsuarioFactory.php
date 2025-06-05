@@ -13,9 +13,8 @@ class UsuarioFactory extends Factory
     protected static ?string $contraseña;
 
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
+     * Define al usuario autenticable con atributos predefinidos.
+     * Este usuario se utiliza para crear clientes, empleados y administradores.
      */
     public function definition(): array
     {

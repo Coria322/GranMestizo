@@ -2,13 +2,15 @@ let usuarioSeleccionado = null;
 let mesaSeleccionada = null;
 let empleadoSeleccionado = null;
 let tipoSeleccionActual = null; // 'usuario', 'mesa', 'empleado'
-let reservaSeleccionada = null; 
+let reservaSeleccionada = null;
+let platilloSeleccionado = null;
 document.addEventListener('DOMContentLoaded', function () {
     // Selección de filas
     activarSeleccion('.fila-usuario.selectable-row', seleccionarUsuario);
     activarSeleccion('.fila-mesa.selectable-row', seleccionarMesa);
     activarSeleccion('.fila-empleado.selectable-row', seleccionarEmpleado);
     activarSeleccion('.fila-reservas.selectable-row', seleccionarReserva)
+    activarSeleccion('.fila-platillo.selectable-row', seleccionarPlatillo);
     // Botones
     conectarBoton('btn-ver-usuario', verUsuario);
     conectarBoton('btn-eliminar-usuario', eliminarUsuario);
@@ -23,6 +25,12 @@ document.addEventListener('DOMContentLoaded', function () {
     conectarBoton('btn-ver-reserva', verReserva);
     conectarBoton('btn-eliminar-reserva', eliminarReserva);
     conectarBoton('btn-limpiarR', limpiarSeleccionR);
+    conectarBoton('btn-crearPlatillo', crearPlatillo);
+    conectarBoton('btn-verPlatillo', verPlatillo);
+    conectarBoton('btn-eliminarPlatillo', eliminarPlatillo);
+    conectarBoton('btn-modificarPlatillo', modificarPlatillo);
+    conectarBoton('btn-limpiarP', limpiarSeleccionP);
+    conectarBoton('btn-estadoPlatillo', estadoPlatillo);
 });
 
 function activarSeleccion(selector, handler) {
@@ -63,14 +71,23 @@ function actualizarBotones(tipo) {
             const btn = document.getElementById(id);
             if (btn) btn.disabled = false;
         });
+        document.getElementById('btn-crearMesa').disabled = false;
     }
 
     if (tipo === 'reserva') {
-    ['btn-ver-reserva', 'btn-eliminar-reserva', 'btn-limpiarR'].forEach(id => {
-        const btn = document.getElementById(id);
-        if (btn) btn.disabled = false;
-    });
-}
+        ['btn-ver-reserva', 'btn-eliminar-reserva', 'btn-limpiarR'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) btn.disabled = false;
+        });
+    }
+
+    if (tipo === 'platillo') {
+        ['btn-verPlatillo', 'btn-eliminarPlatillo', 'btn-modificarPlatillo', 'btn-limpiarP', 'btn-estadoPlatillo'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) btn.disabled = false;
+        });
+        document.getElementById('btn-crearPlatillo').disabled = false;
+    }
 
 }
 
@@ -149,6 +166,23 @@ function seleccionarReserva(fila) {
     actualizarBotones('reserva');
 }
 
+function seleccionarPlatillo(fila) {
+    limpiarTodoMenos('platillo');
+    tipoSeleccionActual = 'platillo';
+
+    fila.classList.add('selected');
+
+    platilloSeleccionado = {
+        id: fila.getAttribute('data-id'),
+        nombre: fila.getAttribute('data-nombre'),
+        descripcion: fila.getAttribute('data-descripcion'),
+        status: fila.getAttribute('data-status'),
+    };
+
+    document.getElementById('form-eliminar-platillo').action = `/admin/platillos/eliminar/${platilloSeleccionado.id}`;
+    actualizarBotones('platillo');
+}
+
 // ================= BOTONES ACCIONES ===================
 function crearMesa() {
     window.location.href = '/admin/mesas/crear';
@@ -212,6 +246,42 @@ function eliminarReserva() {
     }
 }
 
+function crearPlatillo() {
+    window.location.href = '/admin/platillos/crear';
+}
+
+function verPlatillo() {
+    if (platilloSeleccionado)
+        window.location.href = `/admin/platillos/${platilloSeleccionado.id}`;
+}
+
+function modificarPlatillo() {
+    if (platilloSeleccionado) {
+        window.location.href = `/admin/platillos/${platilloSeleccionado.id}/edit`;
+    }
+}
+
+function eliminarPlatillo() {
+    if (platilloSeleccionado) {
+        const confirmacion = confirm(`¿Estás seguro de eliminar el platillo ${platilloSeleccionado.nombre}?`);
+        if (confirmacion) {
+            document.getElementById('form-eliminar-platillo').submit();
+        }
+    }
+}
+
+function estadoPlatillo() {
+    if (platilloSeleccionado) {
+        const confirmacion = confirm(`¿Estás seguro de cambiar el estado del platillo ${platilloSeleccionado.nombre}?`);
+        if (confirmacion) {
+            const form = document.getElementById('form-estado-platillo');
+            form.action = `/admin/platillos/${platilloSeleccionado.id}/estado`;
+            form.submit();
+        }
+    }
+}
+
+
 function limpiarSeleccionR() {
     limpiarTodoMenos(null);
     reservaSeleccionada = null;
@@ -236,6 +306,7 @@ function limpiarTodoMenos(excepto) {
     if (excepto !== 'mesa') mesaSeleccionada = null;
     tipoSeleccionActual = excepto;
 }
+
 function limpiarSeleccion() {
     limpiarTodoMenos(null);
     usuarioSeleccionado = null;
@@ -278,4 +349,18 @@ function limpiarSeleccionE() {
 
     const btnLimpiarE = document.getElementById('btn-limpiar-empleado');
     if (btnLimpiarE) btnLimpiarE.disabled = false;
+}
+
+function limpiarSeleccionP() {
+    limpiarTodoMenos(null);
+    platilloSeleccionado = null;
+    tipoSeleccionActual = null;
+
+    ['btn-verPlatillo', 'btn-eliminarPlatillo', 'btn-modificarPlatillo', 'btn-estadoPlatillo'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = true;
+    });
+
+    const btnLimpiarP = document.getElementById('btn-limpiarP');
+    if (btnLimpiarP) btnLimpiarP.disabled = false;
 }

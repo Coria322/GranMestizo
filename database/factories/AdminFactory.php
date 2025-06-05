@@ -14,9 +14,7 @@ class AdminFactory extends Factory
     protected $model = Admin::class;
 
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
+     * Define a un Administrador con un usuario que tenga el rol de 'ADMINISTRADOR'.
      */
     public function definition()
     {
