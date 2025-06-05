@@ -10,6 +10,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\mesaController;
 use App\Http\Controllers\PlatilloController;
+use App\Http\Controllers\reporteController;
 
 //Rutas publicas
 
@@ -49,6 +50,9 @@ Route::prefix('Cliente')->middleware('check:CLIENTE')->group(function () {
     // RUTAS PARA EDICIÓN DE PERFIL
     Route::get('/perfil/editar', [clienteController::class, 'editarPerfil'])->name('cliente.editar');
     Route::patch('/perfil', [clienteController::class, 'actualizarPerfil'])->name('cliente.actualizar');
+    
+    //RUTAS DE ACCIÓN
+    Route::post('/reportar', [ReporteController::class, 'store'])->name('reportar');
 });
 
 //Rutas de empleado
@@ -58,18 +62,23 @@ Route::prefix('Empleado')->middleware('check:EMPLEADO')->group(function () {
     // RUTAS PARA EDICIÓN DE PERFIL DE EMPLEADO
     Route::get('/perfil/editar', [empleadoController::class, 'editarPerfil'])->name('empleado.editar');
     Route::patch('/perfil', [empleadoController::class, 'actualizarPerfil'])->name('empleado.actualizar');
+
+    //Rutas de reporte
+    Route::post('/reportar/{id}', [ReporteController::class,'store'])->name('reportar');
 });
 
 //Rutas de admin
 Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {    
     Route::get('/', [adminController::class, 'home'])->name('admin.main');
-   // Rutas de gestión de usuarios
+   
+    // Rutas de gestión de usuarios
     Route::get('/usuarios/{id}', [UsuarioController::class,'show'])->name('usuarios.detalle');
     Route::get('/usuarios/{id}/edit', [UsuarioController::class,'edit'])->name('usuario.edit');
     Route::post('/usuarios/cambiar-rol/{id}', [UsuarioController::class,'cambiarRol'])->name('admin.cambiarRol');
     Route::patch('/usuarios/{id}/patch', [UsuarioController::class,'update'])->name('usuario.update');
     Route::put('/usuarios/{id}/rol', [UsuarioController::class, 'cambiarRol'])->name('admin.cambiarRol');    
     Route::delete('/usuarios/eliminar/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
+   
     //Rutas de gestión de mesas
     Route::get('/mesas/crear', [MesaController::class,'create'])->name('mesas.create');
     Route::get('/mesas/{id}', [MesaController::class,'show'])->name('mesas.show');
@@ -91,7 +100,12 @@ Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
     Route::put('/platillos/{id}/edit', [PlatilloController::class, 'update'])->name('platillos.update');
     Route::delete('/platillos/eliminar/{id}', [PlatilloController::class, 'destroy'])->name('platillos.destroy');
     Route::patch('/platillos/{id}/estado', [PlatilloController::class, 'cambiarEstado'])->name('platillos.cambiarEstado');
+
+    //rutas para gestión de reportes
+    Route::get('reportes/{id}', [ReporteController::class,'show'])->name('reporte.ver');
+    Route::delete('reportes/eliminar/{id}', [ReporteController::class,'destoy'])->name('reporte.eliminar');
 });
+
 
 
 //Rutas para obtener fechas bloqueadas y horas disponibles

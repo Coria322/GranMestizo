@@ -46,6 +46,10 @@
             <button class="boton-admin {{ $seccionActiva === 'menu' ? 'activo' : '' }}">Menu</button>
         </a>
         
+        <a href="{{ route('admin.main', ['seccion' => 'reportes'])}}">
+            <button class="boton-admin {{ $seccionActiva === 'reportes' ? 'activo' : '' }}">Reportes</button>
+        </a>
+        
         <a href="{{ route('admin.main', ['seccion' => 'perfil'])}}">
             <button class="boton-admin {{ $seccionActiva === 'perfil' ? 'activo' : '' }}">Perfil</button>
         </a>
@@ -69,6 +73,9 @@
     {{-- Sección Menu --}}
     @includeWhen($seccionActiva === 'menu', 'partials.secciones.menu')
 
+    {{-- Sección Reportes --}}
+    @includeWhen($seccionActiva == 'reportes', 'partials.secciones.reportes')
+   
     <!-- boton constante de logout -->
     <div class="cont-const">
         <form action="{{ route('logout') }}" method="post" style="display: flex; justify-content: flex-end; margin-top: 1rem;">

@@ -3,6 +3,18 @@
 @section('bodyclass', 'bod')
 @section('content')
 @vite('resources/css/empleado/panelP.css')
+    {{-- Mostrar mensajes de éxito o error --}}
+    @if(session('success'))
+    <script>
+        alert("{{ session('success') }}");
+    </script>
+    @endif
+
+    @if(session('error'))
+    <script>
+        alert("{{ session('error') }}")
+    </script>
+    @endif
 
 <div class="main-container">
     <div class="empleado-panel">
@@ -59,18 +71,18 @@
                             <span class="dato-id">{{ $reserva->RESERVA_ID }}</span>
                             <span class="dato-nombre">
                                 @if($reserva->cliente)
-                                    {{ $reserva->cliente->USUARIO_NOMBRE ?? '' }} {{ $reserva->cliente->USUARIO_APELLIDO ?? '' }}
+                                {{ $reserva->cliente->USUARIO_NOMBRE ?? '' }} {{ $reserva->cliente->USUARIO_APELLIDO ?? '' }}
                                 @else
-                                    Sin cliente asignado
+                                Sin cliente asignado
                                 @endif
                             </span>
                             <span class="dato-fecha">{{ \Carbon\Carbon::parse($reserva->RESERVA_FECHA)->format('d/m/Y') }}</span>
                             <span class="dato-hora">{{ \Carbon\Carbon::parse($reserva->RESERVA_HORA)->format('H:i') }}</span>
                             <span class="dato-mesa">
                                 @if($reserva->reservasMesas->count() > 0)
-                                    Mesa {{ $reserva->reservasMesas->first()->MESA_ID }}
+                                Mesa {{ $reserva->reservasMesas->first()->MESA_ID }}
                                 @else
-                                    Por asignar
+                                Por asignar
                                 @endif
                             </span>
                             <span class="dato-comensales">{{ $reserva->RESERVA_COMENSALES }} personas</span>
@@ -81,7 +93,7 @@
                         </div>
                         @endforelse
                     </div>
-                    
+
                     {{-- Paginación --}}
                     @if(isset($reservas) && $reservas->hasPages())
                     <div class="paginacion-empleado">
@@ -122,7 +134,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="btns-datos">
                     <button class="btn-editar-perfil" onclick="editarPerfil()">
                         <div class="rectangle-perfil"></div>
@@ -135,26 +147,32 @@
             {{-- SECCIÓN REPORTES --}}
             @if ($seccionActiva === 'reportes')
             <div class="seccion-reportes">
-                <!-- TABLA DE REPORTES -->
-                <main class="tabla-reportes">
-                    <div class="etiquetas-reportes">
-                        <div class="rectangle-reportes"></div>
-                        <span class="titulo-reporte">ESCRIBE TU REPORTE AQUÍ</span>
-                    </div>
-                    <div class="area-reporte">
-                        <textarea class="texto-reporte" id="textoReporte" placeholder="Escribe tu reporte aquí..." rows="8"></textarea>
-                    </div>
-                </main>
+                <!-- FORMULARIO DE REPORTE -->
+                <form action="{{ route('reportar',  $usuarioGlobal->USUARIO_ID) }}" method="POST">
+                    @csrf
 
-                <!-- BOTÓN DE ENVIAR REPORTE -->
-                <footer class="btns-reporte">
-                    <button class="btn-enviar-reporte" onclick="enviarReporte()">
-                        <div class="rectangle-enviar"></div>
-                        <span class="texto-enviar">ENVIAR REPORTE</span>
-                    </button>
-                </footer>
+                    <!-- TABLA DE REPORTES -->
+                    <main class="tabla-reportes">
+                        <div class="etiquetas-reportes">
+                            <div class="rectangle-reportes"></div>
+                            <span class="titulo-reporte">ESCRIBE TU REPORTE AQUÍ</span>
+                        </div>
+                        <div class="area-reporte">
+                            <textarea class="texto-reporte" name="Contenido" id="textoReporte" placeholder="Escribe tu reporte aquí..." rows="8">{{ old('Contenido') }}</textarea>
+                        </div>
+                    </main>
+
+                    <!-- BOTÓN DE ENVIAR REPORTE -->
+                    <footer class="btns-reporte">
+                        <button type="submit" class="btn-enviar-reporte">
+                            <div class="rectangle-enviar"></div>
+                            <span class="texto-enviar">ENVIAR REPORTE</span>
+                        </button>
+                    </footer>
+                </form>
             </div>
             @endif
+
 
             <!-- BOTÓN CERRAR SESIÓN CONSTANTE -->
             <div class="logout-section">
@@ -175,28 +193,28 @@
 <script src="{{ asset('js/empleado/reservaciones.js') }}"></script>
 
 <script>
-// Función para enviar reporte (solo limpia el textarea)
-function enviarReporte() {
-    const textarea = document.getElementById('textoReporte');
-    const texto = textarea.value.trim();
-    
-    if (texto === '') {
-        alert('Por favor, escribe tu reporte antes de enviarlo.');
-        return;
-    }
-    
-    // Simular envío exitoso
-    alert('¡Reporte enviado correctamente!');
-    
-    // Limpiar el textarea
-    textarea.value = '';
-    textarea.focus();
-}
+    // Función para enviar reporte (solo limpia el textarea)
+    function enviarReporte() {
+        const textarea = document.getElementById('textoReporte');
+        const texto = textarea.value.trim();
 
-// Funciones para datos personales
-function editarPerfil() {
-    // Redirigir a la vista de edición de perfil del empleado
-    window.location.href = "{{ route('empleado.editar') }}";
-}
+        if (texto === '') {
+            alert('Por favor, escribe tu reporte antes de enviarlo.');
+            return;
+        }
+
+        // Simular envío exitoso
+        alert('¡Reporte enviado correctamente!');
+
+        // Limpiar el textarea
+        textarea.value = '';
+        textarea.focus();
+    }
+
+    // Funciones para datos personales
+    function editarPerfil() {
+        // Redirigir a la vista de edición de perfil del empleado
+        window.location.href = "{{ route('empleado.editar') }}";
+    }
 </script>
 @endsection

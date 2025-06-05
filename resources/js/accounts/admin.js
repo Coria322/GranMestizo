@@ -1,9 +1,11 @@
 let usuarioSeleccionado = null;
 let mesaSeleccionada = null;
 let empleadoSeleccionado = null;
-let tipoSeleccionActual = null; // 'usuario', 'mesa', 'empleado'
+let tipoSeleccionActual = null; // 'usuario', 'mesa', 'empleado', 'reserva', 'platillo', 'reporte'
 let reservaSeleccionada = null;
 let platilloSeleccionado = null;
+let reporteSeleccionado = null
+
 document.addEventListener('DOMContentLoaded', function () {
     // Selección de filas
     activarSeleccion('.fila-usuario.selectable-row', seleccionarUsuario);
@@ -11,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
     activarSeleccion('.fila-empleado.selectable-row', seleccionarEmpleado);
     activarSeleccion('.fila-reservas.selectable-row', seleccionarReserva)
     activarSeleccion('.fila-platillo.selectable-row', seleccionarPlatillo);
+    activarSeleccion('.fila-reportes.selectable-row', seleccionarReporte);
+
     // Botones
     conectarBoton('btn-ver-usuario', verUsuario);
     conectarBoton('btn-eliminar-usuario', eliminarUsuario);
@@ -31,6 +35,9 @@ document.addEventListener('DOMContentLoaded', function () {
     conectarBoton('btn-modificarPlatillo', modificarPlatillo);
     conectarBoton('btn-limpiarP', limpiarSeleccionP);
     conectarBoton('btn-estadoPlatillo', estadoPlatillo);
+    conectarBoton('btn-verReporte', verReporte);
+    conectarBoton('btn-eliminarReporte', eliminarReporte);
+    conectarBoton('btn-limpiarR', limpiarSeleccionRep);
 });
 
 function activarSeleccion(selector, handler) {
@@ -87,6 +94,13 @@ function actualizarBotones(tipo) {
             if (btn) btn.disabled = false;
         });
         document.getElementById('btn-crearPlatillo').disabled = false;
+    }
+
+    if (tipo === 'reporte') {
+        ['btn-verReporte', 'btn-eliminarReporte', 'btn-limpiarR'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) btn.disabled = false;
+        });
     }
 
 }
@@ -181,6 +195,23 @@ function seleccionarPlatillo(fila) {
 
     document.getElementById('form-eliminar-platillo').action = `/admin/platillos/eliminar/${platilloSeleccionado.id}`;
     actualizarBotones('platillo');
+}
+
+function seleccionarReporte(fila) {
+    limpiarTodoMenos('reporte');
+    tipoSeleccionActual = 'reporte';
+
+    fila.classList.add('selected');
+
+    reporteSeleccionado = {
+        id: fila.getAttribute('data-id'),
+        contenido: fila.getAttribute('data-contenido'),
+        usuario: fila.getAttribute('data-usuario'),
+        fecha: fila.getAttribute('data-fecha'),
+    };
+
+
+    actualizarBotones('reporte');
 }
 
 // ================= BOTONES ACCIONES ===================
@@ -281,6 +312,22 @@ function estadoPlatillo() {
     }
 }
 
+function verReporte() {
+    if (reporteSeleccionado)
+        window.location.href = `/admin/reportes/${reporteSeleccionado.id}`;
+}
+
+function eliminarReporte() {
+    if (reporteSeleccionado) {
+        const confirmacion = confirm(`¿Estás seguro de eliminar el reporte ${reporteSeleccionado.id}?`);
+        if (confirmacion) {
+            const form = document.getElementById('form-eliminar-reporte');
+            form.action = `/admin/reportes/eliminar/${reporteSeleccionado.id}`;
+            form.submit();
+        }
+    }
+}
+
 
 function limpiarSeleccionR() {
     limpiarTodoMenos(null);
@@ -363,4 +410,18 @@ function limpiarSeleccionP() {
 
     const btnLimpiarP = document.getElementById('btn-limpiarP');
     if (btnLimpiarP) btnLimpiarP.disabled = false;
+}
+
+function limpiarSeleccionRep() {
+    limpiarTodoMenos(null);
+    reporteSeleccionado = null;
+    tipoSeleccionActual = null;
+
+    ['btn-verReporte', 'btn-eliminarReporte'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = true;
+    });
+
+    const btnLimpiarRep = document.getElementById('btn-limpiarR');
+    if (btnLimpiarRep) btnLimpiarRep.disabled = false;
 }

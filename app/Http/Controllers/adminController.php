@@ -9,6 +9,7 @@ use App\Models\Mesa;
 use App\Models\Platillo;
 use App\Models\Usuario;
 use App\Models\Reserva;
+use App\Models\Reporte;
 use Illuminate\Http\Request;
 
 class adminController extends Controller
@@ -28,6 +29,7 @@ class adminController extends Controller
         $empleados = Empleado::paginate(5);
         $reservas = Reserva::paginate(5);
         $platillos = Platillo::paginate(5);
+        $reportes = Reporte::paginate(5);
 
         return view('admin.main', compact(
             'usuarios',
@@ -35,7 +37,8 @@ class adminController extends Controller
             'empleados',
             'reservas',
             'seccionActiva',
-            'platillos'
+            'platillos',
+            'reportes',
         ));
     }
 }
