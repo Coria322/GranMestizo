@@ -46,6 +46,10 @@ Route::post('/Reservas/reservar', [ReservaController::class, 'store'])->name('re
 //RUTA DE CLIENTE
 Route::prefix('Cliente')->middleware('check:CLIENTE')->group(function () {
     Route::get('/Usuario-panel', [clienteController::class,'panel' ])->name('Usuario.panelU');
+    
+    // RUTAS PARA EDICIÓN DE PERFIL
+    Route::get('/perfil/editar', [clienteController::class, 'editarPerfil'])->name('cliente.editar');
+    Route::patch('/perfil', [clienteController::class, 'actualizarPerfil'])->name('cliente.actualizar');
 });
 
 //Rutas de empleado

@@ -3,6 +3,11 @@
 @section('bodyclass', 'bod')
 @section('content')
 @vite('resources/css/cliente/panelP.css')
+@if(session('success'))
+<script>
+    alert("{{ session('success') }}");
+</script>
+@endif
 
 <div class="main-container">
     <!-- HEADER DE BIENVENIDA -->
@@ -82,8 +87,8 @@
                         <span>{{ $usuarioGlobal->USUARIO_CORREO }}</span>
                     </div>
                     <div class="campo-perfil">
-                        <label>Fecha de Nacimiento:</label>
-                        <span>{{ $usuarioGlobal->USUARIO_FECHANAC ?? 'No especificada' }}</span>
+                        <label>RFC:</label>
+                        <span>{{ $usuarioGlobal->cliente->CLIENTE_RFC ?? 'No disponible' }}</span>
                     </div>
                 </div>
                 <div class="acciones-perfil">
@@ -167,7 +172,8 @@
 <script>
 // Funciones para perfil
 function editarPerfil() {
-    alert('Función de editar perfil pendiente de implementar');
+    // Redirigir a la vista de edición de perfil
+    window.location.href = "{{ route('cliente.editar') }}";
 }
 
 function cambiarPassword() {

@@ -34,18 +34,7 @@
             @error('USUARIO_APELLIDO')
             <div class="error-message">{{ $message }}</div>
             @enderror
-
-            <!-- Campo Fecha de Nacimiento -->
-            <label class="fecha-de-nacimiento" for="USUARIO_FECHANAC">Fecha de nacimiento</label>
-            <input type="date" 
-                   class="campo-input campo-fecha @error('USUARIO_FECHANAC') error @enderror" 
-                   name="USUARIO_FECHANAC" 
-                   id="USUARIO_FECHANAC"
-                   value="{{ old('USUARIO_FECHANAC') }}">
-            @error('USUARIO_FECHANAC')
-            <div class="error-message">{{ $message }}</div>
-            @enderror
-
+            
             <!-- Campo Email -->
             <label class="email-field" for="USUARIO_CORREO">Correo electrónico</label>
             <input type="email" 
@@ -56,20 +45,6 @@
                    placeholder="ejemplo@correo.com"
                    required>
             @error('USUARIO_CORREO')
-            <div class="error-message">{{ $message }}</div>
-            @enderror
-
-            <!-- Campo RFC -->
-            <label class="rfc-field" for="CLIENTE_RFC">RFC (opcional)</label>
-            <input type="text" 
-                   class="campo-input rfc-input @error('CLIENTE_RFC') error @enderror" 
-                   name="CLIENTE_RFC" 
-                   id="CLIENTE_RFC"
-                   value="{{ old('CLIENTE_RFC') }}" 
-                   placeholder="XAXX010101000"
-                   maxlength="13"
-                   pattern="[A-Z]{4}[0-9]{6}[A-Z0-9]{3}">
-            @error('CLIENTE_RFC')
             <div class="error-message">{{ $message }}</div>
             @enderror
 

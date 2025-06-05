@@ -56,7 +56,7 @@ class UsuarioController extends Controller
     public function create()
     {
         //TODO hacer vista
-        return view('registroP');
+        return view('Registro.registroP');
     }
 
     // CREAR USUARIO (solo admins)
