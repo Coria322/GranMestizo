@@ -135,18 +135,24 @@
         <h1 class="title-platillos">Sabores que narran nuestra identidad</h1>
         <button class="nav-button prev">&#10094;</button>
         <div class="platillos-container">
-            @for ($i = 1; $i <= 6; $i++)
+            @forelse ($platillos as $platillo)
                 <div class="platillo-card">
-                <img src="{{ asset("imgs/platillo-1.png") }}" alt="Platillo {{ $i }}">
-                <div class="platillo-info">
-                    <h2>Platillo {{ $i }}</h2>
-                    <p>Descripción breve del platillo {{ $i }}.</p>
+                    @if($platillo->PLATILLO_IMAGEN)
+                        <img src="{{ asset('storage/' . $platillo->PLATILLO_IMAGEN) }}" alt="Imagen de {{ $platillo->PLATILLO_NOMBRE }}">
+                    @else
+                        <img src="{{ asset('imgs/platillo-1.png') }}" alt="Sin imagen">
+                    @endif
+                    <div class="platillo-info">
+                        <h2>{{ $platillo->PLATILLO_NOMBRE }}</h2>
+                        <p>{{ $platillo->PLATILLO_DESCRIPCION }}</p>
+                    </div>
                 </div>
-                </div>
-            @endfor
-</div>
-<button class="nav-button next">&#10095;</button>
-</section>
+            @empty
+                <p>Visitanos y vive la experiencia secreta.</p>
+            @endforelse
+        </div>
+        <button class="nav-button next">&#10095;</button>
+    </section>
 
 
 </div>

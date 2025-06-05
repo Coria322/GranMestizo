@@ -7,7 +7,6 @@
 @section('bodyclass', 'bod')
 @section('content')
 @section('header')
-@include('partials.nav')
 @endsection
 <div class="contenedor">
     {{-- Mostrar mensajes de éxito o error --}}
@@ -43,6 +42,10 @@
             <button class="boton-admin {{ $seccionActiva === 'reservas' ? 'activo' : '' }}">Reservas</button>
         </a>
 
+        <a href="{{ route('admin.main', ['seccion' => 'menu'])}}">
+            <button class="boton-admin {{ $seccionActiva === 'menu' ? 'activo' : '' }}">Menu</button>
+        </a>
+        
         <a href="{{ route('admin.main', ['seccion' => 'perfil'])}}">
             <button class="boton-admin {{ $seccionActiva === 'perfil' ? 'activo' : '' }}">Perfil</button>
         </a>
@@ -63,6 +66,8 @@
     {{-- Sección Perfil --}}
     @includeWhen($seccionActiva === 'perfil', 'partials.secciones.perfil', ['usuarioGlobal' => $usuarioGlobal])
     
+    {{-- Sección Menu --}}
+    @includeWhen($seccionActiva === 'menu', 'partials.secciones.menu')
 
     <!-- boton constante de logout -->
     <div class="cont-const">

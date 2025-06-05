@@ -1,6 +1,4 @@
 <?php
-//TODO en el producto final es necesario cambiar las vistas "pruebas" por "usuario"
-//lo anterior aplica en rutas, controladores y vistas
 
 namespace App\Http\Controllers;
 
@@ -55,7 +53,6 @@ class UsuarioController extends Controller
     // FORMULARIO DE CREACIÓN (solo admins)
     public function create()
     {
-        //TODO hacer vista
         return view('Registro.registroP');
     }
 
@@ -91,11 +88,9 @@ class UsuarioController extends Controller
             'USUARIO_ROL' => 'CLIENTE',
 
             //El rfc para el cliente o null.
-            //TODO esto cambiará a para definir un rfc generico o null
             'CLIENTE_RFC' => $request->CLIENTE_RFC,
         ]);
 
-        //TODO Los clientes con null deben mostrar un rfc generico
         $usuario->cliente()->create([
             'CLIENTE_RFC' => $request->CLIENTE_RFC ?? null,
 
@@ -133,7 +128,6 @@ class UsuarioController extends Controller
 
         $usuario = Usuario::findOrFail($id);
 
-        //TODO hacer vista
         return view('usuario.edit', compact('usuario'));
     }
 

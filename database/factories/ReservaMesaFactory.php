@@ -12,9 +12,9 @@ use App\Models\Reserva;
 class ReservaMesaFactory extends Factory
 {
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
+     * Define las relaciones entre la reserva y la mesa.
+     * Esta fábrica crea una relación entre una reserva y una mesa, asegurando que la mesa esté libre antes de asignarla.
+     * Si no hay mesas libres, se crea una nueva mesa ocupada para la reserva.
      */
     public function definition(): array
     {
