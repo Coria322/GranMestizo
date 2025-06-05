@@ -55,6 +55,10 @@ Route::prefix('Cliente')->middleware('check:CLIENTE')->group(function () {
 //Rutas de empleado
 Route::prefix('Empleado')->middleware('check:EMPLEADO')->group(function () {
     Route::get('/Empleado-reservaciones', [empleadoController::class, 'panelP'])->name('Empleado.panelP');
+    
+    // RUTAS PARA EDICIÓN DE PERFIL DE EMPLEADO
+    Route::get('/perfil/editar', [empleadoController::class, 'editarPerfil'])->name('empleado.editar');
+    Route::patch('/perfil', [empleadoController::class, 'actualizarPerfil'])->name('empleado.actualizar');
 });
 
 //Rutas de admin

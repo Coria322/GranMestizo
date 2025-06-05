@@ -57,11 +57,23 @@
                         @forelse ($reservas as $reserva)
                         <div class="fila-reserva" data-reserva-id="{{ $reserva->RESERVA_ID }}">
                             <span class="dato-id">{{ $reserva->RESERVA_ID }}</span>
-                            <span class="dato-nombre">{{ $reserva->cliente->USUARIO_NOMBRE ?? 'N/A' }}</span>
-                            <span class="dato-fecha">{{ $reserva->RESERVA_FECHA }}</span>
-                            <span class="dato-hora">{{ $reserva->RESERVA_HORA }}</span>
-                            <span class="dato-mesa">{{ $reserva->reservasMesas->first()?->MESA_ID ?? 'N/A' }}</span>
-                            <span class="dato-comensales">{{ $reserva->RESERVA_COMENSALES }}</span>
+                            <span class="dato-nombre">
+                                @if($reserva->cliente)
+                                    {{ $reserva->cliente->USUARIO_NOMBRE ?? '' }} {{ $reserva->cliente->USUARIO_APELLIDO ?? '' }}
+                                @else
+                                    Sin cliente asignado
+                                @endif
+                            </span>
+                            <span class="dato-fecha">{{ \Carbon\Carbon::parse($reserva->RESERVA_FECHA)->format('d/m/Y') }}</span>
+                            <span class="dato-hora">{{ \Carbon\Carbon::parse($reserva->RESERVA_HORA)->format('H:i') }}</span>
+                            <span class="dato-mesa">
+                                @if($reserva->reservasMesas->count() > 0)
+                                    Mesa {{ $reserva->reservasMesas->first()->MESA_ID }}
+                                @else
+                                    Por asignar
+                                @endif
+                            </span>
+                            <span class="dato-comensales">{{ $reserva->RESERVA_COMENSALES }} personas</span>
                         </div>
                         @empty
                         <div class="sin-datos">
@@ -81,14 +93,7 @@
                 <!-- BOTONES DE ACCIÓN -->
                 <footer class="btns-sec">
                     <div class="btns-sec-6">
-                        <button class="btn-editar" id="editarReservacion">
-                            <div class="rectangle-7"></div>
-                            <span class="editar-reservacion">EDITAR RESERVACIÓN</span>
-                        </button>
-                        <button class="btn-eliminar" id="eliminarReservacion">
-                            <div class="rectangle-8"></div>
-                            <span class="eliminar-reservacion">ELIMINAR RESERVACIÓN</span>
-                        </button>
+
                     </div>
                 </footer>
             </div>
@@ -188,9 +193,10 @@ function enviarReporte() {
     textarea.focus();
 }
 
-// Funciones para datos personales (si las necesitas)
+// Funciones para datos personales
 function editarPerfil() {
-    alert('Función de editar perfil pendiente de implementar');
+    // Redirigir a la vista de edición de perfil del empleado
+    window.location.href = "{{ route('empleado.editar') }}";
 }
 
 function cambiarPassword() {
