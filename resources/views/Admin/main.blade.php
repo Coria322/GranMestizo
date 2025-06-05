@@ -42,12 +42,12 @@
             <button class="boton-admin {{ $seccionActiva === 'reservas' ? 'activo' : '' }}">Reservas</button>
         </a>
 
-        <a href="{{ route('admin.main', ['seccion' => 'perfil'])}}">
-            <button class="boton-admin {{ $seccionActiva === 'perfil' ? 'activo' : '' }}">Perfil</button>
-        </a>
-        
         <a href="{{ route('admin.main', ['seccion' => 'menu'])}}">
             <button class="boton-admin {{ $seccionActiva === 'menu' ? 'activo' : '' }}">Menu</button>
+        </a>
+        
+        <a href="{{ route('admin.main', ['seccion' => 'perfil'])}}">
+            <button class="boton-admin {{ $seccionActiva === 'perfil' ? 'activo' : '' }}">Perfil</button>
         </a>
     </div>
 
