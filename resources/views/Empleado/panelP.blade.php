@@ -198,9 +198,5 @@ function editarPerfil() {
     // Redirigir a la vista de edición de perfil del empleado
     window.location.href = "{{ route('empleado.editar') }}";
 }
-
-function cambiarPassword() {
-    alert('Función de cambiar contraseña pendiente de implementar');
-}
 </script>
 @endsection
