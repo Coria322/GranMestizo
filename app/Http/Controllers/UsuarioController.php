@@ -53,7 +53,7 @@ class UsuarioController extends Controller
     // FORMULARIO DE CREACIÓN (solo admins)
     public function create()
     {
-        return view('registroP');
+        return view('Registro.registroP');
     }
 
     // CREAR USUARIO (solo admins)

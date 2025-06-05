@@ -5,7 +5,8 @@
     <title>Editar Usuario</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">-->
+    @vite('resources/css/edit.css') <!--ESTE ES EL CSS PARA EDIT-->
 </head>
 <body>
 <div class="container mt-5">
@@ -149,7 +150,7 @@
     </script>
     @endif
 </div>
-<!-- Bootstrap JS CDN (optional, for some components) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS CDN (optional, for some components) 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>-->
 </body>
 </html>

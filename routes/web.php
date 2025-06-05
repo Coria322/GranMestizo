@@ -45,11 +45,19 @@ Route::middleware('check:CLIENTE')->group(function (){
 //RUTA DE CLIENTE
 Route::prefix('Cliente')->middleware('check:CLIENTE')->group(function () {
     Route::get('/Usuario-panel', [clienteController::class,'panel' ])->name('Usuario.panelU');
+    
+    // RUTAS PARA EDICIÓN DE PERFIL
+    Route::get('/perfil/editar', [clienteController::class, 'editarPerfil'])->name('cliente.editar');
+    Route::patch('/perfil', [clienteController::class, 'actualizarPerfil'])->name('cliente.actualizar');
 });
 
 //Rutas de empleado
 Route::prefix('Empleado')->middleware('check:EMPLEADO')->group(function () {
     Route::get('/Empleado-reservaciones', [empleadoController::class, 'panelP'])->name('Empleado.panelP');
+    
+    // RUTAS PARA EDICIÓN DE PERFIL DE EMPLEADO
+    Route::get('/perfil/editar', [empleadoController::class, 'editarPerfil'])->name('empleado.editar');
+    Route::patch('/perfil', [empleadoController::class, 'actualizarPerfil'])->name('empleado.actualizar');
 });
 
 //Rutas de admin
