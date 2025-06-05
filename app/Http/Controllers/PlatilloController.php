@@ -8,12 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class PlatilloController extends Controller
 {
-    public function index()
-    {
-        $platillos = Platillo::all();
-        return view('platillos.index', compact('platillos'));
-    }
-
     public function create()
     {
         return view('platillos.create');
@@ -35,20 +29,22 @@ class PlatilloController extends Controller
 
         Platillo::create($data);
 
-        return redirect()->route('platillos.index')->with('success', 'Platillo creado correctamente.');
+        return redirect()->route('admin.main', ['seccion' => 'menu'])->with('success', 'Platillo creado correctamente.');
     }
 
-    public function show(Platillo $platillo)
+    public function show(Platillo $id)
     {
+        $platillo = Platillo::find($id)->first();
         return view('platillos.show', compact('platillo'));
     }
 
-    public function edit(Platillo $platillo)
+    public function edit($id)
     {
+        $platillo = Platillo::find($id)->first();
         return view('platillos.edit', compact('platillo'));
     }
 
-    public function update(Request $request, Platillo $platillo)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'PLATILLO_NOMBRE' => 'required|string|max:100',
@@ -63,7 +59,7 @@ class PlatilloController extends Controller
             $data['PLATILLO_IMAGEN'] = $request->file('PLATILLO_IMAGEN')->store('platillos', 'public');
         }
 
-        $platillo->update($data);
+        Platillo::find($id)->update($data);
 
         return redirect()
             ->route('admin.main', ['seccion' => 'menu'])

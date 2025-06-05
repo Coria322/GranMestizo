@@ -5,6 +5,7 @@ use App\Http\Controllers\clienteController;
 use App\Http\Controllers\empleadoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\bienvenidaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\mesaController;
@@ -31,9 +32,7 @@ Route::get('/forbidden', function () {
 })->name('forbidden');
 
 // Rutas de bienvenida
-Route::get('/', function () {
-    return view('bienvenida');
-})->name('bienvenida');
+Route::get('/', [bienvenidaController::class, 'index'])->name('bienvenida');
 
 
 //rutas de reserva
