@@ -23,7 +23,7 @@ class empleadoController extends Controller
         $seccionActiva = $request->query('seccion', 'reservaciones');
 
         // Obtener el usuario global (empleado logueado)
-        $usuarioGlobal = auth()->user();
+        $usuarioGlobal = auth()->guard('Usuario')->user();
         
         // Obtener datos del empleado
         $empleado = Empleado::where('USUARIO_ID', $usuarioGlobal->USUARIO_ID)->first();
@@ -44,7 +44,7 @@ class empleadoController extends Controller
 
     public function editarPerfil()
     {
-        $usuarioGlobal = auth()->user();
+        $usuarioGlobal = auth()->guard('Usuario')->user();
         
         // Cargar la relación con empleado
         $usuarioGlobal->load('empleado');
@@ -54,7 +54,7 @@ class empleadoController extends Controller
 
     public function actualizarPerfil(Request $request)
     {
-        $usuarioGlobal = auth()->user();
+        $usuarioGlobal = auth()->guard('Usuario')->user();
         
         // Validación de datos
         $validated = $request->validate([
@@ -66,7 +66,7 @@ class empleadoController extends Controller
                 Rule::unique('usuarios', 'USUARIO_CORREO')->ignore($usuarioGlobal->USUARIO_ID, 'USUARIO_ID')
             ],
             'EMPLEADO_RFC' => 'nullable|string|size:13|regex:/^[A-Z]{4}[0-9]{6}[A-Z0-9]{3}$/',
-            'EMPLEADO_TURNO' => 'nullable|string|in:MATUTINO,VESPERTINO,NOCTURNO',
+            'EMPLEADO_TURNO' => 'nullable|string|in:M, V', // M = Matutino, V = Vespertino
         ], [
             'USUARIO_NOMBRE.required' => 'El nombre es obligatorio.',
             'USUARIO_APELLIDO.required' => 'El apellido es obligatorio.',
@@ -115,7 +115,7 @@ class empleadoController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             
-            return back()->withErrors(['error' => 'Error al actualizar el perfil. Por favor, inténtelo de nuevo.'])
+            return back()->withErrors(['error' => 'Error al actualizar el perfil. Por favor, inténtelo de nuevo. ' . $e->getMessage()])
                         ->withInput();
         }
     }
