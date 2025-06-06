@@ -2,7 +2,10 @@
 @import './bienvenida.css';
 @import './login.css';
 @import './404.css';
+@import './reserva.css';
+@import './admin.css';
 @import 'tailwindcss';
+@import './empleado/panelP.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';

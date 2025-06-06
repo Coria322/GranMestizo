@@ -1,24 +1,89 @@
-<div>
-    <h1 style="color:rebeccapurple;">ADMIN</h1>
-    <h1>Ya estás logeado</h1>
-    <h2>Bienvenido {{ $usuarioGlobal->USUARIO_NOMBRE }}</h2>
-    <h2>Tu apellido es {{ $usuarioGlobal->USUARIO_APELLIDO }}</h2>
-    <h2>Tu correo es {{ $usuarioGlobal->USUARIO_CORREO }}</h2>
-    <h2>Tu contraseña es {{ $usuarioGlobal->USUARIO_PWD }}</h2>
-    <h2>Tu rol es {{ $usuarioGlobal->USUARIO_ROL }}</h2>
-    <h2>Tu ID es {{ $usuarioGlobal->USUARIO_ID }}</h2>
+@extends('layouts.app')
+@section('head')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@vite(['resources/js/accounts/admin.js'])
+@endsection
+@section('htclass','bod')
+@section('bodyclass', 'bod')
+@section('content')
+@section('header')
+@endsection
+<div class="contenedor">
+    {{-- Mostrar mensajes de éxito o error --}}
+    @if(session('success'))
+    <script>
+        alert("{{ session('success') }}");
+    </script>
+    @endif
 
-    <hr>
+    @if(session('error'))
+    <script>
+        alert("{{ session('error') }}")
+    </script>
+    @endif
 
-    <h1>Datos del ADMIN</h1>
-    @foreach ($usuarioGlobal->administrador->getAttributes() as $key => $value)
-        <h2>{{ ucfirst(str_replace('_', ' ', $key)) }}: {{ $value }}</h2>
-    @endforeach
+    <div class="bienvenida-admin">
+        <p class="bienvenida-texto">Bienvenido administrador</p>
+    </div>
 
-    <hr>
+    {{-- Botones de navegación --}}
+    <div class="botones-admin" id="botones-principales">
+        <a href="{{ route('admin.main', ['seccion' => 'usuarios']) }}">
+            <button class="boton-admin {{ $seccionActiva === 'usuarios' ? 'activo' : '' }}">Usuarios</button>
+        </a>
+        <a href="{{ route('admin.main', ['seccion' => 'mesas']) }}">
+            <button class="boton-admin {{ $seccionActiva === 'mesas' ? 'activo' : '' }}">Mesas</button>
+        </a>
+        <a href="{{ route('admin.main', ['seccion' => 'empleados']) }}">
+            <button class="boton-admin {{ $seccionActiva === 'empleados' ? 'activo' : '' }}">Empleados</button>
+        </a>
 
-    <form action="{{ route('logout') }}" method="post">
-        @csrf
-        <button type="submit">Cerrar sesión</button>
-    </form>
+        <a href="{{ route('admin.main', ['seccion' => 'reservas'])}}">
+            <button class="boton-admin {{ $seccionActiva === 'reservas' ? 'activo' : '' }}">Reservas</button>
+        </a>
+
+        <a href="{{ route('admin.main', ['seccion' => 'menu'])}}">
+            <button class="boton-admin {{ $seccionActiva === 'menu' ? 'activo' : '' }}">Menu</button>
+        </a>
+        
+        <a href="{{ route('admin.main', ['seccion' => 'reportes'])}}">
+            <button class="boton-admin {{ $seccionActiva === 'reportes' ? 'activo' : '' }}">Reportes</button>
+        </a>
+        
+        <a href="{{ route('admin.main', ['seccion' => 'perfil'])}}">
+            <button class="boton-admin {{ $seccionActiva === 'perfil' ? 'activo' : '' }}">Perfil</button>
+        </a>
+    </div>
+
+    {{-- Sección Usuarios --}}
+    @includeWhen($seccionActiva === 'usuarios', 'partials.secciones.usuario')
+
+    {{-- Sección Mesas --}}
+    @includeWhen($seccionActiva === 'mesas', 'partials.secciones.mesas', ['mesas' => $mesas])
+    
+    {{-- Sección Empleados --}}
+    @includeWhen($seccionActiva === 'empleados', 'partials.secciones.empleados', ['empleados' => $empleados])
+
+    {{-- Sección Reservas --}}
+    @includeWhen($seccionActiva === 'reservas', 'partials.secciones.reservas')
+
+    {{-- Sección Perfil --}}
+    @includeWhen($seccionActiva === 'perfil', 'partials.secciones.perfil', ['usuarioGlobal' => $usuarioGlobal])
+    
+    {{-- Sección Menu --}}
+    @includeWhen($seccionActiva === 'menu', 'partials.secciones.menu')
+
+    {{-- Sección Reportes --}}
+    @includeWhen($seccionActiva == 'reportes', 'partials.secciones.reportes')
+   
+    <!-- boton constante de logout -->
+    <div class="cont-const">
+        <form action="{{ route('logout') }}" method="post" style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+            @csrf
+            <button class="boton-admin" id="logout">
+                Cerrar sesión
+            </button>
+        </form>
+    </div>
 </div>
+@endsection

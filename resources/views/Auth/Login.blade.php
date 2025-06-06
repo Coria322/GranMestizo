@@ -18,6 +18,7 @@
 
         <button type="submit" class="iniciar-btn">Iniciar Sesión</button>
         <a href="#" class="olvidaste">¿Olvidaste la contraseña?</a>
+        <a href="{{ route('registro.create') }}" class="nCuenta">¿Aún no tienes cuenta?<span>REGISTRATE AQUÍ</span></a>    
     </div>
 </form>
 @endsection

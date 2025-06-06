@@ -1,0 +1,495 @@
+/* Mesas CSS - Crear y Editar Mesas */
+
+/* Variables CSS - Siguiendo nuestro esquema de colores */
+:root {
+    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+        "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
+        "Source Han Sans CN", sans-serif;
+    
+    /* Colores principales - Esquema consistente */
+    --primary-bg: #eee5da;        /* Fondo crema */
+    --dark-bg: #262424;           /* Gris oscuro */
+    --accent-bg: #a24e3d;         /* Terracota roja */
+    --secondary-bg: #2a4d58;      /* Azul grisáceo */
+    --white-bg: #ffffff;          /* Blanco */
+    --text-light: #eee5da;        /* Texto claro */
+    --text-dark: #333333;         /* Texto oscuro */
+    --error-color: #dc3545;       /* Rojo error */
+    --success-color: #28a745;     /* Verde éxito */
+    --warning-color: #ffc107;     /* Amarillo advertencia */
+    
+    /* Efectos */
+    --shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    --shadow-hover: 0 6px 8px 0 rgba(0, 0, 0, 0.3);
+    --shadow-strong: 0 6px 12px 0 rgba(0, 0, 0, 0.4);
+    --border-radius: 10px;
+    --border-radius-large: 20px;
+}
+
+/* Reset y configuración base */
+* {
+    box-sizing: border-box;
+}
+
+/* ==========================================
+   FONDO Y ESTRUCTURA GENERAL
+   ==========================================*/
+body {
+    background-color: var(--primary-bg);
+    font-family: Roboto, var(--default-font-family);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(162, 78, 61, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(42, 77, 88, 0.1) 0%, transparent 50%);
+}
+
+/* ==========================================
+   CONTENEDOR BOOTSTRAP PERSONALIZADO
+   ==========================================*/
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.mt-5 {
+    margin-top: 2rem !important;
+}
+
+/* ==========================================
+   TARJETAS (CARDS)
+   ==========================================*/
+.card {
+    background-color: var(--white-bg);
+    border: none;
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-strong);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: slideInUp 0.6s ease-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+}
+
+.shadow {
+    box-shadow: var(--shadow-strong) !important;
+}
+
+/* ==========================================
+   HEADERS DE TARJETAS
+   ==========================================*/
+.card-header {
+    background: linear-gradient(135deg, var(--accent-bg) 0%, #8a3d30 100%);
+    border-bottom: 3px solid var(--dark-bg);
+    padding: 20px 25px;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.card-header:hover::before {
+    left: 100%;
+}
+
+.card-header h2,
+.card-header h4 {
+    color: var(--text-light);
+    font-weight: 700;
+    margin: 0;
+    text-shadow: var(--shadow);
+    font-size: 28px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Override Bootstrap */
+.bg-primary {
+    background: linear-gradient(135deg, var(--accent-bg) 0%, #8a3d30 100%) !important;
+}
+
+.text-white {
+    color: var(--text-light) !important;
+}
+
+/* ==========================================
+   CUERPO DE TARJETAS
+   ==========================================*/
+.card-body {
+    padding: 30px;
+    background-color: var(--white-bg);
+}
+
+/* ==========================================
+   FORMULARIOS Y CAMPOS
+   ==========================================*/
+.form-label {
+    color: var(--dark-bg);
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-control, 
+.form-select {
+    border: 2px solid var(--dark-bg);
+    border-radius: var(--border-radius);
+    padding: 12px 15px;
+    font-size: 16px;
+    background-color: var(--white-bg);
+    color: var(--text-dark);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow);
+    font-family: inherit;
+}
+
+.form-control:focus, 
+.form-select:focus {
+    border-color: var(--accent-bg);
+    box-shadow: 0 0 0 3px rgba(162, 78, 61, 0.2);
+    outline: none;
+    transform: translateY(-1px);
+    background-color: #fafafa;
+}
+
+.form-control:hover, 
+.form-select:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--accent-bg);
+}
+
+/* Campo readonly */
+.form-control[readonly] {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+    border-style: dashed;
+}
+
+.form-control[readonly]:focus {
+    box-shadow: none;
+    transform: none;
+}
+
+/* Espaciado entre campos */
+.mb-3 {
+    margin-bottom: 25px;
+}
+
+/* ==========================================
+   BOTONES
+   ==========================================*/
+.btn {
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 16px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-shadow: var(--shadow);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de ondas en botones */
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+.btn:hover::before {
+    width: 100%;
+    height: 100%;
+}
+
+/* Botón principal (Crear/Actualizar) */
+.btn-primary,
+.btn-success {
+    background: linear-gradient(135deg, var(--accent-bg) 0%, #8a3d30 100%);
+    border-color: var(--accent-bg);
+    color: var(--text-light);
+    position: relative;
+    z-index: 1;
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+    background: linear-gradient(135deg, #8a3d30 0%, #6d2e22 100%);
+    border-color: #8a3d30;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    color: var(--text-light);
+}
+
+/* Botón secundario (Volver/Cancelar) */
+.btn-secondary {
+    background: linear-gradient(135deg, var(--secondary-bg) 0%, #1e3a44 100%);
+    border-color: var(--secondary-bg);
+    color: var(--text-light);
+    position: relative;
+    z-index: 1;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #1e3a44 0%, #152b33 100%);
+    border-color: #1e3a44;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    color: var(--text-light);
+}
+
+/* ==========================================
+   LAYOUT DE BOTONES
+   ==========================================*/
+.d-flex {
+    display: flex;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+/* ==========================================
+   ALERTAS Y MENSAJES
+   ==========================================*/
+.alert {
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 25px;
+    font-weight: 500;
+    box-shadow: var(--shadow);
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.alert::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: currentColor;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(40, 167, 69, 0.05) 100%);
+    color: var(--success-color);
+    border-left: 4px solid var(--success-color);
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(220, 53, 69, 0.05) 100%);
+    color: var(--error-color);
+    border-left: 4px solid var(--error-color);
+}
+
+.alert-dismissible .btn-close {
+    filter: invert(1);
+    opacity: 0.7;
+}
+
+.alert-dismissible .btn-close:hover {
+    opacity: 1;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ==========================================*/
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    .card-header h2,
+    .card-header h4 {
+        font-size: 24px;
+    }
+    
+    .card-body {
+        padding: 20px;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .form-control, 
+    .form-select {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    
+    .form-label {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-header {
+        padding: 15px 20px;
+    }
+    
+    .card-header h2,
+    .card-header h4 {
+        font-size: 20px;
+    }
+    
+    .card-body {
+        padding: 15px;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+/* ==========================================
+   ANIMACIONES Y TRANSICIONES
+   ==========================================*/
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Animación de entrada para formularios */
+.card-body form {
+    animation: fadeIn 0.8s ease-out 0.2s both;
+}
+
+/* ==========================================
+   MEJORAS DE ACCESIBILIDAD
+   ==========================================*/
+.btn:focus, 
+.form-control:focus, 
+.form-select:focus {
+    outline: 3px solid rgba(162, 78, 61, 0.5);
+    outline-offset: 2px;
+}
+
+/* Estados de validación */
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+}
+
+.form-control.is-valid,
+.form-select.is-valid {
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
+}
+
+/* ==========================================
+   ELEMENTOS ESPECÍFICOS DE MESAS
+   ==========================================*/
+
+/* Input de capacidad con estilo especial */
+input[type="number"] {
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* Select de estado con colores indicativos */
+select[name="Status"],
+select[name="Estado"] {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a24e3d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+/* Estilos específicos para campos de ID */
+input[name="Id"],
+input[readonly] {
+    text-align: center;
+    font-weight: 700;
+    color: var(--accent-bg);
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* ==========================================
+   OVERRIDE BOOTSTRAP ESPECÍFICOS
+   ==========================================*/
+.row {
+    margin: 0;
+}
+
+.col-md-6 {
+    padding: 0 15px;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+/* Asegurar que los elementos de Bootstrap mantengan nuestro estilo */
+.form-control:not(:focus):not(:hover) {
+    border-color: var(--dark-bg);
+}
+
+.form-select:not(:focus):not(:hover) {
+    border-color: var(--dark-bg);
+}

@@ -14,18 +14,16 @@ class EmpleadoFactory extends Factory
     protected $model = Empleado::class;
 
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+     * Define un Empleado con un usuario que tenga el rol de 'EMPLEADO'.
+    */
     public function definition()
     {
         return [
             //* Atributos propios del empleado
-            'EMPLEADO_RFC' => $this->faker->bothify('???###???###'),
-            'EMPLEADO_TURNO' => $this->faker->randomElement(['M','V']),
+            'EMPLEADO_RFC' => $this->faker->bothify('???###???####'),
+            'EMPLEADO_TURNO' => $this->faker->randomElement(['M', 'V']),
             'EMPLEADO_STATUS' => $this->faker->randomElement(['LIBRE', 'OCUPADO']),
-            
+
             //* Relación con un cliente
             //* Esta linea realiza el llamado a crear un cliente con rol empleado y relacionarlo con esta tabla
             'USUARIO_ID' => Usuario::factory()->state([

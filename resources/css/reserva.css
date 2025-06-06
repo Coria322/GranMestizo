@@ -1,0 +1,122 @@
+.contenedor-formulario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: min-content;
+    padding: 1rem;
+    box-sizing: border-box;
+    
+}
+
+
+.fondo-logo {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    background-color: var(--terracota);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: var(--br-5xl);
+    padding: 3rem 2rem;
+    overflow: hidden; /* importante para que el ::before no sobresalga */
+}
+
+.fondo-logo::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('../imgs/Logo Mex.png') center/cover no-repeat;
+    opacity: 0.3; /* ajusta la transparencia aquí */
+    z-index: 0;
+}
+
+
+.fondo-logo > * {
+    position: relative;
+    z-index: 1;
+}
+.formulario-reserva {
+    width: 100%;
+    max-width: 600px;
+    padding: 1rem;
+    border-radius: var(--br-3xs);
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+
+.formulario-reserva h2 {
+    color: var(--color-white);
+    font-family: var(--font-josefin-sans);
+    font-size: var(--font-size-6xl);
+    margin-bottom: 2rem;
+}
+
+.formulario-reserva h3{
+    color: var(--color-white);
+    font-weight: 600;
+    font-size: var(--font-size-lg);
+    text-align: justify;
+    margin-bottom: 1rem;
+    
+}
+
+.formulario-reserva input, select {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: var(--br-3xs);
+    border: 1px solid var(--deep-charcoal);
+    font-family: var(--font-open-sans);
+    font-size: var(--font-size-lg);
+    color: var(--deep-charcoal);
+    background-color: var(--ligth-almond);
+    
+}
+
+.formulario-reserva button {
+    display: block;
+    width: 80%;
+    padding: 0.8rem;
+    margin: 0 auto;
+    margin-top: 1rem;
+    background-color: var(--deep-charcoal);
+    border-radius: var(--br-3xs);
+    border: 1px solid var(--deep-charcoal);
+    font-family: var(--font-open-sans);
+    font-size: var(--font-size-lg);
+    color: var(--color-white);
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formulario-reserva button:hover {
+    background-color: var(--petrol-blue);
+}
+
+.link-volver {
+  display: block;              /* Para que ocupe toda la línea y se pueda controlar margen */
+  margin: 1.2rem auto 0 auto;    /* Margen arriba para separar del botón */
+  width: fit-content;          /* Para que no ocupe todo el ancho */
+  color: var(--ligth-almond);  /* Color almendra */
+  font-weight: 600;            /* Un poco más visible */
+  text-decoration: none;       /* Sin subrayado */
+  cursor: pointer;
+  transition: color 0.3s ease;
+  font-size: var(--font-size-lg)
+}
+
+.link-volver:hover {
+  color: var(--petrol-blue);   /* Cambio de color al pasar el mouse */
+  text-decoration: underline;
+}
+
+#errorFecha{
+    color: var(--color-white);
+}
+

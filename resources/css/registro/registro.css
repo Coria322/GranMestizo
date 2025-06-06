@@ -1,0 +1,463 @@
+/* Registro Usuario CSS - registro.css */
+
+/* Variables CSS */
+:root {
+    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+        "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
+        "Source Han Sans CN", sans-serif;
+    
+    --josefin-font: "Josefin Sans", var(--default-font-family);
+    
+    /* Colores principales */
+    --primary-bg: #eee5da;
+    --dark-panel: #262424;
+    --accent-color: #a24e3d;
+    --input-bg: #eee5da;
+    --text-light: #eee5da;
+    --text-dark: #333333;
+    --border-dark: #000000;
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    
+    /* Efectos */
+    --shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    --shadow-hover: 0 6px 8px 0 rgba(0, 0, 0, 0.3);
+    --border-radius: 10px;
+    --panel-radius: 40px;
+    
+    /* Espaciado */
+    --gap-small: 8px;
+    --gap-medium: 20px;
+    --gap-large: 42px;
+}
+
+/* Reset y configuración base */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--josefin-font);
+    background: var(--primary-bg);
+}
+
+input,
+select,
+textarea,
+button {
+    outline: 0;
+    border: none;
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL
+   ==========================================*/
+.main-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 75px;
+    position: relative;
+    width: 100%;
+    max-width: 1410px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 20px;
+    background: var(--primary-bg);
+}
+
+/* ==========================================
+   PANEL PRINCIPAL DE REGISTRO
+   ==========================================*/
+.con-p {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    width: 100%;
+    max-width: 775px;
+    min-height: 907px;
+    padding: 40px 30px;
+    background: var(--dark-panel);
+    border-radius: var(--panel-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.crea-tu-cuenta {
+    color: var(--text-light);
+    font-family: var(--josefin-font);
+    font-size: 48px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+/* ==========================================
+   FORMULARIO Y CAMPOS
+   ==========================================*/
+.etiq-campos {
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-medium);
+}
+
+/* Labels */
+.nombre-s,
+.apellidos,
+.fecha-de-nacimiento,
+.email-field,
+.rfc-field,
+.password-field,
+.password-confirm-field {
+    color: var(--text-light);
+    font-family: var(--josefin-font);
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: var(--gap-small);
+    display: block;
+    line-height: 1;
+}
+
+/* Inputs base */
+.campo-input {
+    width: 100%;
+    height: 57px;
+    padding: 15px 20px;
+    background: var(--input-bg);
+    border: 2px solid var(--border-dark);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    font-family: var(--josefin-font);
+    font-size: 16px;
+    color: var(--text-dark);
+    transition: all 0.3s ease;
+    margin-bottom: 0;
+}
+
+.campo-input::placeholder {
+    color: #666;
+    font-style: italic;
+}
+
+.campo-input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(162, 78, 61, 0.2);
+    transform: translateY(-1px);
+}
+
+.campo-input:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Estados de error */
+.campo-input.error {
+    border-color: var(--error-color);
+    background-color: #fff5f5;
+}
+
+.campo-input.error:focus {
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+}
+
+/* Mensajes de error */
+.error-message {
+    color: var(--error-color);
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 5px;
+    padding: 5px 10px;
+    background: rgba(220, 53, 69, 0.1);
+    border-radius: 5px;
+    border-left: 3px solid var(--error-color);
+}
+
+/* ==========================================
+   BOTÓN CONTINUAR
+   ==========================================*/
+.continue-button {
+    position: relative;
+    width: 280px;
+    height: 61px;
+    margin: 30px auto 0;
+    align-self: center;
+}
+
+.continuar-button {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--accent-color);
+    border: 2px solid var(--border-dark);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    color: var(--text-light);
+    font-family: var(--josefin-font);
+    font-size: 24px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.continuar-button:hover {
+    background: #8a3d30;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.continuar-button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow);
+}
+
+/* ==========================================
+   ENLACE A LOGIN
+   ==========================================*/
+.login-link {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text-light);
+    font-size: 16px;
+}
+
+.login-link a {
+    color: var(--accent-color);
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+    color: #8a3d30;
+    text-decoration: underline;
+}
+
+/* ==========================================
+   SECCIÓN DE BRANDING
+   ==========================================*/
+.branding-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.el-gran-mestizo {
+    color: var(--accent-color);
+    font-family: var(--josefin-font);
+    font-size: 60px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.1;
+}
+
+.logo-mex {
+    width: 514px;
+    height: 514px;
+    background: url('../../imgs/Logo Mex.png') no-repeat center;
+    background-size: cover;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+/* ==========================================
+   VALIDACIONES VISUALES
+   ==========================================*/
+.campo-input.valid {
+    border-color: var(--success-color);
+    background-color: #f8fff8;
+}
+
+.campo-input.valid:focus {
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ==========================================*/
+@media (max-width: 1200px) {
+    .main-container {
+        flex-direction: column;
+        gap: 40px;
+        padding: 15px;
+    }
+    
+    .con-p {
+        max-width: 600px;
+        min-height: auto;
+        padding: 30px 20px;
+    }
+    
+    .logo-mex {
+        width: 400px;
+        height: 400px;
+    }
+    
+    .el-gran-mestizo {
+        font-size: 48px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        padding: 10px;
+        gap: 20px;
+    }
+    
+    .con-p {
+        border-radius: 20px;
+        padding: 20px 15px;
+    }
+    
+    .crea-tu-cuenta {
+        font-size: 36px;
+    }
+    
+    .nombre-s,
+    .apellidos,
+    .fecha-de-nacimiento,
+    .email-field,
+    .rfc-field,
+    .password-field,
+    .password-confirm-field {
+        font-size: 24px;
+    }
+    
+    .campo-input {
+        height: 50px;
+        font-size: 16px;
+        padding: 12px 15px;
+    }
+    
+    .continue-button {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .continuar-button {
+        font-size: 20px;
+    }
+    
+    .logo-mex {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .el-gran-mestizo {
+        font-size: 36px;
+    }
+    
+    .etiq-campos {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .crea-tu-cuenta {
+        font-size: 28px;
+    }
+    
+    .nombre-s,
+    .apellidos,
+    .fecha-de-nacimiento,
+    .email-field,
+    .rfc-field,
+    .password-field,
+    .password-confirm-field {
+        font-size: 20px;
+    }
+    
+    .campo-input {
+        height: 45px;
+        font-size: 14px;
+    }
+    
+    .logo-mex {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .el-gran-mestizo {
+        font-size: 28px;
+    }
+}
+
+/* ==========================================
+   ANIMACIONES Y TRANSICIONES
+   ==========================================*/
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.con-p {
+    animation: slideInFromLeft 0.6s ease-out;
+}
+
+.branding-section {
+    animation: slideInFromRight 0.6s ease-out;
+}
+
+/* Efecto de escritura suave */
+.campo-input {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Loading state para el botón */
+.continuar-button.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.continuar-button.loading::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

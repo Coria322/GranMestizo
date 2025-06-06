@@ -17,6 +17,7 @@ class Mesa extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'MESA_ID',
         'MESA_CAPACIDAD',
         'MESA_STATUS',
         'MESA_SECCION'

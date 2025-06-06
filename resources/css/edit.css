@@ -1,0 +1,370 @@
+/* Edit Usuario CSS - Refactorizado */
+
+/* Variables CSS - Siguiendo nuestro esquema de colores */
+:root {
+    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+        "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
+        "Source Han Sans CN", sans-serif;
+    
+    /* Colores principales - Siguiendo el patrón de empleado/cliente */
+    --primary-bg: #eee5da;        /* Fondo crema */
+    --dark-bg: #262424;           /* Gris oscuro */
+    --accent-bg: #a24e3d;         /* Terracota roja */
+    --secondary-bg: #2a4d58;      /* Azul grisáceo */
+    --white-bg: #ffffff;          /* Blanco */
+    --text-light: #eee5da;        /* Texto claro */
+    --text-dark: #333333;         /* Texto oscuro */
+    --error-color: #dc3545;       /* Rojo error */
+    --success-color: #28a745;     /* Verde éxito */
+    --warning-color: #ffc107;     /* Amarillo advertencia */
+    
+    /* Efectos */
+    --shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    --shadow-hover: 0 6px 8px 0 rgba(0, 0, 0, 0.3);
+    --border-radius: 10px;
+    --border-radius-large: 20px;
+}
+
+/* Reset y configuración base */
+* {
+    box-sizing: border-box;
+}
+
+/* Fondo general */
+body {
+    background-color: var(--primary-bg);
+    font-family: Roboto, var(--default-font-family);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL
+   ==========================================*/
+.container {
+    background-color: var(--white-bg);
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow);
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: calc(100vh - 40px);
+}
+
+/* ==========================================
+   TÍTULOS Y ENCABEZADOS
+   ==========================================*/
+h2, .mb-4 {
+    color: var(--accent-bg);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+    text-shadow: var(--shadow);
+}
+
+h5.card-title {
+    color: var(--text-light);
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* ==========================================
+   FORMULARIOS Y CAMPOS
+   ==========================================*/
+.form-label {
+    color: var(--dark-bg);
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-control, .form-select {
+    border: 2px solid var(--dark-bg);
+    border-radius: var(--border-radius);
+    padding: 12px 15px;
+    font-size: 16px;
+    background-color: var(--white-bg);
+    color: var(--text-dark);
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-bg);
+    box-shadow: 0 0 0 3px rgba(162, 78, 61, 0.2);
+    outline: none;
+    transform: translateY(-1px);
+}
+
+.form-control:hover, .form-select:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Espaciado entre campos */
+.mb-3 {
+    margin-bottom: 20px;
+}
+
+/* ==========================================
+   BOTONES
+   ==========================================*/
+.btn {
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 16px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+/* Botón principal */
+.btn-primary {
+    background-color: var(--accent-bg);
+    border-color: var(--accent-bg);
+    color: var(--text-light);
+}
+
+.btn-primary:hover {
+    background-color: #8a3d30;
+    border-color: #8a3d30;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    color: var(--text-light);
+}
+
+/* Botón secundario */
+.btn-secondary {
+    background-color: var(--secondary-bg);
+    border-color: var(--secondary-bg);
+    color: var(--text-light);
+}
+
+.btn-secondary:hover {
+    background-color: #1e3a44;
+    border-color: #1e3a44;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    color: var(--text-light);
+}
+
+/* Botón de advertencia */
+.btn-warning {
+    background-color: var(--warning-color);
+    border-color: var(--warning-color);
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #e0a800;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    color: var(--text-dark);
+}
+
+/* Espaciado entre botones */
+.ms-2 {
+    margin-left: 15px;
+}
+
+/* ==========================================
+   ALERTAS Y MENSAJES
+   ==========================================*/
+.alert {
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    font-weight: 500;
+    box-shadow: var(--shadow);
+}
+
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    border: 2px solid var(--error-color);
+    color: var(--error-color);
+}
+
+.alert-danger ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.alert-danger li {
+    margin-bottom: 5px;
+}
+
+.mb-0 {
+    margin-bottom: 0;
+}
+
+/* ==========================================
+   TARJETAS (CARDS)
+   ==========================================*/
+.card {
+    background-color: var(--accent-bg);
+    border: 2px solid var(--dark-bg);
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow);
+    margin-top: 30px;
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 30px;
+}
+
+.card-title {
+    color: var(--text-light);
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: var(--shadow);
+}
+
+/* Campos dentro de las cards */
+.card .form-label {
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.card .form-control, 
+.card .form-select {
+    background-color: var(--text-light);
+    border-color: var(--dark-bg);
+    color: var(--text-dark);
+}
+
+.card .form-control:focus, 
+.card .form-select:focus {
+    border-color: var(--dark-bg);
+    box-shadow: 0 0 0 3px rgba(38, 36, 36, 0.2);
+}
+
+/* ==========================================
+   CAMPOS DINÁMICOS
+   ==========================================*/
+#clienteFields, #empleadoFields {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: rgba(238, 229, 218, 0.2);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(238, 229, 218, 0.3);
+}
+
+/* ==========================================
+   TEXTO INFORMATIVO
+   ==========================================*/
+.form-text {
+    color: var(--text-light);
+    font-style: italic;
+    font-size: 16px;
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(238, 229, 218, 0.2);
+    border-radius: var(--border-radius);
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ==========================================*/
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+    
+    h2, .mb-4 {
+        font-size: 28px;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .ms-2 {
+        margin-left: 0;
+    }
+    
+    .card-body {
+        padding: 20px;
+    }
+    
+    h5.card-title {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+    
+    h2, .mb-4 {
+        font-size: 24px;
+    }
+    
+    .form-control, .form-select {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+/* ==========================================
+   ANIMACIONES Y TRANSICIONES
+   ==========================================*/
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Transiciones suaves para campos dinámicos */
+#clienteFields, #empleadoFields {
+    transition: all 0.3s ease;
+}
+
+/* Estados de validación */
+.form-control.is-invalid {
+    border-color: var(--error-color);
+}
+
+.form-control.is-valid {
+    border-color: var(--success-color);
+}
+
+/* Mejoras de accesibilidad */
+.btn:focus, .form-control:focus, .form-select:focus {
+    outline: 2px solid var(--accent-bg);
+    outline-offset: 2px;
+}

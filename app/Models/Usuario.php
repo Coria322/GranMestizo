@@ -71,6 +71,10 @@ class Usuario extends Authenticatable
         return $this->hasOne(Empleado::class, 'USUARIO_ID', 'USUARIO_ID');
     }
 
+    public function reportes(){
+        return $this->hasMany(Reporte::class,'USUARIO_ID','USUARIO_ID');
+    }
+
     public function perfil()
     {
         switch ($this->USUARIO_ROL) {
@@ -94,5 +98,9 @@ class Usuario extends Authenticatable
     public function scopeRol(Builder $query, $rol)
     {
         return $query->where('USUARIO_ROL', $rol);
+    }
+
+    public function scopeUsuario(Builder $query, $usuario){
+        return $query->where('USUARIO_ID', $usuario->USUARIO_ID);
     }
 }

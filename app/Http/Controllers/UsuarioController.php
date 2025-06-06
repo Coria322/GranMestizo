@@ -1,6 +1,4 @@
 <?php
-//TODO en el producto final es necesario cambiar las vistas "pruebas" por "usuario"
-//lo anterior aplica en rutas, controladores y vistas
 
 namespace App\Http\Controllers;
 
@@ -15,13 +13,13 @@ class UsuarioController extends Controller
     //*Middleware adicional para validar que se encuentra autenticado
     public function __construct()
     {
-        $this->middleware('auth:Usuario');
+        $this->middleware('auth:Usuario')->except(['store']);
     }
 
     //* Métodos de validación para saber su tipo
     public function esUsuario()
     {
-        return view('Cliente.main');
+        return view('Usuario.panelU');
     }
     public function esAdmin()
     {
@@ -29,7 +27,7 @@ class UsuarioController extends Controller
     }
     public function esEmpleado()
     {
-        return view('Empleado.main');
+        return view('Empleado.panelP');
     }
 
     //* Métodos CRUD
@@ -46,7 +44,6 @@ class UsuarioController extends Controller
 
         //* Recuperar todos los usuarios con sus relaciones por rol
         $usuarios = Usuario::all();
-        //TODO agregar paginación con paginate y estilos personalizados
 
         return request()->wantsJson()
             ? response()->json($usuarios)
@@ -54,15 +51,9 @@ class UsuarioController extends Controller
     }
 
     // FORMULARIO DE CREACIÓN (solo admins)
-    //TODO terminar los action de crud
     public function create()
     {
-        if (Auth::guard('Usuario')->user()->USUARIO_ROL != 'ADMINISTRADOR') {
-            abort(403, 'Solo los administradores pueden crear usuarios.');
-        }
-
-        //TODO hacer vista
-        return view('pruebas.create');
+        return view('Registro.registroP');
     }
 
     // CREAR USUARIO (solo admins)
@@ -83,7 +74,7 @@ class UsuarioController extends Controller
                     ->numbers()
                     ->symbols()
             ],
-            'CLIENTE_RFC' => 'nullable|string|size:13',
+            'CLIENTE_RFC' => 'nullable|string|size:13|regex:/^[A-Z]{4}[0-9]{6}[A-Z0-9]{3}$/',
         ]);
 
         //*Crear al usuario
@@ -92,16 +83,14 @@ class UsuarioController extends Controller
             'USUARIO_NOMBRE' => $request->USUARIO_NOMBRE,
             'USUARIO_APELLIDO' => $request->USUARIO_APELLIDO,
             'USUARIO_CORREO' => $request->USUARIO_CORREO,
-            'USUARIO_PWD' => $request->USUARIO_PWD, // Se hashea automáticamente en el modelo
-            //El rol por defecto es CLIENTE
-            'USUARIO_ROL' => $request->USUARIO_ROL ?? 'CLIENTE',
+            'USUARIO_FECHANAC' => $request->USUARIO_FECHANAC,
+            'USUARIO_PWD' => $request->USUARIO_PWD,
+            'USUARIO_ROL' => 'CLIENTE',
 
             //El rfc para el cliente o null.
-            //TODO esto cambiará a para definir un rfc generico o null
-            'CLIENTE_RFC' => $request->CLIENTE_RFC ,
+            'CLIENTE_RFC' => $request->CLIENTE_RFC,
         ]);
 
-        //TODO Los clientes con null deben mostrar un rfc generico
         $usuario->cliente()->create([
             'CLIENTE_RFC' => $request->CLIENTE_RFC ?? null,
 
@@ -112,17 +101,22 @@ class UsuarioController extends Controller
 
     public function show($id)
     {
-        $usuario = Usuario::findOrFail($id);
+        $usuario = Usuario::with([
+            'cliente.reservas',
+            'empleado.reservas',
+            'administrador'
+        ])->findOrFail($id);
+
         $authUser = Auth::guard('Usuario')->user();
 
+        $usuario->perfil();
         // Verificar si el usuario autenticado es un administrador
         // O si el usuario autenticado es el mismo que el usuario que se está mostrando
         if ($authUser->USUARIO_ROL != 'ADMINISTRADOR' && $authUser->USUARIO_ID != $usuario->USUARIO_ID) {
             abort(403, 'Acceso no autorizado');
         }
 
-        //TODO hacer vista
-        return view('pruebas.show', compact('usuario'));
+        return view('detalleUsuario', compact('usuario'));
     }
 
     // EDITAR USUARIO (solo admins) o el mismo usuario
@@ -134,8 +128,7 @@ class UsuarioController extends Controller
 
         $usuario = Usuario::findOrFail($id);
 
-        //TODO hacer vista
-        return view('pruebas.edit', compact('usuario'));
+        return view('usuario.edit', compact('usuario'));
     }
 
 
@@ -150,7 +143,6 @@ class UsuarioController extends Controller
             abort(403, 'No puedes editar este usuario.');
         }
 
-        //TODO estas validaciones pueden ser más limpias, es importante revisarlas
         // Validaciones
         $request->validate([
             'USUARIO_NOMBRE' => 'required|string|max:50',
@@ -158,7 +150,7 @@ class UsuarioController extends Controller
             'USUARIO_CORREO' => 'required|email|unique:usuarios,USUARIO_CORREO,' . $usuario->USUARIO_ID . ',USUARIO_ID',
             'USUARIO_ROL' => 'nullable|string|in:ADMINISTRADOR,EMPLEADO,CLIENTE', // Solo válida si viene de un admin
             'CLIENTE_RFC' => 'nullable|string|size:13',
-            'EMPLEADO_RFC'=> 'nullable|string|size:13',
+            'EMPLEADO_RFC' => 'nullable|string|size:13',
         ]);
 
         // Solo el admin puede cambiar el rol
@@ -182,10 +174,12 @@ class UsuarioController extends Controller
         } elseif ($usuario->USUARIO_ROL == 'EMPLEADO') {
             $usuario->empleado()->update([
                 'EMPLEADO_RFC' => $request->EMPLEADO_RFC ?? null,
+                'EMPLEADO_TURNO' => $request->EMPLEADO_TURNO ?? 'M',
+                'EMPLEADO_STATUS' => $request->EMPLEADO_STATUS ?? 'ACTIVO',
             ]);
-        } 
+        }
 
-        return redirect()->route('pruebas.show', $usuario->USUARIO_ID)->with('success', 'Usuario actualizado correctamente.');
+        return redirect()->route('login')->with('success', 'Usuario actualizado correctamente.');
     }
 
     // Cambiar el rol de un usuario (solo admin)
@@ -201,7 +195,7 @@ class UsuarioController extends Controller
         $request->validate([
             'nuevo_rol' => 'required|in:CLIENTE,EMPLEADO,ADMINISTRADOR',
             'CLIENTE_RFC' => 'nullable|string|size:13',
-            'EMPLEADO_RFC'=> 'nullable|string|size:13',
+            'EMPLEADO_RFC' => 'nullable|string|size:13',
         ]);
 
         // Eliminar relaciones anteriores
@@ -216,7 +210,6 @@ class UsuarioController extends Controller
         $usuario->save();
 
 
-        //TODO agregar los campos del nuevo rol
         // Crear la nueva relación
         match ($request->nuevo_rol) {
             'CLIENTE' => $usuario->cliente()->create([
@@ -225,14 +218,40 @@ class UsuarioController extends Controller
 
             'EMPLEADO' => $usuario->empleado()->create([
                 'EMPLEADO_RFC' => $request->EMPLEADO_RFC ?? null,
-                'EMPLEADO_TURNO'=> $request->EMPLEADO_TURNO ?? 'M',
-                'EMPLEADO_STATUS'=> $request->EMPLEADO_STATUS ?? 'LIBRE',
+                'EMPLEADO_TURNO' => $request->EMPLEADO_TURNO ?? 'M',
+                'EMPLEADO_STATUS' => $request->EMPLEADO_STATUS ?? 'LIBRE',
             ]),
             'ADMINISTRADOR' => $usuario->administrador()->create([
                 'USUARIO_ID' => $usuario->USUARIO_ID,
-            ]), 
+            ]),
         };
 
-        return redirect()->route('pruebas.show', $usuario->USUARIO_ID)->with('success', 'Rol cambiado correctamente');
+        //login lo mandará a su panel
+        return redirect()->route('login')->with('success', 'Rol cambiado correctamente');
+    }
+
+    public function destroy($id)
+    {
+        $user = Auth::guard('Usuario')->user();
+
+        if ($user->USUARIO_ROL != 'ADMINISTRADOR') {
+            abort(403, 'Acceso no autorizado');
+        }
+
+        $usuario = Usuario::findOrFail($id);
+
+        // Validación de reservas activas en mesas para EMPLEADO
+        if ($usuario->USUARIO_ROL == 'EMPLEADO' && $usuario->empleado && $usuario->empleado->tieneReservasActivasEnMesas()) {
+            return redirect()
+                ->route('admin.main', ['seccion' => 'usuarios'])
+                ->with('error', 'No se puede eliminar el usuario porque tiene reservas activas asociadas a mesas.');
+        }
+
+
+        $usuario->delete();
+
+        return redirect()
+            ->route('admin.main', ['seccion' => 'usuarios'])
+            ->with('success', 'Usuario eliminado correctamente.');
     }
 }

@@ -1,0 +1,258 @@
+/* Contenedor principal */
+.contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+    padding: 10%;
+    padding-top: 5%;
+    background-color: var(--ligth-almond);
+}
+
+.bod {
+    overflow: hidden;
+    overflow-y: hidden;
+}
+
+/* Estilos para el rectángulo de bienvenida */
+.bienvenida-admin {
+    width: 80%;
+    height: 60px;
+    background-color: var(--deep-charcoal);
+    color: var(--color-white);
+    font-family: var(--font-roboto), sans-serif;
+    font-size: var(--font-size-6xl);
+    font-weight: bold;
+    text-align: center;
+    border-radius: var(--br-3xs);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor de botones */
+.botones-admin {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+/* Contenedor de acciones alineado a la izquierda */
+.acciones-admin {
+    display: flex;
+    gap: 20px;
+    width: 80%;
+    justify-content: flex-end;
+    /* Alinea los botones a la izquierda */
+    margin-bottom: 20px;
+    /* Espaciado con la tabla */
+}
+
+/* Estilos de los botones */
+.boton-admin {
+    background-color: var(--deep-charcoal);
+    color: var(--color-white);
+    font-family: var(--font-roboto), sans-serif;
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--br-5xl);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton-admin:hover {
+    background-color: var(--petrol-blue);
+    transform: scale(1.05);
+}
+
+.boton-admin:active {
+    transform: scale(0.95);
+}
+
+/* Contenedor de la tabla */
+.tabla-usuarios {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+}
+
+/* Estilos de la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: var(--br-3xs);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-white);
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: var(--deep-charcoal);
+    color: var(--color-white);
+}
+
+td {
+    background-color: var(--color-white);
+    color: var(--deep-charcoal);
+    border-bottom: 1px solid var(--color-gainsboro);
+}
+
+tr:hover td {
+    background-color: var(--almond);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+
+
+.boton-admin.activo {
+    background-color: var(--petrol-blue);
+    transform: scale(1.05);
+    color: white;
+}
+
+.botones-admin {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.botones-admin a {
+    text-decoration: none;
+}
+
+.section {
+    margin-top: 20px;
+}
+
+.paginacion {
+    margin-top: 10px;
+}
+
+
+.tabla-admin {
+    width: 100%;
+    table-layout: fixed;
+    /* Fuerza el ancho fijo */
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tabla-admin th,
+.tabla-admin td {
+    padding: 8px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tabla-admin th {
+    background-color: var(--deep-charcoal);
+    color: var(--color-white);
+}
+
+.tabla-admin td {
+    background-color: #f9f9f9;
+}
+
+.acciones-adm {
+    margin-top: 2%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.cont-const {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+
+
+.tabla-perfil {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+.tabla-perfil th,
+.tabla-perfil td {
+    padding: 10px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tabla-perfil th {
+    width: 30%;
+    font-weight: bold;
+    text-align: center;
+    color: var(--deep-charcoal);
+    color: var(--color-white);
+}
+
+.tabla-perfil td {
+    width: 70%;
+}
+
+.seleccionado {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.selected td{
+    background-color: var(--almond);
+}
+
+/* Estilos para la selección de filas */
+.selectable-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.selectable-row:hover {
+    background-color: #f8f9fa;
+}
+
+.selectable-row.selected {
+    background-color: #e3f2fd;
+    border-left: 4px solid #2196f3;
+}
+
+.usuario-info {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+    border: 1px solid #dee2e6;
+}
+
+.usuario-info h4 {
+    margin-bottom: 10px;
+    color: #495057;
+}
+
+.acciones-adm button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

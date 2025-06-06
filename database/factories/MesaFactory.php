@@ -10,9 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class MesaFactory extends Factory
 {
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
+     * Define una Mesa con atributos predefinidos.
      */
     public function definition(): array
     {
