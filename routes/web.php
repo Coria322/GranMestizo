@@ -52,7 +52,7 @@ Route::prefix('Cliente')->middleware('check:CLIENTE')->group(function () {
     Route::patch('/perfil', [clienteController::class, 'actualizarPerfil'])->name('cliente.actualizar');
     
     //RUTAS DE ACCIÓN
-    Route::post('/reportar', [ReporteController::class, 'store'])->name('reportar');
+Route::post('/reportar/{id}', [ReporteController::class, 'store'])->name('cliente.reportar');
 });
 
 //Rutas de empleado
