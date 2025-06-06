@@ -116,14 +116,15 @@ a {
     gap: var(--gap-medium);
     width: 100%;
     max-width: 1200px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .rectangle-1,
 .rectangle-2,
 .rectangle-3 {
-    position: relative;
-    width: 354px;
+    flex: 1 1 280px;
+    min-width: 220px;
+    max-width: 354px;
     height: 47px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
