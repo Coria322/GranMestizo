@@ -90,14 +90,11 @@
             <select class="form-control @error('EMPLEADO_TURNO') is-invalid @enderror" 
                     name="EMPLEADO_TURNO">
                 <option value="">Seleccionar turno (opcional)</option>
-                <option value="MATUTINO" {{ old('EMPLEADO_TURNO', $usuarioGlobal->empleado->EMPLEADO_TURNO ?? '') == 'MATUTINO' ? 'selected' : '' }}>
+                <option value="M" {{ old('EMPLEADO_TURNO', $usuarioGlobal->empleado->EMPLEADO_TURNO ?? '') == 'MATUTINO' ? 'selected' : '' }}>
                     Matutino
                 </option>
-                <option value="VESPERTINO" {{ old('EMPLEADO_TURNO', $usuarioGlobal->empleado->EMPLEADO_TURNO ?? '') == 'VESPERTINO' ? 'selected' : '' }}>
+                <option value="V" {{ old('EMPLEADO_TURNO', $usuarioGlobal->empleado->EMPLEADO_TURNO ?? '') == 'VESPERTINO' ? 'selected' : '' }}>
                     Vespertino
-                </option>
-                <option value="NOCTURNO" {{ old('EMPLEADO_TURNO', $usuarioGlobal->empleado->EMPLEADO_TURNO ?? '') == 'NOCTURNO' ? 'selected' : '' }}>
-                    Nocturno
                 </option>
             </select>
             @error('EMPLEADO_TURNO')

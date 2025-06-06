@@ -71,6 +71,10 @@ class Usuario extends Authenticatable
         return $this->hasOne(Empleado::class, 'USUARIO_ID', 'USUARIO_ID');
     }
 
+    public function reportes(){
+        return $this->hasMany(Reporte::class,'USUARIO_ID','USUARIO_ID');
+    }
+
     public function perfil()
     {
         switch ($this->USUARIO_ROL) {

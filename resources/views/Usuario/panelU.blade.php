@@ -22,139 +22,41 @@
                 <span class="home">INICIO</span>
             </div>
         </a>
-        
+
         <a href="{{ route('Usuario.panelU', ['seccion' => 'perfil']) }}">
             <div class="rectangle-2 {{ $seccionActiva === 'perfil' ? 'activo' : '' }}">
                 <span class="perfil">PERFIL</span>
             </div>
         </a>
-        
+
         <a href="{{ route('Usuario.panelU', ['seccion' => 'reservaciones']) }}">
             <div class="rectangle-3 {{ $seccionActiva === 'reservaciones' ? 'activo' : '' }}">
                 <span class="reservaciones">RESERVACIONES</span>
             </div>
         </a>
+
+        <a href="{{ route('Usuario.panelU', ['seccion' => 'reportes']) }}">
+            <div class="rectangle-3 {{ $seccionActiva === 'reportes' ? 'activo' : '' }}">
+                <span class="reservaciones">REPORTES</span>
+            </div>
+        </a>
     </nav>
 
     {{-- SECCIÓN INICIO --}}
-    @if ($seccionActiva === 'inicio')
-    <div class="seccion-inicio">
-        <!-- MENSAJE DE BIENVENIDA -->
-        <div class="rectangle-4">
-            <span class="experiencia-gastronomica">
-                ¿LISTO PARA DISFRUTAR DE UNA EXPERIENCIA GASTRONÓMICA INOLVIDABLE?<br />
-                AQUÍ PUEDES REVISAR TUS RESERVACIONES ACTIVAS, VER DETALLES ANTERIORES
-                Y GESTIONAR TU PERFIL. ¡TE ESPERAMOS CON GUSTO EN TU PRÓXIMA VISITA!
-            </span>
-        </div>
-
-        <!-- BOTONES DE ACCIÓN RÁPIDA -->
-        <div class="acciones-rapidas">
-            <a href="{{ route('reservas.create') }}">
-                <div class="rectangle-5">
-                    <span class="nueva-reservacion">NUEVA RESERVACIÓN</span>
-                </div>
-            </a>
-            
-            <a href="mailto:fco_javi_mtz@outlook.com">
-                <div class="rectangle-6">
-                    <span class="soporte">SOPORTE</span>
-                </div>
-            </a>
-        </div>
-    </div>
-    @endif
+    @includeWhen($seccionActiva === 'inicio', 'partials.usuario.inicio')
+    
 
     {{-- SECCIÓN PERFIL --}}
-    @if ($seccionActiva === 'perfil')
-    <div class="seccion-perfil">
-        <div class="tarjeta-perfil">
-            <div class="header-perfil">
-                <h2>MI PERFIL</h2>
-            </div>
-            <div class="contenido-perfil">
-                <div class="info-usuario">
-                    <div class="campo-perfil">
-                        <label>Nombre:</label>
-                        <span>{{ $usuarioGlobal->USUARIO_NOMBRE }}</span>
-                    </div>
-                    <div class="campo-perfil">
-                        <label>Apellido:</label>
-                        <span>{{ $usuarioGlobal->USUARIO_APELLIDO }}</span>
-                    </div>
-                    <div class="campo-perfil">
-                        <label>Correo:</label>
-                        <span>{{ $usuarioGlobal->USUARIO_CORREO }}</span>
-                    </div>
-                    <div class="campo-perfil">
-                        <label>RFC:</label>
-                        <span>{{ $usuarioGlobal->cliente->CLIENTE_RFC ?? 'No disponible' }}</span>
-                    </div>
-                </div>
-                <div class="acciones-perfil">
-                    <button class="btn-editar-usuario" onclick="editarPerfil()">
-                        EDITAR PERFIL
-                    </button>
-                    <button class="btn-cambiar-pass" onclick="cambiarPassword()">
-                        CAMBIAR CONTRASEÑA
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
+    @includeWhen($seccionActiva === 'perfil', 'partials.usuario.perfil')
+
 
     {{-- SECCIÓN RESERVACIONES --}}
-    @if ($seccionActiva === 'reservaciones')
-    <div class="seccion-reservaciones-cliente">
-        <div class="tarjeta-reservaciones">
-            <div class="header-reservaciones">
-                <h2>MIS RESERVACIONES</h2>
-            </div>
-            
-            @if($reservasCliente && $reservasCliente->count() > 0)
-            <div class="lista-reservaciones">
-                @foreach($reservasCliente as $reserva)
-                <div class="item-reservacion">
-                    <div class="info-reservacion">
-                        <div class="fecha-reserva">
-                            <strong>{{ \Carbon\Carbon::parse($reserva->RESERVA_FECHA)->format('d/m/Y') }}</strong>
-                        </div>
-                        <div class="hora-reserva">
-                            {{ $reserva->RESERVA_HORA }}
-                        </div>
-                        <div class="detalles-reserva">
-                            <span>{{ $reserva->RESERVA_COMENSALES }} comensales</span>
-                            <span>Mesa: {{ $reserva->reservasMesas->first()?->MESA_ID ?? 'Por asignar' }}</span>
-                        </div>
-                    </div>
-                    <div class="estado-reserva">
-                        <span class="badge-estado {{ strtolower($reserva->reservasMesas->first()?->STATUS ?? 'pendiente') }}">
-                            {{ $reserva->reservasMesas->first()?->STATUS ?? 'Pendiente' }}
-                        </span>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            
-            {{-- Paginación --}}
-            @if($reservasCliente->hasPages())
-            <div class="paginacion-cliente">
-                {{ $reservasCliente->appends(['seccion' => 'reservaciones'])->links() }}
-            </div>
-            @endif
-            @else
-            <div class="sin-reservaciones">
-                <p>No tienes reservaciones registradas.</p>
-                <a href="{{ route('reservas.create') }}" class="btn-nueva-reserva">
-                    HACER MI PRIMERA RESERVACIÓN
-                </a>
-            </div>
-            @endif
-        </div>
-    </div>
-    @endif
+    @includeWhen($seccionActiva === 'reservaciones', 'partials.usuario.reservaciones')
 
+    {{-- SECCIÓN REPORTES --}}
+    @includeWhen($seccionActiva === 'reportes', 'partials.usuario.reportes')
+
+   
     <!-- BOTÓN CERRAR SESIÓN CONSTANTE PARA QUE SE VEA DENTRO DE TODAS LAS SESIONES ACTIVAS -->
     <div class="logout-container">
         <form action="{{ route('logout') }}" method="POST">
@@ -170,14 +72,14 @@
 <script src="{{ asset('js/cliente/navigation.js') }}"></script>
 
 <script>
-// Funciones para perfil
-function editarPerfil() {
-    // Redirigir a la vista de edición de perfil
-    window.location.href = "{{ route('cliente.editar') }}";
-}
+    // Funciones para perfil
+    function editarPerfil() {
+        // Redirigir a la vista de edición de perfil
+        window.location.href = "{{ route('cliente.editar') }}";
+    }
 
-function cambiarPassword() {
-    alert('Función de cambiar contraseña pendiente de implementar');
-}
+    function cambiarPassword() {
+        alert('Función de cambiar contraseña pendiente de implementar');
+    }
 </script>
 @endsection

@@ -11,7 +11,6 @@ class Cliente extends Model
 
     protected $table = 'clientes'; // Nombre de la tabla
 
-    // La clave primaria en este caso es 'USUARIO_ID'
     protected $primaryKey = 'USUARIO_ID';
 
     public $timestamps = false;
