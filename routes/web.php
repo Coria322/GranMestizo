@@ -95,6 +95,7 @@ Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
     Route::get('/platillos', [PlatilloController::class, 'index'])->name('platillos.index');
     Route::get('/platillos/crear', [PlatilloController::class, 'create'])->name('platillos.create');
     Route::post('/platillos/store', [PlatilloController::class, 'store'])->name('platillos.store');
+    Route::get('/platillos/cancelar', [PlatilloController::class, 'cancel'])->name('platillos.cancel');
     Route::get('/platillos/{id}', [PlatilloController::class, 'show'])->name('platillos.show');
     Route::get('/platillos/{id}/edit', [PlatilloController::class, 'edit'])->name('platillos.edit');
     Route::put('/platillos/{id}/edit', [PlatilloController::class, 'update'])->name('platillos.update');

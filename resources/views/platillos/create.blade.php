@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @vite('resources/css/platillos/create.css') <!--ESTE ES EL CSS PARA CREAR-->
 </head>
 <body>
     <div class="container">
@@ -44,6 +44,7 @@
                 <label for="PLATILLO_STATUS" class="form-label">Estado</label>
                 <select class="form-select @error('PLATILLO_STATUS') is-invalid @enderror" 
                 id="PLATILLO_STATUS" name="PLATILLO_STATUS" required>
+                <option value="">Seleccionar estado...</option>
                 <option value="activo" {{ old('PLATILLO_STATUS') == 'activo' ? 'selected' : '' }}>Activo</option>
                 <option value="inactivo" {{ old('PLATILLO_STATUS') == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
             </select>
@@ -53,7 +54,7 @@
         </div>
         
         <button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="{{ route('admin.main', ['seccion' => 'platillos']) }}" class="btn btn-secondary">Cancelar</a>
+        <a href="{{ route('platillos.cancel') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 </body>
