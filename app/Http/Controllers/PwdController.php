@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use App\Mail\RecuperarPswMail;
 use App\Models\Usuario;
 use Illuminate\Validation\Rules\Password;
 
@@ -31,9 +32,7 @@ class PwdController extends Controller
 
         $link = route('password.reset', ['token' => $token]);
 
-        Mail::raw("Haz clic para resetear tu contraseña: $link", function ($message) use ($request) {
-            $message->to($request->email)->subject('Recupera tu contraseña');
-        });
+      Mail::to($request->email)->send(new RecuperarPswMail($link));
 
         return back()->with('status', 'Hemos enviado un enlace a tu correo.');
     }

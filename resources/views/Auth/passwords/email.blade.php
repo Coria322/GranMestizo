@@ -1,6 +1,6 @@
+{{-- //TODO MOSTRAR ERRORES --}}
 @extends('layouts.app')
 @section('content')
-//TODO MOSTRAR ERRORES
 <form class="login" method="POST" action="{{ route('password.email') }}">
     @csrf
     <div class="login-panel">

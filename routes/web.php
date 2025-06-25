@@ -121,4 +121,3 @@ Route::post('/password/email', [PwdController::class, 'enviarCorreo'])->name('pa
 
 Route::get('/password/reset/{token}', [PwdController::class, 'mostrarFormulario'])->name('password.reset');
 Route::post('/password/reset', [PwdController::class, 'resetearPassword'])->name('password.update');
-
