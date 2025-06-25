@@ -11,7 +11,8 @@ export default defineConfig({
                     'resources/js/app.js',
                     'resources/css/errors.css',
                     'resources/js/components/calendar.js',
-                    'resources/js/accounts/admin.js'
+                    'resources/js/accounts/admin.js',
+                    'resources/css/create.css'
                 ],
             refresh: true,
         }),

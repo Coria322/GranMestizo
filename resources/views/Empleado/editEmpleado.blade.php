@@ -1,10 +1,10 @@
 @extends('layouts.app')
-@section('htclass','bod')
-@section('bodyclass', 'bod')
+@section('htclass','bod1')
+@section('bodyclass', 'bod1')
 @section('content')
 @vite('resources/css/edit.css')
 
-<div class="container mt-5">
+<div class="container mt-5" style="overflow: scroll;">
     <h2 class="mb-4">Editar Mi Perfil - Empleado</h2>
 
     {{-- Mostrar mensajes de éxito --}}

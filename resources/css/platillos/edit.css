@@ -1,0 +1,626 @@
+/* ==========================================
+   VARIABLES CSS - SISTEMA DE PLATILLOS EDITAR
+   ==========================================*/
+:root {
+    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+        "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
+        "Source Han Sans CN", sans-serif;
+    
+    /* Paleta Carbon Negro Elegante con Crema */
+    --primary-bg: #eee5da;        /* Fondo crema */
+    --carbon-black: #1a1a1a;      /* Carbon negro principal */
+    --carbon-light: #2d2d2d;      /* Carbon claro */
+    --carbon-dark: #0f0f0f;       /* Carbon oscuro */
+    --accent-gold: #d4af37;       /* Oro elegante */
+    --accent-silver: #c0c0c0;     /* Plata */
+    --cream-tone: #f7f3ed;        /* Crema más claro */
+    --terracota-blue: #2a4d58;    /* Azul terracota */
+    --white-bg: #ffffff;          /* Blanco puro */
+    --text-light: #ffffff;        /* Texto blanco */
+    --text-dark: #1a1a1a;         /* Texto carbon */
+    --text-muted: #666666;        /* Texto sutil */
+    --error-color: #e74c3c;       /* Rojo moderno */
+    --success-color: #27ae60;     /* Verde moderno */
+    --warning-color: #f39c12;     /* Naranja moderno */
+    
+    /* Efectos Premium */
+    --shadow: 0 4px 12px 0 rgba(26, 26, 26, 0.15);
+    --shadow-hover: 0 8px 24px 0 rgba(26, 26, 26, 0.25);
+    --shadow-strong: 0 12px 32px 0 rgba(26, 26, 26, 0.35);
+    --shadow-inset: inset 0 2px 4px 0 rgba(26, 26, 26, 0.1);
+    --border-radius: 8px;
+    --border-radius-large: 16px;
+    --gradient-carbon: linear-gradient(135deg, var(--carbon-black) 0%, var(--carbon-light) 100%);
+    --gradient-gold: linear-gradient(135deg, var(--accent-gold) 0%, #b8941f 100%);
+}
+
+/* ==========================================
+   RESET Y CONFIGURACIÓN BASE
+   ==========================================*/
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--primary-bg);
+    font-family: Roboto, var(--default-font-family);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Patrón sutil de fondo crema */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 20%, rgba(26, 26, 26, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL
+   ==========================================*/
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ==========================================
+   TARJETA PRINCIPAL DEL FORMULARIO
+   ==========================================*/
+.form-card {
+    background-color: var(--cream-tone);
+    border: none;
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-strong);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: slideInUp 0.6s ease-out;
+    margin-top: 2rem;
+}
+
+.form-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px 0 rgba(26, 26, 26, 0.2);
+}
+
+/* ==========================================
+   HEADER DE LA TARJETA - VERSIÓN CARBON ELEGANTE
+   ==========================================*/
+.form-header {
+    background: var(--gradient-carbon);
+    border-bottom: 2px solid var(--accent-gold);
+    padding: 30px 35px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de brillo dorado sutil */
+.form-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+    transition: left 0.8s ease;
+}
+
+.form-header:hover::before {
+    left: 100%;
+}
+
+/* Línea dorada decorativa */
+.form-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--gradient-gold);
+    border-radius: 2px;
+}
+
+.form-header h2 {
+    color: var(--text-light);
+    font-weight: 300;
+    margin: 0;
+    font-size: 32px;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Sombra del texto más sutil */
+.form-header h2::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    color: rgba(212, 175, 55, 0.3);
+    z-index: -1;
+}
+
+/* ==========================================
+   CUERPO DEL FORMULARIO
+   ==========================================*/
+.form-body {
+    padding: 35px;
+    background-color: var(--cream-tone);
+}
+
+/* ==========================================
+   CAMPOS DEL FORMULARIO
+   ==========================================*/
+.form-label {
+    color: var(--dark-bg);
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 10px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+.form-label::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 25px;
+    height: 2px;
+    background: var(--gradient-gold);
+    border-radius: 1px;
+    transition: width 0.3s ease;
+}
+
+.form-label:hover::after {
+    width: 40px;
+}
+
+.form-control, 
+.form-select {
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    padding: 16px 20px;
+    font-size: 16px;
+    background: var(--white-bg);
+    color: var(--text-dark);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-inset);
+    font-family: inherit;
+    font-weight: 300;
+    width: 100%;
+}
+
+.form-control:focus, 
+.form-select:focus {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15), var(--shadow);
+    outline: none;
+    transform: translateY(-1px);
+    background: #fafafa;
+}
+
+.form-control:hover, 
+.form-select:hover {
+    border-color: var(--carbon-light);
+    box-shadow: var(--shadow);
+}
+
+/* ==========================================
+   TEXTAREA ESPECÍFICO
+   ==========================================*/
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+    font-family: inherit;
+    line-height: 1.6;
+}
+
+/* ==========================================
+   INPUT FILE PERSONALIZADO
+   ==========================================*/
+input[type="file"].form-control {
+    padding: 12px 15px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-style: dashed;
+    position: relative;
+}
+
+input[type="file"].form-control:hover {
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+}
+
+input[type="file"].form-control::file-selector-button {
+    background: var(--edit-accent);
+    color: var(--text-light);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin-right: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input[type="file"].form-control::file-selector-button:hover {
+    background: #1f618d;
+    transform: translateY(-1px);
+}
+
+/* ==========================================
+   SELECT PERSONALIZADO
+   ==========================================*/
+.form-select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232980b9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 18px;
+    padding-right: 45px;
+    cursor: pointer;
+}
+
+/* ==========================================
+   PREVIEW DE IMAGEN ACTUAL - VERSIÓN ELEGANTE
+   ==========================================*/
+.image-preview {
+    margin-top: 20px;
+    padding: 25px;
+    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+    border-radius: var(--border-radius-large);
+    border: 1px solid var(--accent-gold);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.image-preview::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-gold);
+}
+
+.image-preview img {
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-strong);
+    transition: all 0.4s ease;
+    max-width: 180px;
+    height: auto;
+    border: 2px solid var(--white-bg);
+}
+
+.image-preview img:hover {
+    transform: scale(1.08) rotate(1deg);
+    box-shadow: var(--shadow-hover);
+}
+
+.image-preview .image-label {
+    display: block;
+    margin-bottom: 15px;
+    color: var(--carbon-black);
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.image-preview .image-label::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 1px;
+    background: var(--accent-gold);
+}
+
+/* ==========================================
+   ESTADOS DE VALIDACIÓN
+   ==========================================*/
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.2);
+    background-color: rgba(220, 53, 69, 0.05);
+}
+
+.invalid-feedback {
+    color: var(--error-color);
+    font-weight: 500;
+    font-size: 14px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(220, 53, 69, 0.1);
+    border-radius: 6px;
+    border-left: 3px solid var(--error-color);
+}
+
+/* ==========================================
+   BOTONES
+   ==========================================*/
+.btn {
+    padding: 14px 28px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 16px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-shadow: var(--shadow);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 8px;
+}
+
+/* Botón principal (Actualizar) - Carbon con detalles dorados */
+.btn-primary {
+    background: var(--gradient-carbon);
+    border: 1px solid var(--accent-gold);
+    color: var(--text-light);
+    min-width: 160px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-gold);
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: 0;
+}
+
+.btn-primary:hover::after {
+    left: 0;
+    opacity: 0.1;
+}
+
+.btn-primary:hover {
+    border-color: var(--accent-gold);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    color: var(--text-light);
+}
+
+.btn-primary span {
+    position: relative;
+    z-index: 1;
+}
+
+/* Botón secundario (Cancelar) - Azul terracota */
+.btn-secondary {
+    background: linear-gradient(135deg, var(--terracota-blue) 0%, #1e3a44 100%);
+    border: 1px solid var(--terracota-blue);
+    color: var(--text-light);
+    min-width: 160px;
+    font-weight: 500;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #1e3a44 0%, #152b33 100%);
+    border-color: #1e3a44;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    color: var(--text-light);
+}
+
+/* ==========================================
+   CONTENEDOR DE BOTONES
+   ==========================================*/
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 2px solid #f8f9fa;
+}
+
+/* Alineación directa de botones sin contenedor */
+.btn {
+    vertical-align: middle;
+}
+
+/* Para botones que están directamente en el form sin contenedor */
+form .btn {
+    margin: 0 10px;
+}
+
+/* Contenedor flexible para botones inline */
+form .btn + .btn {
+    margin-left: 15px;
+}
+
+/* ==========================================
+   ESPACIADO
+   ==========================================*/
+.mb-3 {
+    margin-bottom: 28px;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ==========================================*/
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    .form-header h2 {
+        font-size: 26px;
+    }
+    
+    .form-body {
+        padding: 25px;
+    }
+    
+    .button-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    /* Para botones en contenedor responsive */
+    .button-container .btn {
+        width: 100%;
+        margin: 0;
+    }
+    
+    /* Para botones inline en móvil */
+    form .btn {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    form .btn + .btn {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    
+    .form-control, 
+    .form-select {
+        padding: 12px 15px;
+        font-size: 15px;
+    }
+    
+    .form-label {
+        font-size: 15px;
+    }
+    
+    .image-preview img {
+        max-width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-header {
+        padding: 20px 25px;
+    }
+    
+    .form-header h2 {
+        font-size: 22px;
+    }
+    
+    .form-body {
+        padding: 20px;
+    }
+    
+    .btn {
+        padding: 12px 24px;
+        font-size: 15px;
+    }
+    
+    input[type="file"].form-control {
+        padding: 10px 12px;
+    }
+    
+    .image-preview img {
+        max-width: 100px;
+    }
+}
+
+/* ==========================================
+   ANIMACIONES
+   ==========================================*/
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.form-body form {
+    animation: fadeIn 0.8s ease-out 0.2s both;
+}
+
+/* ==========================================
+   MEJORAS DE ACCESIBILIDAD
+   ==========================================*/
+.btn:focus, 
+.form-control:focus, 
+.form-select:focus {
+    outline: 3px solid rgba(41, 128, 185, 0.5);
+    outline-offset: 2px;
+}
+
+/* ==========================================
+   ELEMENTOS ESPECÍFICOS DE EDITAR PLATILLOS
+   ==========================================*/
+
+/* Campo de nombre con énfasis */
+input[name="PLATILLO_NOMBRE"]:focus {
+    box-shadow: 0 0 0 4px rgba(41, 128, 185, 0.3);
+    border-color: var(--edit-accent);
+}
+
+/* Campo de descripción */
+textarea[name="PLATILLO_DESCRIPCION"] {
+    font-family: inherit;
+    line-height: 1.7;
+}
+
+/* Select de estado con indicadores visuales */
+select[name="PLATILLO_STATUS"]:focus {
+    box-shadow: 0 0 0 4px rgba(41, 128, 185, 0.2);
+    border-color: var(--edit-accent);
+}
+
+/* Indicador visual para campos requeridos */
+.form-label[for="PLATILLO_NOMBRE"]::before,
+.form-label[for="PLATILLO_STATUS"]::before {
+    content: "* ";
+    color: var(--error-color);
+    font-weight: 700;
+}

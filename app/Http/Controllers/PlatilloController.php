@@ -13,15 +13,21 @@ class PlatilloController extends Controller
         return view('platillos.create');
     }
 
+public function cancel()
+{
+    return redirect()->route('admin.main', ['seccion' => 'menu'])->with('info', 'Operación cancelada correctamente.');
+}
+
     public function store(Request $request)
     {
         $request->validate([
             'PLATILLO_NOMBRE' => 'required|string|max:100',
             'PLATILLO_DESCRIPCION' => 'nullable|string',
             'PLATILLO_IMAGEN' => 'nullable|image|max:2048',
+            'PLATILLO_STATUS' => 'required|in:activo,inactivo', // AGREGAR ESTA LÍNEA
         ]);
 
-        $data = $request->only(['PLATILLO_NOMBRE', 'PLATILLO_DESCRIPCION']);
+        $data = $request->only(['PLATILLO_NOMBRE', 'PLATILLO_DESCRIPCION', 'PLATILLO_STATUS']);
 
         if ($request->hasFile('PLATILLO_IMAGEN')) {
             $data['PLATILLO_IMAGEN'] = $request->file('PLATILLO_IMAGEN')->store('platillos', 'public');
