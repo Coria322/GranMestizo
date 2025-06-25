@@ -114,3 +114,8 @@ Route::prefix('reservas')->group(function () {
     Route::get('/fechas-bloqueadas', [ReservaController::class, 'obtenerFechasBloqueadas'])->name('reservas.fechasBloqueadas');
     Route::get('/horas-disponibles', [ReservaController::class, 'obtenerHorasDisponibles'])->name('reservas.horasDisponibles');
 });
+
+
+Route::get('/ver-env', function(){
+    return env('APP_NAME');
+});
