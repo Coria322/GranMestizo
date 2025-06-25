@@ -10,6 +10,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\mesaController;
 use App\Http\Controllers\PlatilloController;
+use App\Http\Controllers\PwdController;
 use App\Http\Controllers\reporteController;
 
 //Rutas publicas
@@ -115,7 +116,9 @@ Route::prefix('reservas')->group(function () {
     Route::get('/horas-disponibles', [ReservaController::class, 'obtenerHorasDisponibles'])->name('reservas.horasDisponibles');
 });
 
+Route::get('/password/olvide', [PwdController::class, 'mostrarSolicitud'])->name('password.request');
+Route::post('/password/email', [PwdController::class, 'enviarCorreo'])->name('password.email');
 
-Route::get('/ver-env', function(){
-    return env('APP_NAME');
-});
+Route::get('/password/reset/{token}', [PwdController::class, 'mostrarFormulario'])->name('password.reset');
+Route::post('/password/reset', [PwdController::class, 'resetearPassword'])->name('password.update');
+
