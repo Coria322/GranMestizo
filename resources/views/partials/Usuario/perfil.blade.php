@@ -26,9 +26,6 @@
                 <button class="btn-editar-usuario" onclick="editarPerfil()">
                     EDITAR PERFIL
                 </button>
-                <button class="btn-cambiar-pass" onclick="cambiarPassword()">
-                    CAMBIAR CONTRASEÑA
-                </button>
             </div>
         </div>
     </div>
