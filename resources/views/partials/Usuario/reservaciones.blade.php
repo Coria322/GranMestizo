@@ -1,4 +1,3 @@
- @if ($seccionActiva === 'reservaciones')
     <div class="seccion-reservaciones-cliente">
         <div class="tarjeta-reservaciones">
             <div class="header-reservaciones">
@@ -26,6 +25,13 @@
                             {{ $reserva->reservasMesas->first()?->STATUS ?? 'Pendiente' }}
                         </span>
                     </div>
+
+                    {{-- Formulario para cancelar (eliminar) la reservación --}}
+                    <form method="POST" action="{{ route('reservas.destroy.clientes', $reserva->RESERVA_ID) }}" onsubmit="return confirm('¿Estás seguro que deseas cancelar esta reservación?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn-cancelar-reserva">Cancelar</button>
+                    </form>
                 </div>
                 @endforeach
             </div>
@@ -46,4 +52,3 @@
             @endif
         </div>
     </div>
-    @endif

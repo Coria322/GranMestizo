@@ -20,7 +20,11 @@ class ReservaServiceTest extends TestCase
     {
         // Crear cliente y empleado
         $cliente = Cliente::factory()->create();
-        $empleado = Empleado::factory()->create();
+        $empleado = Empleado::factory()->create(
+            [
+                'EMPLEADO_TURNO' => 'V'
+            ]
+        );
 
         // Crear mesas disponibles
         Mesa::factory()->count(3)->create([
@@ -49,7 +53,11 @@ class ReservaServiceTest extends TestCase
     public function no_puede_crear_reserva_si_no_hay_mesas_suficientes()
     {
         $cliente = Cliente::factory()->create();
-        Empleado::factory()->create();
+        Empleado::factory()->create(
+            [
+                'EMPLEADO_TURNO' => 'V'
+            ]
+        );
 
         // Solo hay una mesa de 2, y se necesitan 6 lugares
         Mesa::factory()->create([
@@ -89,7 +97,11 @@ class ReservaServiceTest extends TestCase
     public function no_puede_usar_mesa_ya_ocupada_en_mismo_horario()
     {
         $cliente = Cliente::factory()->create();
-        $empleado = Empleado::factory()->create();
+        $empleado = Empleado::factory()->create(
+            [
+                'EMPLEADO_TURNO' => 'V'
+            ]
+        );
         $mesa = Mesa::factory()->create([
             'MESA_CAPACIDAD' => 4,
             'MESA_STATUS' => 'LIBRE',
@@ -113,7 +125,11 @@ class ReservaServiceTest extends TestCase
     public function no_puede_reservar_si_todas_las_mesas_ya_estan_reservadas_en_el_horario()
     {
         $cliente = Cliente::factory()->create();
-        $empleado = Empleado::factory()->create();
+        $empleado = Empleado::factory()->create(
+            [
+                'EMPLEADO_TURNO' => 'M'
+            ]
+        );
 
         $mesa = Mesa::factory()->create([
             'MESA_CAPACIDAD' => 4,
@@ -136,7 +152,17 @@ class ReservaServiceTest extends TestCase
     public function puede_reservar_la_misma_mesa_en_horarios_diferentes()
     {
         $cliente = Cliente::factory()->create();
-        $empleado = Empleado::factory()->create();
+        $empleado = Empleado::factory()->create(
+            [
+                'EMPLEADO_TURNO' => 'V'
+            ]
+        );
+
+        $empleado2 = Empleado::factory()->create(
+            [
+                'EMPLEADO_TURNO' => 'M'
+            ]
+            );
 
         $mesa = Mesa::factory()->create([
             'MESA_CAPACIDAD' => 4,
