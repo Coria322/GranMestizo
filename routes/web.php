@@ -38,7 +38,7 @@ Route::get('/', [bienvenidaController::class, 'index'])->name('bienvenida');
 
 
 //rutas de reserva
-Route::middleware('check:CLIENTE')->group(function (){
+Route::middleware('check:CLIENTE')->group(function () {
     Route::get('/Reservas/reservar', [ReservaController::class, 'create'])->name('reservas.create');
     Route::post('/Reservas/reservar', [ReservaController::class, 'store'])->name('reservas.store');
 });
@@ -46,44 +46,48 @@ Route::middleware('check:CLIENTE')->group(function (){
 
 //RUTA DE CLIENTE
 Route::prefix('Cliente')->middleware('check:CLIENTE')->group(function () {
-    Route::get('/Usuario-panel', [clienteController::class,'panel' ])->name('Usuario.panelU');
-    
+    Route::get('/Usuario-panel', [clienteController::class, 'panel'])->name('Usuario.panelU');
+
     // RUTAS PARA EDICIÓN DE PERFIL
     Route::get('/perfil/editar', [clienteController::class, 'editarPerfil'])->name('cliente.editar');
     Route::patch('/perfil', [clienteController::class, 'actualizarPerfil'])->name('cliente.actualizar');
-    
+
     //RUTAS DE ACCIÓN
-Route::post('/reportar/{id}', [ReporteController::class, 'store'])->name('cliente.reportar');
+    Route::post('/reportar/{id}', [ReporteController::class, 'store'])->name('cliente.reportar');
+
+    //Ruta de eliminar reserva
+    Route::delete('/reservas/eliminar/{id}', [ReservaController::class, 'destroy'])->name('reservas.destroy.clientes');
+    
 });
 
 //Rutas de empleado
 Route::prefix('Empleado')->middleware('check:EMPLEADO')->group(function () {
     Route::get('/Empleado-reservaciones', [empleadoController::class, 'panelP'])->name('Empleado.panelP');
-    
+
     // RUTAS PARA EDICIÓN DE PERFIL DE EMPLEADO
     Route::get('/perfil/editar', [empleadoController::class, 'editarPerfil'])->name('empleado.editar');
     Route::patch('/perfil', [empleadoController::class, 'actualizarPerfil'])->name('empleado.actualizar');
 
     //Rutas de reporte
-    Route::post('/reportar/{id}', [ReporteController::class,'store'])->name('reportar');
+    Route::post('/reportar/{id}', [ReporteController::class, 'store'])->name('reportar');
 });
 
 //Rutas de admin
-Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {    
+Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
     Route::get('/', [adminController::class, 'home'])->name('admin.main');
-   
+
     // Rutas de gestión de usuarios
-    Route::get('/usuarios/{id}', [UsuarioController::class,'show'])->name('usuarios.detalle');
-    Route::get('/usuarios/{id}/edit', [UsuarioController::class,'edit'])->name('usuario.edit');
-    Route::post('/usuarios/cambiar-rol/{id}', [UsuarioController::class,'cambiarRol'])->name('admin.cambiarRol');
-    Route::patch('/usuarios/{id}/patch', [UsuarioController::class,'update'])->name('usuario.update');
-    Route::put('/usuarios/{id}/rol', [UsuarioController::class, 'cambiarRol'])->name('admin.cambiarRol');    
+    Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.detalle');
+    Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('usuario.edit');
+    Route::post('/usuarios/cambiar-rol/{id}', [UsuarioController::class, 'cambiarRol'])->name('admin.cambiarRol');
+    Route::patch('/usuarios/{id}/patch', [UsuarioController::class, 'update'])->name('usuario.update');
+    Route::put('/usuarios/{id}/rol', [UsuarioController::class, 'cambiarRol'])->name('admin.cambiarRol');
     Route::delete('/usuarios/eliminar/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
-   
+
     //Rutas de gestión de mesas
-    Route::get('/mesas/crear', [MesaController::class,'create'])->name('mesas.create');
-    Route::get('/mesas/{id}', [MesaController::class,'show'])->name('mesas.show');
-    Route::post('/mesas/store', [MesaController::class,'store'])->name('mesas.store');
+    Route::get('/mesas/crear', [MesaController::class, 'create'])->name('mesas.create');
+    Route::get('/mesas/{id}', [MesaController::class, 'show'])->name('mesas.show');
+    Route::post('/mesas/store', [MesaController::class, 'store'])->name('mesas.store');
     Route::get('/mesas/{id}/edit', [MesaController::class, 'edit'])->name('mesas.edit');
     Route::put('/mesas/{id}/edit', [MesaController::class, 'update'])->name('mesas.update');
     Route::delete('/mesas/eliminar/{id}', [MesaController::class, 'destroy'])->name('mesas.destroy');
@@ -104,8 +108,8 @@ Route::prefix('admin')->middleware('check:ADMINISTRADOR')->group(function () {
     Route::patch('/platillos/{id}/estado', [PlatilloController::class, 'cambiarEstado'])->name('platillos.cambiarEstado');
 
     //rutas para gestión de reportes
-    Route::get('reportes/{id}', [ReporteController::class,'show'])->name('reporte.ver');
-    Route::delete('reportes/eliminar/{id}', [ReporteController::class,'destoy'])->name('reporte.eliminar');
+    Route::get('reportes/{id}', [ReporteController::class, 'show'])->name('reporte.ver');
+    Route::delete('reportes/eliminar/{id}', [ReporteController::class, 'destoy'])->name('reporte.eliminar');
 });
 
 

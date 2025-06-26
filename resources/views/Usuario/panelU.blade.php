@@ -69,8 +69,6 @@
 </div>
 
 <!-- Scripts -->
-<script src="{{ asset('js/cliente/navigation.js') }}"></script>
-
 <script>
     // Funciones para perfil
     function editarPerfil() {
