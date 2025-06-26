@@ -476,3 +476,27 @@ php artisan migrate --seed --class=ReservaDemoSeeder
 ```
 
 (Ten en cuenta que deberás ajustar la fecha de la migración en `ReservaDemoSeeder.php` para que se ajuste a la fecha actual, ya que las reservas están limitadas a 15 días después de la fecha actual).
+
+8. Ejecutar el servidor de desarrollo
+Para iniciar el servidor de desarrollo de Laravel, ejecuta el siguiente comando:
+
+```bash
+npm install
+npm run dev
+php artisan serve
+```
+
+Al realizar esto, el sistema estará disponible en `http://localhost:8000`.
+
+## Notas
+
+- El sistema está diseñado para funcionar en un entorno de desarrollo local. Para un entorno de producción, se deben considerar aspectos adicionales como la seguridad, el rendimiento y la escalabilidad.
+- Asegúrate de tener instalado PHP, Composer y Node.js en tu máquina para poder ejecutar el proyecto correctamente.
+- El sistema utiliza Laravel 12, por lo que es recomendable tener una versión compatible de PHP (8.1 o superior).
+- El sistema está diseñado para ser utilizado con una base de datos MySQL. Asegúrate de tener MySQL instalado y configurado correctamente.
+- El sistema utiliza autenticación y autorización personalizada, por lo que no es necesario utilizar paquetes externos como Laravel Breeze o Jetstream.
+- El sistema está diseñado para ser utilizado con un modelo de negocio de menú de degustación sin precios visibles, por lo que los platillos no tienen precios asignados en la base de datos.
+- El sistema está diseñado para ser utilizado con un modelo de negocio de reservaciones en línea, por lo que las reservas se realizan a través de un formulario en línea y se gestionan automáticamente por el sistema.
+- El sistema está diseñado para ser utilizado con un modelo de negocio de alta cocina, por lo que se espera que los platillos sean elaborados con ingredientes frescos y de temporada, y que el menú cambie constantemente.
+- En caso de no configurar correctamente el correo electrónico, el sistema no podrá enviar correos de recuperación de contraseña ni notificaciones. Asegúrate de configurar correctamente las variables de correo en el archivo `.env`.
+   - En este caso los correos de recuperación de contraseña no se enviarán, pero el sistema seguirá funcionando correctamente, podrás consultar los "correos" enviados en la base de datos en la tabla `password_resets` y podrás ver en enlace en el documento `laravel.log`.
