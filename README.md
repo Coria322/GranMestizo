@@ -1,6 +1,3 @@
-Claro, aquí te dejo el mismo contenido con un formato Markdown más limpio y organizado, manteniendo toda la información intacta:
-
-````md
 ![Logo](screenshots/logoproject.png)
 
 # El Gran Mestizo
