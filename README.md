@@ -426,6 +426,23 @@ CREATE DATABASE laravel_mestizo;
 
 Asegúrate de que el archivo `.env` está correctamente configurado con los datos de conexión a la base de datos y otros parámetros necesarios. Además asegurate de que las "\" no hayan sido convertidas a "/" ya que esto puede causar problemas al intentar la ejecución del sistema.
 
+3.1. Configurar el correo electrónico
+
+Para que el sistema pueda enviar correos electrónicos, es necesario configurar los parámetros de correo en el archivo `.env`. Asegúrate de que las siguientes variables estén configuradas correctamente:
+
+```plaintext
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=correo de gmail
+MAIL_PASSWORD=contraseña de gmail de app
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=igual que MAIL_USERNAME
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+Si estás utilizando Gmail, asegúrate de haber configurado una contraseña de aplicación para permitir el acceso a tu cuenta desde Laravel. Esto es necesario si tienes habilitada la verificación en dos pasos.
+
 4. Generar vinculos simbólicos
 Para que las imágenes de los platillos se muestren correctamente, es necesario crear un enlace simbólico a la carpeta `storage`:
 
