@@ -461,6 +461,7 @@ composer dump-autoload
 6. Población de la base de datos y migraciones
 
 Para poblar la base de datos con datos de ejemplo, se deben ejecutar las migraciones y los seeders. Esto se puede hacer ejecutando los siguientes comandos:
+(Nota. El pwd por defecto en los seeder es password)
 
 ```bash
 php artisan migrate
