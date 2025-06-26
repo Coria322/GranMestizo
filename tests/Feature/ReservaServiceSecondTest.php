@@ -28,7 +28,11 @@ class ReservaServiceSecondTest extends TestCase
     public function puede_crear_reserva_correctamente()
     {
         $cliente = Cliente::factory()->create();
-        $empleado = Empleado::factory()->create();
+        $empleado = Empleado::factory()->create(
+            [
+                'EMPLEADO_TURNO' => 'M'
+            ]
+        );
 
         Mesa::factory()->count(3)->create(['MESA_CAPACIDAD' => 4, 'MESA_STATUS' => 'LIBRE']);
 
@@ -62,7 +66,11 @@ class ReservaServiceSecondTest extends TestCase
     public function puede_cancelar_reserva()
     {
         $cliente = Cliente::factory()->create();
-        Empleado::factory()->create();
+        Empleado::factory()->create(
+            [
+                'EMPLEADO_TURNO' => 'M'
+            ]
+        );
         $mesa = Mesa::factory()->create(['MESA_CAPACIDAD' => 4, 'MESA_STATUS' => 'LIBRE']);
 
         $fecha = now()->addDay()->format('Y-m-d');
