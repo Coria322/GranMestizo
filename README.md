@@ -127,7 +127,7 @@ Para proteger las rutas y controlar el acceso, se implementan dos middlewares cl
 Route::middleware(['auth:Usuario', 'userType:ADMINISTRADOR'])->group(function () {
     // Rutas solo para administradores
 });
-````
+```
 
 ---
 
@@ -311,17 +311,63 @@ El panel de registro permite la creación de una nueva cuenta que será cliente 
 - **Reservaciones**
 
 El formulario de reservaciones es gestionado por la API interna del sistema de reservas.
-El usuario puede seleccionar una fecha hasta 15 días después de la fecha actual
+El usuario puede seleccionar una fecha hasta 15 días después de la fecha actual. La api interna procesará los datos para bloquear la posiblidad de reservar si hay un dia totalmente ocupado o filtrar para permitir reservas solo en horas disponibles (vease `ReservaDemoSeeder.php`)
 
 ![Formulario de reservaciones](screenshots/reservar.png)
+
+- **Correo de recuperación**
+
+Este correo es enviado al rellenar una solicitud de cambio de contraseña, contiene HTML embebido con CSS para dar una apariencia profesional y limpia. Al hacer click en el botón, el usuario podrá recuperar su contraseña si el token aún es válido (Aún no es usado y no han pasado 60 minutos de su creación) 
+
 ![Correo de recuperación de contraseña](screenshots/recuperarpsw.png)
+
+- **Panel Admin**
+
+Este panel es el que se muestra a los administradores del sistema y permite realizar una gestión general de la aplicación
+
 ![Panel de Administración](screenshots/administrador.png)
+
+- **Panel Clientes**
+
+Este panel es el que se muestra a los clientes del sistema y permite realizar reservaciones, cancelarlas, consultarlas, así como realizarlas y modificar sus datos personales o generar un reporte de acciones
+
 ![Panel de Clientes](screenshots/cliente.png)
+
+- **Panel Empleados**
+
+Este panel es el que se muestra a los empleados del sistema y permite realizar acciones como registrar acciones, generar reportes y atender reservas
+
 ![Panel de Empleados](screenshots/empleado.png)
+
+- **Menú de degustación**
+
+El menú de degustación es una parte fundamental de la experiencia del restaurante y permite a los clientes ver los platillos que se ofrecen en el menú del día. Este menú es gestionado por el administrador y puede ser modificado en cualquier momento. El menú no muestra precios, ya que el sistema está diseñado para un modelo de negocio de menú de degustación sin precios visibles.
+
 ![Vista del menú de degustación](screenshots/menu.png)
+
+- **Error 403**
+
+El error 403 se muestra cuando un usuario intenta acceder a una ruta que no tiene permisos para ver, por ejemplo, un cliente intentando acceder al panel de administración.
+Al mostrar este error se da un mensaje claro al usuario de que no tiene permisos para acceder a esa ruta.
+
 ![Error 403](screenshots/403.png)
+
+- **Error 404**
+
+El error 404 se muestra cuando un usuario intenta acceder a una ruta que no existe en el sistema, por ejemplo, una ruta mal escrita o un recurso que no se encuentra.
+
 ![Error 404](screenshots/404.png)
 
+- **Recuperar contraseña**
+El formulario de recuperación de contraseña permite al usuario ingresar su correo electrónico para recibir un enlace de recuperación
+
+![Recuperar contraseña](screenshots/recuperar.png)
+
+- **Cambiar contraseña**
+
+El formulario de cambio de contraseña permite al usuario ingresar su nueva contraseña y confirmarla. Este formulario se muestra después de que el usuario hace clic en el enlace de recuperación enviado por correo electrónico.
+
+![Cambio de contraseña](screenshots/cambiarpsw.png)
 ---
 
 ## Pruebas Automatizadas (PHPUnit)
@@ -350,3 +396,66 @@ Esto ejecutará una serie de 10 pruebas del sistema realizadas con PHPUnit. Esta
 ## Modelo de base de datos
 
 ![Modelo entidad - Relación](screenshots/diagrama-er.png)
+
+## Instrucciones para Clonar y Población de Base de Datos
+
+### Clonación del repositorio
+
+Para el correcto funcionamiento del proyecto, es necesario clonar el repositorio y poblar la base de datos con datos de ejemplo. A continuación se detallan los pasos:
+1. Clonar el repositorio:
+
+Se deben utilizar las siguientes instrucciones en la terminal:
+
+```bash
+git clone (enlace del repositorio)
+composer install
+composer update
+copy .env.example .env
+php artisan key:generate
+```
+2. Generar la base de datos:
+
+Se debe crear una base de datos en MySQL y configurar el archivo `.env` con los datos de conexión. Asegúrate de que las variables `DB_DATABASE`, `DB_USERNAME` y `DB_PASSWORD` estén correctamente configuradas.
+
+```bash
+mysql -u root -p
+CREATE DATABASE laravel_mestizo;
+```
+
+3. Configurar entorno
+
+Asegúrate de que el archivo `.env` está correctamente configurado con los datos de conexión a la base de datos y otros parámetros necesarios. Además asegurate de que las "\" no hayan sido convertidas a "/" ya que esto puede causar problemas al intentar la ejecución del sistema.
+
+4. Generar vinculos simbólicos
+Para que las imágenes de los platillos se muestren correctamente, es necesario crear un enlace simbólico a la carpeta `storage`:
+
+```bash
+php artisan storage:link
+```
+
+5. Carga de helpers y comandos
+
+Para que el sistema funcione correctamente, es necesario cargar los helpers y comandos personalizados. Esto se puede hacer ejecutando el siguiente comando:
+
+```bash
+composer dump-autoload
+```
+
+6. Población de la base de datos y migraciones
+
+Para poblar la base de datos con datos de ejemplo, se deben ejecutar las migraciones y los seeders. Esto se puede hacer ejecutando los siguientes comandos:
+
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+7. Uso de la migración de demostración
+
+Si deseas poblar la base de datos con datos de ejemplo para probar el sistema, puedes ejecutar la migración de demostración:
+
+```bash
+php artisan migrate --seed --class=ReservaDemoSeeder
+```
+
+(Ten en cuenta que deberás ajustar la fecha de la migración en `ReservaDemoSeeder.php` para que se ajuste a la fecha actual, ya que las reservas están limitadas a 15 días después de la fecha actual).
